@@ -1,0 +1,38 @@
+{
+  "name": "@contentwave/plugin",
+  "version": "1.0.0",
+  "description": "TS interfaces for ContentWave plugins",
+  "main": "build/main/index.js",
+  "typings": "build/main/index.d.ts",
+  "module": "build/module/index.js",
+  "repository": "https://github.com/contentwave/plugin",
+  "license": "MIT",
+  "keywords": [],
+  "scripts": {
+    "dev": "nodemon",
+    "build": "run-p build:*",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p tsconfig.module.json"
+  },
+  "engines": {
+    "node": ">=10"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@contentwave/plugin": "^1.0.0",
+    "@swarmjs/core": "^1.6.5",
+    "nodemon": "^3.1.0",
+    "npm-run-all": "^4.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.3"
+  },
+  "files": [
+    "build/main",
+    "build/module",
+    "!**/*.spec.*",
+    "!**/*.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ]
+}
