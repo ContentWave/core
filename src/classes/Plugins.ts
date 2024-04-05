@@ -49,25 +49,28 @@ export class Plugins {
 
     for (let dependency in packageJson?.dependencies) {
       if (dependency.substring(0, 21) !== '@contentwave-plugins/') continue
-      const key = dependency.substring(21)
       const cls = require(dependency)
-      const instance = new cls()
-      const conf = await Db.model('WavePlugin')?.findOne({ name: key })
-      if (conf) await instance.setup(conf)
-      const types = instance.getType()
-      plugins[key] = {
-        name: instance.getName(),
-        description: instance.getDescription(),
-        instance,
-        configured: !!conf,
-        types: types instanceof Array ? types : [types]
-      }
+      await Plugins.load(dependency, cls)
     }
 
     // Handle defaults
     const def = Config.get('pluginDefaults') ?? {}
     for (let key in def) {
       defaultPlugins[key] = def[key]
+    }
+  }
+
+  static async load (name: string, requiredCls: any) {
+    const instance = new requiredCls()
+    const conf = await Db.model('WavePlugin')?.findOne({ name })
+    if (conf) await instance.setup(conf)
+    const types = instance.getType()
+    plugins[name] = {
+      name: instance.getName(),
+      description: instance.getDescription(),
+      instance,
+      configured: !!conf,
+      types: types instanceof Array ? types : [types]
     }
   }
 
