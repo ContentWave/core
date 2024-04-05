@@ -9,6 +9,9 @@ interface IWavePlugin {
   instance: any
   configured: boolean
   types: PluginTypes[]
+  version: string
+  minVersionSupported: string
+  maxVersionSupported: string
 }
 
 interface IWavePluginInList {
@@ -17,6 +20,9 @@ interface IWavePluginInList {
   description: I18nString
   configured: boolean
   types: PluginTypes[]
+  version: string
+  minVersionSupported: string
+  maxVersionSupported: string
 }
 
 type IWavePluginList = IWavePluginInList[]
@@ -68,6 +74,9 @@ export class Plugins {
     plugins[name] = {
       name: instance.getName(),
       description: instance.getDescription(),
+      version: instance.getVersion(),
+      maxVersionSupported: instance.getMaxVersionSupported(),
+      minVersionSupported: instance.getMinVersionSupported(),
       instance,
       configured: !!conf,
       types: types instanceof Array ? types : [types]
@@ -80,7 +89,10 @@ export class Plugins {
       name: conf.name,
       description: conf.description,
       configured: conf.configured,
-      types: conf.types
+      types: conf.types,
+      version: conf.version,
+      minVersionSupported: conf.minVersionSupported,
+      maxVersionSupported: conf.maxVersionSupported
     }))
   }
 
