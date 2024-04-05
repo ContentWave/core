@@ -37,12 +37,19 @@ export class TypeDate {
   static async fromDb (data: any, conf: IDateOrmField): Promise<string | null> {
     if (!data && conf.defaultToCurrentTime) data = dayjs().toDate()
     if (!data) return null
-    return dayjs(data).format('YYYY-MM-DD')
+    const date = dayjs(data)
+    if (date.isValid()) return date.format('YYYY-MM-DD')
+    return null
   }
 
   static async toDb (data: any, conf: IDateOrmField): Promise<Date | null> {
     if (!data && conf.defaultToCurrentTime) data = dayjs().format('YYYY-MM-DD')
     if (!data) return null
-    return dayjs(data).toDate()
+    const date = dayjs(data)
+    if (!date.isValid()) {
+      if (conf.defaultToCurrentTime) data = dayjs(dayjs().format('YYYY-MM-DD'))
+      else return null
+    }
+    return date.toDate()
   }
 }

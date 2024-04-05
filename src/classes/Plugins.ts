@@ -36,6 +36,8 @@ let defaultPlugins: { [key: string]: string | null } = {
   i18n: null
 }
 
+let contentWaveVersion: string
+
 /**
  * Handles ContentWave plugins
  */
@@ -48,6 +50,8 @@ export class Plugins {
       process.env.ROOT_DIR ?? '',
       'package.json'
     ))
+
+    contentWaveVersion = packageJson.version ?? '0.0.0'
 
     for (let dependency in packageJson?.dependencies) {
       if (dependency.substring(0, 21) !== '@contentwave-plugins/') continue
@@ -77,15 +81,17 @@ export class Plugins {
     }
   }
 
-  static getList (): IWavePluginList {
-    return Object.entries(plugins).map(([key, conf]) => ({
-      key,
-      name: conf.name,
-      description: conf.description,
-      configured: conf.configured,
-      types: conf.types,
-      version: conf.version
-    }))
+  static getList (type: PluginTypes | null = null): IWavePluginList {
+    return Object.entries(plugins)
+      .map(([key, conf]) => ({
+        key,
+        name: conf.name,
+        description: conf.description,
+        configured: conf.configured,
+        types: conf.types,
+        version: conf.version
+      }))
+      .filter(item => type === null || item.types.includes(type))
   }
 
   static getDefaults () {

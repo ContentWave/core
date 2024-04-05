@@ -34,10 +34,10 @@ const formatters: any = {
 }
 
 export class Formatter {
-  static async fromDb<T> (
+  static async fromDb (
     data: { [key: string]: any },
     conf: IOrmConf
-  ): Promise<T> {
+  ): Promise<{ [key: string]: any }> {
     let ret: { [key: string]: any } = {
       id: data._id.toHexString()
     }
@@ -47,7 +47,7 @@ export class Formatter {
         conf[key]
       )
     }
-    return ret as T
+    return ret
   }
 
   static async toDb (

@@ -44,13 +44,21 @@ export class TypeDatetime {
   ): Promise<string | null> {
     if (!data && conf.defaultToCurrentTime) data = dayjs().toDate()
     if (!data) return null
-    return dayjs(data).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+    const date = dayjs(data)
+    if (date.isValid()) return date.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+    return null
   }
 
   static async toDb (data: any, conf: IDateTimeOrmField): Promise<Date | null> {
     if (!data && conf.defaultToCurrentTime)
       data = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]')
     if (!data) return null
-    return dayjs(data).toDate()
+    const date = dayjs(data)
+    if (!date.isValid()) {
+      if (conf.defaultToCurrentTime)
+        data = dayjs(dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]'))
+      else return null
+    }
+    return date.toDate()
   }
 }

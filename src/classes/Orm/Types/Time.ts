@@ -37,13 +37,21 @@ export class TypeTime {
   static async fromDb (data: any, conf: ITimeOrmField): Promise<string | null> {
     if (!data && conf.defaultToCurrentTime) data = dayjs().toDate()
     if (!data) return null
-    return dayjs(data).format('HH:mm:ssZ[Z]')
+    const date = dayjs(data)
+    if (date.isValid()) return date.format('HH:mm:ssZ[Z]')
+    return null
   }
 
   static async toDb (data: any, conf: ITimeOrmField): Promise<Date | null> {
     if (!data && conf.defaultToCurrentTime)
       data = dayjs().format('HH:mm:ssZ[Z]')
     if (!data) return null
-    return dayjs(`0000-00-00T${data}`).toDate()
+    const date = dayjs(`1970-01-01T${data}`)
+    if (!date.isValid()) {
+      if (conf.defaultToCurrentTime)
+        data = dayjs(dayjs().format('1970-01-01HH:mm:ssZ[Z]'))
+      else return null
+    }
+    return date.toDate()
   }
 }
