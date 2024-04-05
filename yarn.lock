@@ -1393,10 +1393,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.0.tgz#96116f2a912e0c02817345b3c10751069920d553"
   integrity sha512-+9jVqKhRSpsc591z5vX+X5Yyw+he/HCB4iQ/RYxw35CEPaY1gnsNE43nf9n9AaYjAQrTiI/mOwKUKdUs9vf7Xg==
 
-"@swarmjs/core@^1.6.6":
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/@swarmjs/core/-/core-1.6.6.tgz#7c75650c8e28eddb84be4d52db4361dba0255ab6"
-  integrity sha512-L0VUi942nFnNG73KkZyN96buC4ZbllSf0B+MFWODnQIZhZsLA0GFITrrNqDr9jGV+EiV6+7TOdxFhhGDtND/gQ==
+"@swarmjs/core@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@swarmjs/core/-/core-1.7.0.tgz#05b041f2612079a68633be82bbae5d70818cd554"
+  integrity sha512-p3dyYC5/Lgzo9j4CcMKvpkfqxCYb4Sv0suO13lE6EMN+C/+oEBefp1ZBCQqn86//+picjbl9FjLMI4wmph2zew==
   dependencies:
     "@types/http-errors" "^2.0.1"
     async-exit-hook "^2.0.1"

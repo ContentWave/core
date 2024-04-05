@@ -4,6 +4,7 @@ interface IWaveRequest {
   controller: string
   method: string
   duration: number
+  error: boolean
   date: Date
 }
 
@@ -18,6 +19,9 @@ const schema = new mongoose.Schema<IWaveRequest, WaveRequestModel, {}>({
   },
   duration: {
     $type: Number
+  },
+  error: {
+    $type: Boolean
   },
   date: {
     $type: Date

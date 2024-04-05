@@ -53,6 +53,17 @@ export class Server {
         controller: state.controller,
         method: state.method,
         duration: +new Date() - state.startDate,
+        error: false,
+        date: new Date()
+      })
+    })
+    app.hooks.add('onError', (state: any) => {
+      handleError(state.error)
+      Db.model('WaveRequest')?.create({
+        controller: state.controller,
+        method: state.method,
+        duration: +new Date() - state.startDate,
+        error: true,
         date: new Date()
       })
     })
