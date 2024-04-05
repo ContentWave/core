@@ -36,7 +36,8 @@ export class TypeText {
     const ret: any = {
       $type: String,
       index: !!conf.index,
-      unique: !!conf.unique
+      unique: !!conf.unique,
+      default: conf.default ?? (conf.nullable ? null : '')
     }
     if (conf.multiple) return [ret]
     return ret
@@ -51,18 +52,20 @@ export class TypeText {
   static async fromDb (data: any, conf: ITextOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
-      return data.map((d: any) => `${d}`.trim().toLowerCase())
+      data = data.filter((d: any) => conf.nullable || d !== null)
+      return data.map((d: any) => `${d}`)
     }
-    if (!data) return null
-    return `${data}`.trim().toLowerCase()
+    if (!data) return conf.default ?? (conf.nullable ? null : '')
+    return `${data}`
   }
 
   static async toDb (data: any, conf: ITextOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
-      return data.map((d: any) => `${d}`.trim().toLowerCase())
+      data = data.filter((d: any) => conf.nullable || d !== null)
+      return data.map((d: any) => `${d}`)
     }
-    if (!data) return null
-    return `${data}`.trim().toLowerCase()
+    if (!data) return conf.default ?? (conf.nullable ? null : '')
+    return `${data}`
   }
 }
