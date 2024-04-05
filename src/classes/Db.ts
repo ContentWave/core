@@ -5,6 +5,7 @@ import createWavePlugin from '../models/WavePlugin'
 import { Model } from './Model'
 import createWaveConfig from '../models/WaveConfig'
 import { Config } from './Config'
+import createWaveRequest from '../models/WaveRequest'
 
 /**
  * Handles Database connection
@@ -25,6 +26,7 @@ export class Db {
     createWaveModel(newInstance)
     createWavePlugin(newInstance)
     createWaveConfig(newInstance)
+    createWaveRequest(newInstance)
 
     const oldInstance = Db.instance
     Db.instance = newInstance

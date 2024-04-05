@@ -1,4 +1,6 @@
 import { Swarm } from '@swarmjs/core'
+import { Db } from './Db'
+import { handleError } from './Errors'
 
 let instance: Swarm
 
@@ -39,6 +41,26 @@ export class Server {
         files: 1, // Max number of file fields
         headerPairs: 2000 // Max number of header key=>value pairs
       }
+    })
+
+    // Hooks to monitor performance
+    app.hooks.add('preHandler', (state: any) => {
+      state.startDate = +new Date()
+      return state
+    })
+    app.hooks.add('postHandler', (state: any) => {
+      Db.model('WaveRequest')?.create({
+        controller: state.controller,
+        method: state.method,
+        duration: +new Date() - state.startDate,
+        date: new Date()
+      })
+    })
+
+    // Global error handler
+    process.on('uncaughtException', function (err: any) {
+      handleError(err)
+      console.error(err)
     })
 
     if (instance) {
