@@ -82,7 +82,7 @@ export class Formatter {
   }
 
   static getMongooseSchema (conf: IOrmConf): any {
-    const schema = new mongoose.Schema({})
+    const schema = new mongoose.Schema({}, { typeKey: '$type' })
 
     for (let key in conf) {
       schema.add({
