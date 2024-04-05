@@ -53,6 +53,7 @@ export class TypeDuration {
   ): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: string | null) => (d === null ? null : `${d}`))
     }
     if (!data && !conf.nullable) data = 'P0D'
@@ -66,6 +67,7 @@ export class TypeDuration {
   ): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data
     }
     if (!data && !conf.nullable) data = 'P0D'

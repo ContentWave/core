@@ -51,6 +51,7 @@ export class TypeUuid {
   static async fromDb (data: any, conf: IUuidOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
     if (!data && !conf.nullable) data = randomUUID()
@@ -61,6 +62,7 @@ export class TypeUuid {
   static async toDb (data: any, conf: IUuidOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
     if (!data && !conf.nullable) data = randomUUID()

@@ -68,6 +68,7 @@ describe('ORM: Text', () => {
     expect(await TypeText.fromDb(null, nullableMultipleText)).toHaveLength(1)
 
     expect(await TypeText.fromDb('pwet', simpleText)).toBe('pwet')
+    expect(await TypeText.fromDb(42, simpleText)).toBe('42')
     expect(await TypeText.fromDb('pwet', defaultText)).toBe('pwet')
     expect(await TypeText.fromDb('pwet', nullableText)).toBe('pwet')
     expect(await TypeText.fromDb('pwet', simpleMultipleText)).toBeInstanceOf(
@@ -147,6 +148,7 @@ describe('ORM: Text', () => {
     expect(await TypeText.toDb(null, nullableMultipleText)).toHaveLength(1)
 
     expect(await TypeText.toDb('pwet', simpleText)).toBe('pwet')
+    expect(await TypeText.toDb(42, simpleText)).toBe('42')
     expect(await TypeText.toDb('pwet', defaultText)).toBe('pwet')
     expect(await TypeText.toDb('pwet', nullableText)).toBe('pwet')
     expect(await TypeText.toDb('pwet', simpleMultipleText)).toBeInstanceOf(

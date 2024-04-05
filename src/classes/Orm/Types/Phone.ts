@@ -49,6 +49,7 @@ export class TypePhone {
   static async fromDb (data: any, conf: IPhoneOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
     if (!data) return null
@@ -58,6 +59,7 @@ export class TypePhone {
   static async toDb (data: any, conf: IPhoneOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data
         .map((d: any) => {
           const pn = parsePhoneNumber(`${d}`, {

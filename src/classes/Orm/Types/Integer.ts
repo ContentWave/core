@@ -35,7 +35,8 @@ export class TypeInteger {
     const ret: any = {
       $type: Number,
       index: !!conf.index,
-      unique: !!conf.unique
+      unique: !!conf.unique,
+      default: conf.default ?? (conf.nullable ? null : 0)
     }
     if (conf.multiple) return [ret]
     return ret
@@ -51,24 +52,23 @@ export class TypeInteger {
     _3: IIntegerOrmField
   ): Promise<void> {}
 
-  static async fromDb (
-    data: any,
-    conf: IIntegerOrmField
-  ): Promise<number | null> {
+  static async fromDb (data: any, conf: IIntegerOrmField): Promise<any | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => parseInt(`${d}`))
     }
-    if (!data) return null
+    if (!data) return conf.default ?? (conf.nullable ? null : 0)
     return parseInt(`${data}`)
   }
 
-  static async toDb (data: any, conf: IIntegerOrmField): Promise<number | null> {
+  static async toDb (data: any, conf: IIntegerOrmField): Promise<any | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => parseInt(`${d}`))
     }
-    if (!data) return null
+    if (!data) return conf.default ?? (conf.nullable ? null : 0)
     return parseInt(`${data}`)
   }
 }

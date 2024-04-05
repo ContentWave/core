@@ -51,6 +51,7 @@ export class TypeEmail {
   static async fromDb (data: any, conf: IEmailOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`.trim().toLowerCase())
     }
     if (!data) return null
@@ -60,6 +61,7 @@ export class TypeEmail {
   static async toDb (data: any, conf: IEmailOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
+      data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`.trim().toLowerCase())
     }
     if (!data) return null
