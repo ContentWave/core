@@ -16,11 +16,13 @@ export interface IWaveError {
   type: string
   details?: { [key: string]: any }
   context: IWaveErrorContext
+  footprint: string
 }
 
 interface WaveErrorModel extends mongoose.Model<IWaveError, {}, {}> {}
 
 const schema = new mongoose.Schema<IWaveError, WaveErrorModel, {}>({
+  footprint: String,
   message: String,
   stack: String,
   type: String,

@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import axios from 'axios'
 import fs from 'fs'
 import { IWaveErrorContext } from '../models/WaveError'
@@ -51,6 +52,12 @@ function handleAxiosError (err: any) {
 
   if (err.response) {
     Db.model('WaveError')?.create({
+      footprint: crypto
+        .createHash('sha1')
+        .update(
+          JSON.stringify({ msg: details.message, stack: details.stack ?? '' })
+        )
+        .digest('hex'),
       date: new Date(),
       message: details.message,
       stack: details.stack ?? '',
@@ -82,6 +89,12 @@ function handleAxiosError (err: any) {
 
   if (err.request) {
     Db.model('WaveError')?.create({
+      footprint: crypto
+        .createHash('sha1')
+        .update(
+          JSON.stringify({ msg: details.message, stack: details.stack ?? '' })
+        )
+        .digest('hex'),
       date: new Date(),
       message: details.message,
       stack: details.stack ?? '',
@@ -115,6 +128,10 @@ export function handleError (err: any) {
   if (handleAxiosError(err)) return
 
   Db.model('WaveError')?.create({
+    footprint: crypto
+      .createHash('sha1')
+      .update(JSON.stringify({ msg: err.message, stack: err.stack ?? '' }))
+      .digest('hex'),
     date: new Date(),
     message: err.message,
     stack: err.stack,
