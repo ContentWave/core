@@ -1,5 +1,6 @@
 import { IPostalAddressOrmField } from '../IOrmConf'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
+import { Plugins } from '../../Plugins'
 
 interface ILatLng {
   lat: number | null
@@ -877,17 +878,19 @@ export class TypePostalAddress {
     _: IPostalAddressOrmField
   ): Promise<void> {
     if (obj.isModified(name)) {
-      function geocode (_: any) {}
-
-      obj[name].location = {
-        type: 'Point',
-        coordinates: await geocode({
-          street: obj[name].thoroughfare ?? '',
-          postalcode: obj[name].postal_code ?? '',
-          city: obj[name].locality ?? '',
+      const geocodePlugin = Plugins.getInstance('geocode')
+      if (geocodePlugin) {
+        const location = await geocodePlugin.geocode({
+          thoroughfare: obj[name].thoroughfare ?? '',
+          postal_code: obj[name].postal_code ?? '',
+          locality: obj[name].locality ?? '',
           country: obj[name].country ?? '',
-          state: obj[name].administrative_area ?? ''
+          administrative_area: obj[name].administrative_area ?? ''
         })
+        obj[name].location = {
+          type: 'Point',
+          coordinates: [location.lng, location.lat]
+        }
       }
     }
   }
