@@ -9,7 +9,7 @@ import { Db } from '../../Db'
 
 export class TypeRef {
   static getValidationSchema (conf: IRefOrmField): JSONSchema7 {
-    const model = Model.getModel(conf.model)
+    const model = Model.getConf(conf.model)
 
     const nestedSchema: JSONSchema7 = {
       oneOf: [{ type: 'string', pattern: '^[0-9a-f]{24}$' }]
@@ -48,7 +48,7 @@ export class TypeRef {
     data: any,
     conf: IRefOrmField
   ): Promise<string | string[] | any | null> {
-    const modelConf = Model.getModel(conf.model)
+    const modelConf = Model.getConf(conf.model)
 
     if (conf.multiple) {
       if (!modelConf) return []
@@ -72,7 +72,7 @@ export class TypeRef {
     data: any,
     conf: IRefOrmField
   ): Promise<ObjectId | ObjectId[] | null> {
-    const modelConf = Model.getModel(conf.model)
+    const modelConf = Model.getConf(conf.model)
 
     if (conf.multiple) {
       data = ensureArray(data)
