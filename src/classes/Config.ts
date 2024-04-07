@@ -5,7 +5,20 @@ const cache: { [key: string]: any } = {}
 export class Config {
   static getDefaults () {
     return {
-      handleErrors: true
+      handleErrors: true,
+      pluginDefaults: {
+        email: null,
+        sms: null,
+        push: null,
+        aitext: null,
+        aiimage: null,
+        error: null,
+        fs: null,
+        workflow: null,
+        auth: null,
+        geocode: null,
+        i18n: null
+      }
     }
   }
 
