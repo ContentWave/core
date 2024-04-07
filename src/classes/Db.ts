@@ -36,7 +36,7 @@ export class Db {
     await Model.retrieveModelsFromDb()
 
     // Handle dynamic models
-    const models = Model.getModels()
+    const models = Model.getList()
     for (let modelName in models) {
       const schema = Formatter.getMongooseSchema(models[modelName].conf)
       newInstance.model(modelName, schema)

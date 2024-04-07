@@ -25,11 +25,11 @@ export class Model {
     return cache[name]?.relations ?? []
   }
 
-  static getModels (): { [key: string]: IModelConf } {
+  static getList (): { [key: string]: IModelConf } {
     return cache
   }
 
-  static async setModel (
+  static async update (
     name: string,
     conf: IOrmConf,
     relations: IWaveModelRelation[] = []
@@ -43,7 +43,7 @@ export class Model {
     await Db.init()
   }
 
-  static async deleteModel (name: string) {
+  static async delete (name: string) {
     if (cache[name] !== undefined) delete cache[name]
     await Db.model('WaveModel')?.deleteOne({ name })
     await Db.init()
