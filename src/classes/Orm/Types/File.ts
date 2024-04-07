@@ -1,5 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
+import { Config } from '../../Config'
 import { Plugins } from '../../Plugins'
 import { IFileOrmField } from '../IOrmConf'
 import mime from 'mime-types'
@@ -87,6 +88,9 @@ export class TypeFile {
     fsPlugin: any,
     file: FileContent
   ): Promise<string> {
+    const mimeType = mime.lookup(file.filename)
+    if ((Config.get('uploadAllowedMimes') ?? []).includes(mimeType) === false)
+      return ''
     return await fsPlugin.storeFile(
       Buffer.from(file.content, 'base64'),
       file.filename
@@ -121,7 +125,8 @@ export class TypeFile {
       data = data.filter((d: any) => conf.nullable || d !== null)
       const ret: string[] = []
       for (let d of data) {
-        ret.push(await TypeFile.handleFile(d))
+        const url = await TypeFile.handleFile(d)
+        if (url) ret.push(url)
       }
       return ret
     }

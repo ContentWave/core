@@ -18,7 +18,21 @@ export class Config {
         auth: null,
         geocode: null,
         i18n: null
-      }
+      },
+      uploadAllowedMimes: [
+        'image/jpeg',
+        'image/jpg',
+        'image/gif',
+        'image/webp',
+        'image/png',
+        'image/heic',
+        'application/pdf',
+        'audio/mp3',
+        'video/webm',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      ]
     }
   }
 

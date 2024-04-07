@@ -5,6 +5,7 @@ import { IImageOrmField } from '../IOrmConf'
 import mime from 'mime-types'
 import sharp from 'sharp'
 import heicConvert from 'heic-convert'
+import { Config } from '../../Config'
 
 interface ImageContent {
   content: string
@@ -92,6 +93,10 @@ export class TypeImage {
   ): Promise<string> {
     let mimeType = mime.lookup(image.filename)
 
+    if ((Config.get('uploadAllowedMimes') ?? []).includes(mimeType) === false)
+      return ''
+    if (!mimeType || mimeType.substring(0, 6) !== 'image/') return ''
+
     if (mimeType === 'image/heic') {
       image.content = Buffer.from(
         await heicConvert({
@@ -154,10 +159,12 @@ export class TypeImage {
       data = data.filter((d: any) => conf.nullable || d !== null)
       const ret: string[] = []
       for (let d of data) {
-        ret.push(await TypeImage.handleImage(d, conf))
+        const url = await TypeImage.handleImage(d, conf)
+        if (url.length) ret.push(url)
       }
       return ret
     }
+
     if (!data) return conf.nullable ? null : ''
     return await TypeImage.handleImage(data, conf)
   }
