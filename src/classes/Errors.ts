@@ -3,6 +3,8 @@ import axios from 'axios'
 import fs from 'fs'
 import { IWaveErrorContext } from '../models/WaveError'
 import { Db } from './Db'
+import { Config } from './Config'
+import { Plugins } from './Plugins'
 
 let contextCache: { [key: string]: IWaveErrorContext } = {}
 
@@ -125,17 +127,22 @@ function handleAxiosError (err: any) {
 }
 
 export function handleError (err: any) {
-  if (handleAxiosError(err)) return
+  if (Config.get('handleErrors')) {
+    if (handleAxiosError(err)) return
 
-  Db.model('WaveError')?.create({
-    footprint: crypto
-      .createHash('sha1')
-      .update(JSON.stringify({ msg: err.message, stack: err.stack ?? '' }))
-      .digest('hex'),
-    date: new Date(),
-    message: err.message,
-    stack: err.stack,
-    type: 'generic',
-    context: getContext(err.stack ?? '')
-  })
+    Db.model('WaveError')?.create({
+      footprint: crypto
+        .createHash('sha1')
+        .update(JSON.stringify({ msg: err.message, stack: err.stack ?? '' }))
+        .digest('hex'),
+      date: new Date(),
+      message: err.message,
+      stack: err.stack,
+      type: 'generic',
+      context: getContext(err.stack ?? '')
+    })
+  }
+
+  const errorPlugin = Plugins.getInstance('error')
+  if (errorPlugin) errorPlugin.handleError(err)
 }
