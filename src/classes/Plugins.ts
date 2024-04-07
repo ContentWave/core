@@ -1,5 +1,5 @@
 import path from 'path'
-import { I18nString, PluginTypes } from '@contentwave/plugin'
+import { I18nString, PluginType } from '@contentwave/plugin'
 import { Db } from './Db'
 import { Config } from './Config'
 
@@ -8,7 +8,7 @@ interface IWavePlugin {
   description: I18nString
   instance: any
   configured: boolean
-  types: PluginTypes[]
+  types: PluginType[]
   version: string
 }
 
@@ -17,7 +17,7 @@ interface IWavePluginInList {
   name: I18nString
   description: I18nString
   configured: boolean
-  types: PluginTypes[]
+  types: PluginType[]
   version: string
 }
 
@@ -83,7 +83,7 @@ export class Plugins {
     }
   }
 
-  static getList (type: PluginTypes | null = null): IWavePluginList {
+  static getList (type: PluginType | null = null): IWavePluginList {
     return Object.entries(plugins)
       .map(([key, conf]) => ({
         key,
@@ -100,12 +100,15 @@ export class Plugins {
     return defaultPlugins
   }
 
-  static async setDefault (type: string, plugin: string | null) {
+  static async setDefault (type: PluginType, plugin: string | null) {
     defaultPlugins[type] = plugin
     await Config.set('pluginDefaults', defaultPlugins)
   }
 
-  static getInstance (type: string, force: string | null = null): any | null {
+  static getInstance (
+    type: PluginType,
+    force: string | null = null
+  ): any | null {
     let plugin = defaultPlugins[type]
     if (force) plugin = force
     if (plugin === null) return null
