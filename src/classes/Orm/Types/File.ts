@@ -77,7 +77,9 @@ export class TypeFile {
     return {
       filename,
       content:
-        format === 'base64' ? content : Buffer.from(content).toString('base64')
+        format === 'base64'
+          ? decodeURI(content)
+          : Buffer.from(content).toString('base64')
     }
   }
 
