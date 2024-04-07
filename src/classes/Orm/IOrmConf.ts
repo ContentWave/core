@@ -28,13 +28,29 @@ interface IOrmFieldWithIndex {
   index?: boolean
 }
 
+interface IOrmAuthorization {
+  read: boolean
+  write: boolean
+}
+
+interface IOrmRoleAuthorization extends IOrmAuthorization {
+  role: string
+}
+
+interface IOrmFieldWithAuthorizations {
+  enableAuthorizations?: boolean
+  globalAuthorization?: IOrmAuthorization
+  authorizations?: IOrmRoleAuthorization[]
+}
+
 export interface ITextOrmField
   extends IOrmFieldWithDefault,
     IOrmFieldWithMultiple,
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'text'
   regex?: string
   minLength?: number
@@ -47,7 +63,8 @@ export interface IIntegerOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'integer'
   min?: number
   max?: number
@@ -59,7 +76,8 @@ export interface INumberOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'number'
   min?: number
   max?: number
@@ -68,7 +86,8 @@ export interface INumberOrmField
 export interface IDateOrmField
   extends IOrmFieldWithNullable,
     IOrmFieldWithRequired,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'date'
   defaultToCurrentTime?: boolean
 }
@@ -76,7 +95,8 @@ export interface IDateOrmField
 export interface IDateTimeOrmField
   extends IOrmFieldWithNullable,
     IOrmFieldWithRequired,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'datetime'
   defaultToCurrentTime?: boolean
 }
@@ -84,7 +104,8 @@ export interface IDateTimeOrmField
 export interface ITimeOrmField
   extends IOrmFieldWithNullable,
     IOrmFieldWithRequired,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'time'
   defaultToCurrentTime?: boolean
 }
@@ -93,7 +114,8 @@ export interface IDurationOrmField
   extends IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithMultiple,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'duration'
 }
 
@@ -102,7 +124,8 @@ export interface IEmailOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'email'
 }
 
@@ -111,7 +134,8 @@ export interface IUuidOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'uuid'
 }
 
@@ -120,7 +144,8 @@ export interface IFileOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'file'
 }
 
@@ -129,7 +154,8 @@ export interface IRefOrmField
     IOrmFieldWithPopulate,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'ref'
   model: string
 }
@@ -139,7 +165,8 @@ export interface IPhoneOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'phone'
   defaultCountry?: string
 }
@@ -149,7 +176,8 @@ export interface IImageOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'image'
   resize?: boolean
   maxHeight?: number
@@ -162,12 +190,16 @@ export interface IEnumOrmField
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,
-    IOrmFieldWithIndex {
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'enum'
   values: string[]
 }
 
-export interface IPostalAddressOrmField extends IOrmFieldWithRequired {
+export interface IPostalAddressOrmField
+  extends IOrmFieldWithRequired,
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations {
   type: 'postaladdress'
 }
 

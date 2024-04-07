@@ -26,13 +26,9 @@ export class Config {
         'image/webp',
         'image/png',
         'image/heic',
-        'application/pdf',
-        'audio/mp3',
-        'video/webm',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-      ]
+        'application/pdf'
+      ],
+      roles: ['admin', 'developer']
     }
   }
 

@@ -587,7 +587,7 @@ export class TypePostalAddress {
     }
   }
 
-  static getMongooseField (_: IPostalAddressOrmField): any {
+  static getMongooseField (conf: IPostalAddressOrmField): any {
     return {
       country: {
         $type: String,
@@ -843,14 +843,15 @@ export class TypePostalAddress {
           'AX',
           ''
         ],
-        default: ''
+        default: '',
+        index: !!conf.index
       },
       name_line: { $type: String, default: '' },
       organisation_name: { $type: String, default: '' },
       administrative_area: { $type: String, default: '' },
-      locality: { $type: String, default: '' },
-      postal_code: { $type: String, default: '' },
-      thoroughfare: { $type: String, default: '' },
+      locality: { $type: String, default: '', index: !!conf.index },
+      postal_code: { $type: String, default: '', index: !!conf.index },
+      thoroughfare: { $type: String, default: '', index: !!conf.index },
       premise: { $type: String, default: '' },
       location: {
         type: {
