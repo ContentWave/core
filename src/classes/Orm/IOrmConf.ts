@@ -116,8 +116,7 @@ export interface IUuidOrmField
 }
 
 export interface IFileOrmField
-  extends IOrmFieldWithDefault,
-    IOrmFieldWithMultiple,
+  extends IOrmFieldWithMultiple,
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
     IOrmFieldWithUnique,

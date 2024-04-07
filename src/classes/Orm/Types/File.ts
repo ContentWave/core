@@ -46,7 +46,7 @@ export class TypeFile {
       $type: String,
       index: !!conf.index,
       unique: !!conf.unique,
-      default: conf.default ?? (conf.nullable ? null : '')
+      default: conf.nullable ? null : ''
     }
     if (conf.multiple) return [ret]
     return ret
@@ -64,7 +64,7 @@ export class TypeFile {
       data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
-    if (!data) return conf.default ?? (conf.nullable ? null : '')
+    if (!data) return conf.nullable ? null : ''
     return `${data}`
   }
 
@@ -123,7 +123,7 @@ export class TypeFile {
       }
       return ret
     }
-    if (!data) return conf.default ?? (conf.nullable ? null : '')
+    if (!data) return conf.nullable ? null : ''
     return await TypeFile.handleFile(data)
   }
 }
