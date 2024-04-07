@@ -3,10 +3,20 @@ import { Db } from './Db'
 const cache: { [key: string]: any } = {}
 
 export class Config {
+  static getDefaults () {
+    return {
+      handleErrors: true
+    }
+  }
+
   static async retrieveConfigFromDb () {
-    const models = Db.model('WaveConfig')?.find({}) ?? []
-    for await (const model of models) {
-      cache[model.name] = model.data
+    const configs = Db.model('WaveConfig')?.find({}) ?? []
+    for await (const config of configs) {
+      cache[config.name] = config.data
+    }
+    const defaults: any = Config.getDefaults()
+    for (let key in defaults) {
+      if (cache[key] === undefined) await Config.set(key, defaults[key])
     }
   }
 
