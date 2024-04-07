@@ -21,8 +21,8 @@ export class Model {
     return cache[name]?.conf ?? null
   }
 
-  static getRelations (name: string): IWaveModelRelation[] | null {
-    return cache[name]?.relations ?? null
+  static getRelations (name: string): IWaveModelRelation[] {
+    return cache[name]?.relations ?? []
   }
 
   static getModels (): { [key: string]: IModelConf } {
