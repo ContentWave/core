@@ -41,6 +41,7 @@
     "@babel/preset-typescript": "^7.24.1",
     "@contentwave/plugin": "^1.1.0",
     "@shelf/jest-mongodb": "^4.2.0",
+    "@types/heic-convert": "^1.2.3",
     "@types/jest": "^29.5.12",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20.12.2",

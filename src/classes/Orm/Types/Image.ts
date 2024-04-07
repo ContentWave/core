@@ -4,6 +4,7 @@ import { Plugins } from '../../Plugins'
 import { IImageOrmField } from '../IOrmConf'
 import mime from 'mime-types'
 import sharp from 'sharp'
+import heicConvert from 'heic-convert'
 
 interface ImageContent {
   content: string
@@ -87,8 +88,21 @@ export class TypeImage {
     image: ImageContent,
     conf: IImageOrmField
   ): Promise<string> {
+    let mimeType = mime.lookup(image.filename)
+
+    if (mimeType === 'image/heic') {
+      image.content = Buffer.from(
+        await heicConvert({
+          buffer: Buffer.from(image.content, 'base64'),
+          format: 'JPEG',
+          quality: 1
+        })
+      ).toString('base64')
+      image.filename += '.jpg'
+      mimeType = 'image/jpg'
+    }
+
     if (conf.resize) {
-      const mimeType = mime.lookup(image.filename)
       image.content = (
         await sharp(Buffer.from(image.content, 'base64'), {
           animated: mimeType === 'image/gif'

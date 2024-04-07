@@ -1607,6 +1607,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/heic-convert@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@types/heic-convert/-/heic-convert-1.2.3.tgz#0705f36e467e7b6180806edd0b3f1e673514ff8c"
+  integrity sha512-5LJ2fGuVk/gnOLihoT56xJwrXxfnNepGvrHwlW5ZtT3HS4jO1AqBaAHCxXUpnY9UaD3zYcyxXMRM2fNN1AFF/Q==
+
 "@types/http-errors@^2.0.1":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-2.0.4.tgz#7eb47726c391b7345a6ec35ad7f4de469cf5ba4f"
