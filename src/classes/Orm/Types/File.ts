@@ -2,7 +2,7 @@ import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
 import { Config } from '../../Config'
 import { Plugins } from '../../Plugins'
-import { IFileOrmField } from '../IOrmConf'
+import { IFileOrmField } from '../../../interfaces/IOrmConf'
 import mime from 'mime-types'
 
 interface FileContent {

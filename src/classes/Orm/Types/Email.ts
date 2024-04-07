@@ -1,6 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { IEmailOrmField } from '../IOrmConf'
+import { IEmailOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypeEmail {
   static getValidationSchema (conf: IEmailOrmField): JSONSchema7 {

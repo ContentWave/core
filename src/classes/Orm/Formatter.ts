@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
 import { JSONSchema7 } from '../../interfaces/JsonSchema'
-import { IOrmConf } from './IOrmConf'
+import { IOrmConf } from '../../interfaces/IOrmConf'
 import { TypeDate } from './Types/Date'
 import { TypeDatetime } from './Types/Datetime'
 import { TypeDuration } from './Types/Duration'

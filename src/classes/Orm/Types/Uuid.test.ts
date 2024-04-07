@@ -1,4 +1,4 @@
-import { IUuidOrmField } from '../IOrmConf'
+import { IUuidOrmField } from '../../../interfaces/IOrmConf'
 import { TypeUuid } from './Uuid'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

@@ -1,4 +1,4 @@
-import { IDurationOrmField } from '../IOrmConf'
+import { IDurationOrmField } from '../../../interfaces/IOrmConf'
 import { TypeDuration } from './Duration'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

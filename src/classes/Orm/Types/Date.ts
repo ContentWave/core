@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { IDateOrmField } from '../IOrmConf'
+import { IDateOrmField } from '../../../interfaces/IOrmConf'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 
 export class TypeDate {

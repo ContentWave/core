@@ -1,7 +1,7 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
 import { Plugins } from '../../Plugins'
-import { IImageOrmField } from '../IOrmConf'
+import { IImageOrmField } from '../../../interfaces/IOrmConf'
 import mime from 'mime-types'
 import sharp from 'sharp'
 import heicConvert from 'heic-convert'

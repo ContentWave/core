@@ -1,4 +1,4 @@
-import { IEmailOrmField } from '../IOrmConf'
+import { IEmailOrmField } from '../../../interfaces/IOrmConf'
 import { TypeEmail } from './Email'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

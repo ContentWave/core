@@ -1,7 +1,7 @@
 import { ObjectId } from 'mongodb'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { Formatter } from '../Formatter'
-import { IRefOrmField } from '../IOrmConf'
+import { IRefOrmField } from '../../../interfaces/IOrmConf'
 import { Model } from '../../Model'
 import mongoose from 'mongoose'
 import { ensureArray } from '../../Array'

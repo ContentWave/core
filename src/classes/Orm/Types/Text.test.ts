@@ -1,4 +1,4 @@
-import { ITextOrmField } from '../IOrmConf'
+import { ITextOrmField } from '../../../interfaces/IOrmConf'
 import { TypeText } from './Text'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

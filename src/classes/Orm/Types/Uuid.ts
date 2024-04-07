@@ -1,6 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { IUuidOrmField } from '../IOrmConf'
+import { IUuidOrmField } from '../../../interfaces/IOrmConf'
 import { randomUUID } from 'crypto'
 
 export class TypeUuid {

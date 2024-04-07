@@ -74,6 +74,15 @@ export class Server {
       console.error(err)
     })
 
+    // I18n
+    app.i18n.addTranslations(
+      {
+        en: require('../locales/auth/en.json'),
+        fr: require('../locales/auth/fr.json')
+      },
+      'auth'
+    )
+
     if (instance) {
       await instance.fastify.close()
     }

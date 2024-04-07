@@ -1,4 +1,4 @@
-import { IIntegerOrmField } from '../IOrmConf'
+import { IIntegerOrmField } from '../../../interfaces/IOrmConf'
 import { TypeInteger } from './Integer'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

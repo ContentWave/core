@@ -1,4 +1,4 @@
-import { IEnumOrmField } from '../IOrmConf'
+import { IEnumOrmField } from '../../../interfaces/IOrmConf'
 import { TypeEnum } from './Enum'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

@@ -1,6 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { INumberOrmField } from '../IOrmConf'
+import { INumberOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypeNumber {
   static getValidationSchema (conf: INumberOrmField): JSONSchema7 {

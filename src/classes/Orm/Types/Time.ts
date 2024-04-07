@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ITimeOrmField } from '../IOrmConf'
+import { ITimeOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypeTime {
   static getValidationSchema (conf: ITimeOrmField): JSONSchema7 {

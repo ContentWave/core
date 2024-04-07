@@ -1,4 +1,4 @@
-import { INumberOrmField } from '../IOrmConf'
+import { INumberOrmField } from '../../../interfaces/IOrmConf'
 import { TypeNumber } from './Number'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

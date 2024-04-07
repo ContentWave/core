@@ -1,7 +1,7 @@
 import { parsePhoneNumber } from 'awesome-phonenumber'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { IPhoneOrmField } from '../IOrmConf'
+import { IPhoneOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypePhone {
   static getValidationSchema (conf: IPhoneOrmField): JSONSchema7 {

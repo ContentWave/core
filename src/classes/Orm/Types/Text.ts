@@ -1,6 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { ITextOrmField } from '../IOrmConf'
+import { ITextOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypeText {
   static getValidationSchema (conf: ITextOrmField): JSONSchema7 {

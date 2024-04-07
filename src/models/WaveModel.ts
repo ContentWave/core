@@ -1,5 +1,5 @@
 import mongoose, { Connection } from 'mongoose'
-import { IOrmConf } from '../classes/Orm/IOrmConf'
+import { IOrmConf } from '../interfaces/IOrmConf'
 
 export interface IWaveModelRelation {
   name: string

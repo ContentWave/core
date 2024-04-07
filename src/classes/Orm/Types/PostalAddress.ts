@@ -1,4 +1,4 @@
-import { IPostalAddressOrmField } from '../IOrmConf'
+import { IPostalAddressOrmField } from '../../../interfaces/IOrmConf'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { Plugins } from '../../Plugins'
 
@@ -277,7 +277,7 @@ interface IPostalAddress extends IBasePostalAddress {
   location: ILatLng
 }
 
-interface IDbPostalAddress extends IBasePostalAddress {
+export interface IDbPostalAddress extends IBasePostalAddress {
   location: IDbLatLng
 }
 

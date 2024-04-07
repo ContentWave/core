@@ -1,4 +1,4 @@
-import { IDateOrmField } from '../IOrmConf'
+import { IDateOrmField } from '../../../interfaces/IOrmConf'
 import { TypeDate } from './Date'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

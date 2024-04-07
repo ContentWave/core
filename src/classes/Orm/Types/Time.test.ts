@@ -1,4 +1,4 @@
-import { ITimeOrmField } from '../IOrmConf'
+import { ITimeOrmField } from '../../../interfaces/IOrmConf'
 import { TypeTime } from './Time'
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'

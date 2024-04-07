@@ -1,6 +1,6 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Array'
-import { IEnumOrmField } from '../IOrmConf'
+import { IEnumOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypeEnum {
   static getValidationSchema (conf: IEnumOrmField): JSONSchema7 {

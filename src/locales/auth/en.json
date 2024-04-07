@@ -1,0 +1,14 @@
+{
+  "You have been invited to {name} !": "You have been invited to {name} !",
+  "You have been invited to register to {name}": "You have been invited to register to {name}",
+  "Please click on the button below to accept your invitation and create your account, or copy-paste the following link in your browser address bar :<br />{url}": "Please click on the button below to accept your invitation and create your account, or copy-paste the following link in your browser address bar :<br />{url}",
+  "Accept invitation": "Accept invitation",
+  "Please confirm your email address": "Please confirm your email address",
+  "Please click on the button below to confirm your email address, or copy-paste the following link in your browser address bar :<br />{url}": "Please click on the button below to confirm your email address, or copy-paste the following link in your browser address bar :<br />{url}",
+  "Confirm your email address": "Confirm your email address",
+  "Magic link": "Magic link",
+  "Login with a magic link": "Login with a magic link",
+  "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}": "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}",
+  "Log in": "Log in",
+  "Log in to {name}": "Log in to {name}"
+}

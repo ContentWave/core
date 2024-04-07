@@ -1,0 +1,14 @@
+{
+  "You have been invited to {name} !": "Vous avez été invité sur {name} !",
+  "You have been invited to register to {name}": "Vous avez été invité à vous inscrire sur {name}",
+  "Please click on the button below to accept your invitation and create your account, or copy-paste the following link in your browser address bar :<br />{url}": "Merci de cliquer sur le bouton ci-dessous pour accepter l'invitation et créer votre compte, ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur:<br />{url}",
+  "Accept invitation": "Accepter l'invitation",
+  "Please confirm your email address": "Merci de confirmer votre adresse email",
+  "Please click on the button below to confirm your email address, or copy-paste the following link in your browser address bar :<br />{url}": "Merci de cliquer sur le bouton ci-dessous pour confirmer votre adresse email, ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur:<br />{url}",
+  "Confirm your email address": "Confirmez votre adresse email",
+  "Magic link": "Magic link",
+  "Login with a magic link": "Se connecter avec un magic link",
+  "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}": "Merci de cliquer sur le bouton ci-dessous pour vous connecter, ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur:<br />{url}",
+  "Log in": "Se connecter",
+  "Log in to {name}": "Se connecter sur {name}"
+}

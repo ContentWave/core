@@ -1,6 +1,6 @@
 import { IWaveModelRelation } from '../models/WaveModel'
 import { Db } from './Db'
-import { IOrmConf } from './Orm/IOrmConf'
+import { IOrmConf } from '../interfaces/IOrmConf'
 
 interface IModelConf {
   conf: IOrmConf
