@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { HydratedDocument } from 'mongoose'
 import { JSONSchema7 } from '../../interfaces/JsonSchema'
 import { IOrmConf } from '../../interfaces/IOrmConf'
 import { TypeDate } from './Types/Date'
@@ -15,6 +15,9 @@ import { TypeRef } from './Types/Ref'
 import { TypeText } from './Types/Text'
 import { TypeTime } from './Types/Time'
 import { TypeUuid } from './Types/Uuid'
+import { IWaveUser, WaveUserModel } from '../../models/WaveUser'
+import { Unauthorized } from 'http-errors'
+import { IWaveModelAuthorizations } from '../../models/WaveModel'
 
 const formatters: any = {
   date: TypeDate,
@@ -36,30 +39,59 @@ const formatters: any = {
 export class Formatter {
   static async fromDb (
     data: { [key: string]: any },
-    conf: IOrmConf
+    conf: IOrmConf,
+    authorizations: IWaveModelAuthorizations | undefined = undefined,
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
   ): Promise<{ [key: string]: any }> {
+    const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
+    const globalAccess = userModel.resolveAuthorizations(
+      authorizations,
+      'read',
+      user
+    )
+    if (!globalAccess) throw new Unauthorized()
+
     let ret: { [key: string]: any } = {
       id: data._id.toHexString()
     }
     for (let key in conf) {
-      ret[key] = await formatters[conf[key].type].fromDb(
-        data[key] as any,
-        conf[key]
+      if (
+        userModel.resolveAuthorizations(conf[key].authorizations, 'read', user)
       )
+        ret[key] = await formatters[conf[key].type].fromDb(
+          data[key] as any,
+          conf[key],
+          user
+        )
     }
+
     return ret
   }
 
   static async toDb (
     data: { [key: string]: any },
-    conf: IOrmConf
+    conf: IOrmConf,
+    authorizations: IWaveModelAuthorizations | undefined = undefined,
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
   ): Promise<{ [key: string]: any }> {
+    const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
+    const globalAccess = userModel.resolveAuthorizations(
+      authorizations,
+      'write',
+      user
+    )
+    if (!globalAccess) throw new Unauthorized()
+
     let ret: { [key: string]: any } = {}
     for (let key in conf) {
-      ret[key] = await formatters[conf[key].type].toDb(
-        data[key] as any,
-        conf[key]
+      if (
+        userModel.resolveAuthorizations(conf[key].authorizations, 'write', user)
       )
+        ret[key] = await formatters[conf[key].type].toDb(
+          data[key] as any,
+          conf[key],
+          user
+        )
     }
     return ret
   }

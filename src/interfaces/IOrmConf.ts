@@ -1,3 +1,5 @@
+import { IWaveModelAuthorizations } from '../models/WaveModel'
+
 interface IOrmFieldWithDefault {
   default?: any
 }
@@ -28,19 +30,8 @@ interface IOrmFieldWithIndex {
   index?: boolean
 }
 
-interface IOrmAuthorization {
-  read: boolean
-  write: boolean
-}
-
-interface IOrmRoleAuthorization extends IOrmAuthorization {
-  role: string
-}
-
 interface IOrmFieldWithAuthorizations {
-  enableAuthorizations?: boolean
-  globalAuthorization?: IOrmAuthorization
-  authorizations?: IOrmRoleAuthorization[]
+  authorizations?: IWaveModelAuthorizations
 }
 
 interface IOrmFieldWithDescriptors {

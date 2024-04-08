@@ -1,10 +1,14 @@
-import { IWaveModelRelation } from '../models/WaveModel'
+import {
+  IWaveModelAuthorizations,
+  IWaveModelRelation
+} from '../models/WaveModel'
 import { Db } from './Db'
 import { IOrmConf } from '../interfaces/IOrmConf'
 
 interface IModelConf {
   conf: IOrmConf
   relations: IWaveModelRelation[]
+  authorizations: IWaveModelAuthorizations
 }
 
 const cache: { [key: string]: IModelConf } = {}
@@ -13,7 +17,11 @@ export class Model {
   static async retrieveModelsFromDb () {
     const models = Db.model('WaveModel')?.find({}) ?? []
     for await (const model of models) {
-      cache[model.name] = { conf: model.conf, relations: model.relations }
+      cache[model.name] = {
+        conf: model.conf,
+        relations: model.relations,
+        authorizations: model.authorizations
+      }
     }
   }
 
@@ -25,6 +33,10 @@ export class Model {
     return cache[name]?.relations ?? []
   }
 
+  static getAuthorizations (name: string): IWaveModelAuthorizations | undefined {
+    return cache[name]?.authorizations ?? undefined
+  }
+
   static getList (): { [key: string]: IModelConf } {
     return cache
   }
@@ -32,12 +44,13 @@ export class Model {
   static async update (
     name: string,
     conf: IOrmConf,
-    relations: IWaveModelRelation[] = []
+    relations: IWaveModelRelation[],
+    authorizations: IWaveModelAuthorizations
   ) {
-    cache[name] = { conf, relations }
+    cache[name] = { conf, relations, authorizations }
     await Db.model('WaveModel')?.updateOne(
       { name },
-      { name, conf, relations },
+      { name, conf, relations, authorizations },
       { upsert: true }
     )
     await Db.init()

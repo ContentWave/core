@@ -1,9 +1,10 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, HydratedDocument } from 'mongoose'
 import { IDbPostalAddress } from '../classes/Orm/Types/PostalAddress'
 import { Plugins } from '../classes/Plugins'
 import { Conflict, InternalServerError } from 'http-errors'
 import { randomUUID } from 'crypto'
 import { Mail } from '../classes/Mail'
+import { IWaveModelAuthorizations } from './WaveModel'
 
 interface IFido2Credential {
   id: string
@@ -14,7 +15,7 @@ interface IFido2Credential {
   prevCounter: number
 }
 
-interface IWaveUser {
+export interface IWaveUser {
   firstname: string
   lastname: string
   email: string
@@ -35,7 +36,10 @@ interface IWaveUser {
   fido2Credentials: IFido2Credential[]
 }
 
-interface WaveUserModel extends mongoose.Model<IWaveUser, {}, {}> {
+interface IWaveUserMethods {}
+
+export interface WaveUserModel
+  extends mongoose.Model<IWaveUser, {}, IWaveUserMethods> {
   invite(
     request: any,
     email: string,
@@ -43,9 +47,14 @@ interface WaveUserModel extends mongoose.Model<IWaveUser, {}, {}> {
     preset?: { [type: string]: any },
     overwrite?: boolean
   ): Promise<any>
+  resolveAuthorizations(
+    authorizations: IWaveModelAuthorizations | undefined,
+    mode: 'read' | 'write',
+    user?: HydratedDocument<IWaveUser, WaveUserModel> | null
+  ): boolean
 }
 
-const schema = new mongoose.Schema<IWaveUser, WaveUserModel, {}>(
+const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
   {
     firstname: String,
     lastname: String,
@@ -443,6 +452,26 @@ schema.static(
     if (!sent) throw new InternalServerError()
 
     return user
+  }
+)
+
+schema.static(
+  'resolveAuthorizations',
+  function resolveAuthorizations (
+    authorizations: IWaveModelAuthorizations | undefined,
+    mode: 'read' | 'write',
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
+  ): boolean {
+    if (authorizations === undefined) return true
+    if (!authorizations.enabled) return true
+    const userRoles = user?.roles ?? ['anonymous']
+
+    let invert = false
+    for (let role in authorizations[mode].roles)
+      if (userRoles.includes(role)) invert = true
+
+    if (invert) return !authorizations[mode].allow
+    return authorizations[mode].allow
   }
 )
 
