@@ -18,6 +18,7 @@ import { TypeUuid } from './Types/Uuid'
 import { IWaveUser, WaveUserModel } from '../../models/WaveUser'
 import { Unauthorized } from 'http-errors'
 import { IWaveModelAuthorizations } from '../../models/WaveModel'
+import dayjs from 'dayjs'
 
 const formatters: any = {
   date: TypeDate,
@@ -41,18 +42,22 @@ export class Formatter {
     data: { [key: string]: any },
     conf: IOrmConf,
     authorizations: IWaveModelAuthorizations | undefined = undefined,
-    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null,
+    existingDocument: HydratedDocument<any, any> | null = null
   ): Promise<{ [key: string]: any }> {
     const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
     const globalAccess = userModel.resolveAuthorizations(
       authorizations,
       'read',
-      user
+      user,
+      existingDocument
     )
     if (!globalAccess) throw new Unauthorized()
 
     let ret: { [key: string]: any } = {
-      id: data._id.toHexString()
+      id: data._id.toHexString(),
+      createdAt: dayjs(data.createdAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
+      updatedAt: dayjs(data.updatedAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
     }
     for (let key in conf) {
       if (
@@ -72,13 +77,15 @@ export class Formatter {
     data: { [key: string]: any },
     conf: IOrmConf,
     authorizations: IWaveModelAuthorizations | undefined = undefined,
-    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null,
+    existingDocument: HydratedDocument<any, any> | null = null
   ): Promise<{ [key: string]: any }> {
     const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
     const globalAccess = userModel.resolveAuthorizations(
       authorizations,
       'write',
-      user
+      user,
+      existingDocument
     )
     if (!globalAccess) throw new Unauthorized()
 
@@ -114,7 +121,12 @@ export class Formatter {
   }
 
   static getMongooseSchema (conf: IOrmConf): any {
-    const schema = new mongoose.Schema({}, { typeKey: '$type' })
+    const schema = new mongoose.Schema(
+      {
+        _owner: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' }
+      },
+      { typeKey: '$type', timestamps: true }
+    )
 
     for (let key in conf) {
       schema.add({

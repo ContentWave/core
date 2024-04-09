@@ -50,7 +50,8 @@ export interface WaveUserModel
   resolveAuthorizations(
     authorizations: IWaveModelAuthorizations | undefined,
     mode: 'read' | 'write',
-    user?: HydratedDocument<IWaveUser, WaveUserModel> | null
+    user?: HydratedDocument<IWaveUser, WaveUserModel> | null,
+    existingDocument?: HydratedDocument<any, any> | null
   ): boolean
 }
 
@@ -460,11 +461,18 @@ schema.static(
   function resolveAuthorizations (
     authorizations: IWaveModelAuthorizations | undefined,
     mode: 'read' | 'write',
-    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
+    user: HydratedDocument<IWaveUser, WaveUserModel> | null = null,
+    existingDocument: HydratedDocument<any, any> | null = null
   ): boolean {
     if (authorizations === undefined) return true
     if (!authorizations.enabled) return true
-    const userRoles = user?.roles ?? ['anonymous']
+    const userRoles = user?.roles ?? ['$anonymous']
+    if (
+      existingDocument &&
+      user &&
+      existingDocument._owner?._id?.toHexString() === user.id
+    )
+      userRoles.push('$owner')
 
     let invert = false
     for (let role in authorizations[mode].roles)

@@ -28,7 +28,7 @@ export class Config {
         'image/heic',
         'application/pdf'
       ],
-      roles: ['admin', 'developer', 'anonymous']
+      roles: ['$admin', '$developer', '$anonymous', '$owner']
     }
   }
 
