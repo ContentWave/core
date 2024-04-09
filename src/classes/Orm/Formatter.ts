@@ -92,6 +92,7 @@ export class Formatter {
     let ret: { [key: string]: any } = {}
     for (let key in conf) {
       if (
+        data[key] !== undefined &&
         userModel.resolveAuthorizations(conf[key].authorizations, 'write', user)
       )
         ret[key] = await formatters[conf[key].type].toDb(
