@@ -2,10 +2,16 @@ import { Db } from './Db'
 import wcmatch from 'wildcard-match'
 import { HydratedDocument } from 'mongoose'
 import { IWaveUser } from '../models/WaveUser'
+import { randomUUID } from 'crypto'
 
 interface IKey {
   secret: string
   domains: string[]
+}
+
+interface INewKey {
+  client_id: string
+  client_secret: string
 }
 
 const cache: { [key: string]: IKey } = {}
@@ -41,12 +47,33 @@ export class Key {
     return matchingDomains.length > 0
   }
 
-  static validateKeyAndSecret (id: string, secret: string, redirectUri: string) {
+  static validateKeyAndSecret (
+    id: string,
+    secret: string,
+    redirectUri: string
+  ): boolean {
     return (
       cache[id] &&
       cache[id].secret === secret &&
       Key.validateKey(id, redirectUri)
     )
+  }
+
+  static async create (
+    user: HydratedDocument<IWaveUser>,
+    name: string,
+    domains: string[]
+  ): Promise<INewKey> {
+    const created = await Db.model('WaveKey')?.create({
+      user: user.id,
+      name,
+      domains,
+      secret: randomUUID()
+    })
+    return {
+      client_id: created.id,
+      client_secret: created.secret
+    }
   }
 
   static async update (
