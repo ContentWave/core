@@ -50,7 +50,7 @@ export class Model {
     cache[name] = { conf, relations, authorizations }
     await Db.model('WaveModel')?.updateOne(
       { name },
-      { name, conf, relations, authorizations },
+      { $set: { name, conf, relations, authorizations } },
       { upsert: true }
     )
     await Db.init()

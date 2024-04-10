@@ -8,6 +8,8 @@ import { Config } from './Config'
 import createWaveRequest from '../models/WaveRequest'
 import createWaveUser from '../models/WaveUser'
 import createWaveError from '../models/WaveError'
+import createWaveKey from '../models/WaveKey'
+import { Key } from './Key'
 
 /**
  * Handles Database connection
@@ -31,6 +33,7 @@ export class Db {
     createWaveRequest(newInstance)
     createWaveError(newInstance)
     createWaveUser(newInstance)
+    createWaveKey(newInstance)
 
     const oldInstance = Db.instance
     Db.instance = newInstance
@@ -38,6 +41,7 @@ export class Db {
 
     await Config.retrieveConfigFromDb()
     await Model.retrieveModelsFromDb()
+    await Key.retrieveKeysFromDb()
 
     // Handle dynamic models
     const models = Model.getList()
