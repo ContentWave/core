@@ -35,7 +35,8 @@ let defaultPlugins: { [key: string]: string | null } = {
   workflow: null,
   auth: null,
   geocode: null,
-  i18n: null
+  i18n: null,
+  payments: null
 }
 
 let contentWaveVersion: string
