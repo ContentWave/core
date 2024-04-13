@@ -44,8 +44,9 @@ export class Config {
       auth: {
         password: true,
         fido2: true,
-        googleAuthenticator: true,
-        otl: true,
+        totp: true,
+        magicLink: true,
+        oneTimeCode: false,
         invite: false,
         register: true
       }

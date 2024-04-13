@@ -33,8 +33,8 @@ export interface IWaveUser extends Document {
   invitationCode: string
   magicLinkCode: string
   magicLinkValidity: number
-  googleAuthenticatorSecret: string
-  googleAuthenticatorPending: boolean
+  totpSecret: string
+  totpPending: boolean
   fido2Credentials: IFido2Credential[]
 }
 
@@ -352,8 +352,8 @@ const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
     invitationCode: String,
     magicLinkCode: String,
     magicLinkValidity: Number,
-    googleAuthenticatorSecret: String,
-    googleAuthenticatorPending: Boolean,
+    totpSecret: String,
+    totpPending: Boolean,
     fido2Credentials: [
       {
         id: String,
