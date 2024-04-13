@@ -1,8 +1,9 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document, HydratedDocument } from 'mongoose'
 import jwt from 'jsonwebtoken'
 import { Config } from '../classes/Config'
+import { Db } from '../classes/Db'
 
-export interface IWaveSession {
+export interface IWaveSession extends Document {
   user: mongoose.Types.ObjectId
   refreshToken: string
   browserName: string
@@ -15,7 +16,15 @@ export interface IWaveSessionMethods {
 }
 
 export interface WaveSessionModel
-  extends mongoose.Model<IWaveSession, {}, IWaveSessionMethods> {}
+  extends mongoose.Model<IWaveSession, {}, IWaveSessionMethods> {
+  findByAccessToken(
+    accessToken: string
+  ): Promise<HydratedDocument<
+    IWaveSession,
+    IWaveSessionMethods,
+    WaveSessionModel
+  > | null>
+}
 
 const schema = new mongoose.Schema<
   IWaveSession,
@@ -34,6 +43,33 @@ const schema = new mongoose.Schema<
   }
 )
 
+schema.static(
+  'findByAccessToken',
+  async function findByAccessToken (
+    accessToken: string
+  ): Promise<HydratedDocument<
+    IWaveSession,
+    IWaveSessionMethods,
+    WaveSessionModel
+  > | null> {
+    try {
+      const decoded: any = jwt.verify(accessToken, Config.get('jwtKey'))
+      if (decoded.type !== 'user') return null
+      const session: HydratedDocument<
+        IWaveSession,
+        IWaveSessionMethods,
+        WaveSessionModel
+      > | null = await this.findById(decoded.id, null, {
+        populate: 'user'
+      })
+      if (!session || !session.user?.id) return null
+      return session
+    } catch {
+      return null
+    }
+  }
+)
+
 schema.method('getAccessToken', async function getAccessToken () {
   return jwt.sign(
     {
@@ -47,4 +83,8 @@ schema.method('getAccessToken', async function getAccessToken () {
 
 export default function createWaveSession (conn: Connection) {
   conn.model<IWaveSession, WaveSessionModel>('WaveSession', schema)
+}
+
+export const getWaveSessionModel = function () {
+  return Db.instance.model<IWaveSession, WaveSessionModel>('WaveSession')
 }

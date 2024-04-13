@@ -1,6 +1,7 @@
 import {
   IWaveModelAuthorizations,
-  IWaveModelRelation
+  IWaveModelRelation,
+  getWaveModelModel
 } from '../models/WaveModel'
 import { Db } from './Db'
 import { IOrmConf } from '../interfaces/IOrmConf'
@@ -15,7 +16,7 @@ const cache: { [key: string]: IModelConf } = {}
 
 export class Model {
   static async retrieveModelsFromDb () {
-    const models = Db.model('WaveModel')?.find({}) ?? []
+    const models = getWaveModelModel().find({}) ?? []
     for await (const model of models) {
       cache[model.name] = {
         conf: model.conf,
@@ -48,7 +49,7 @@ export class Model {
     authorizations: IWaveModelAuthorizations
   ) {
     cache[name] = { conf, relations, authorizations }
-    await Db.model('WaveModel')?.updateOne(
+    await getWaveModelModel().updateOne(
       { name },
       { $set: { name, conf, relations, authorizations } },
       { upsert: true }
@@ -58,7 +59,7 @@ export class Model {
 
   static async delete (name: string) {
     if (cache[name] !== undefined) delete cache[name]
-    await Db.model('WaveModel')?.deleteOne({ name })
+    await getWaveModelModel().deleteOne({ name })
     await Db.init()
   }
 }

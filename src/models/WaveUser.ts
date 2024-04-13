@@ -1,4 +1,4 @@
-import mongoose, { Connection, HydratedDocument } from 'mongoose'
+import mongoose, { Connection, Document, HydratedDocument } from 'mongoose'
 import { IDbPostalAddress } from '../classes/Orm/Types/PostalAddress'
 import { Plugins } from '../classes/Plugins'
 import { Conflict, InternalServerError } from 'http-errors'
@@ -6,6 +6,7 @@ import { randomUUID } from 'crypto'
 import { Mail } from '../classes/Mail'
 import { IWaveModelAuthorizations } from './WaveModel'
 import { Config } from '../classes/Config'
+import { Db } from '../classes/Db'
 
 interface IFido2Credential {
   id: string
@@ -16,7 +17,7 @@ interface IFido2Credential {
   prevCounter: number
 }
 
-export interface IWaveUser {
+export interface IWaveUser extends Document {
   firstname: string
   lastname: string
   email: string
@@ -512,4 +513,8 @@ schema.index({ 'address.location': '2dsphere' })
 
 export default function createWaveUser (conn: Connection) {
   conn.model<IWaveUser, WaveUserModel>('WaveUser', schema)
+}
+
+export const getWaveUserModel = function () {
+  return Db.instance.model<IWaveUser, WaveUserModel>('WaveUser')
 }

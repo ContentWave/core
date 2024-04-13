@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-interface IWaveRequest {
+interface IWaveRequest extends Document {
   controller: string
   method: string
   duration: number
@@ -30,4 +31,8 @@ const schema = new mongoose.Schema<IWaveRequest, WaveRequestModel, {}>({
 
 export default function createWaveRequest (conn: Connection) {
   conn.model<IWaveRequest, WaveRequestModel>('WaveRequest', schema)
+}
+
+export const getWaveRequestModel = function () {
+  return Db.instance.model<IWaveRequest, WaveRequestModel>('WaveRequest')
 }

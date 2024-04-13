@@ -1,7 +1,8 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
 import { IOrmConf } from '../interfaces/IOrmConf'
+import { Db } from '../classes/Db'
 
-interface IWaveModelAuthorization {
+interface IWaveModelAuthorization extends Document {
   allow: boolean
   roles: string[]
 }
@@ -55,4 +56,8 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
 
 export default function createWaveModel (conn: Connection) {
   conn.model<IWaveModel, WaveModelModel>('WaveModel', schema)
+}
+
+export const getWaveModelModel = function () {
+  return Db.instance.model<IWaveModel, WaveModelModel>('WaveModel')
 }

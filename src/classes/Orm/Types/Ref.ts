@@ -99,7 +99,7 @@ export class TypeRef {
             authorizations,
             user
           )
-          const created = await Db.model(conf.model)?.create(formatted)
+          const created = await Db.model(conf.model).create(formatted)
           if (created) ret.push(ObjectId.createFromHexString(created.id))
         }
       }
@@ -117,7 +117,7 @@ export class TypeRef {
       authorizations,
       user
     )
-    const created = await Db.model(conf.model)?.create(formatted)
+    const created = await Db.model(conf.model).create(formatted)
     if (created) return ObjectId.createFromHexString(created.id)
     return null
   }

@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import { Db } from './Db'
+import { getWaveConfigModel } from '../models/WaveConfig'
 
 const cache: { [key: string]: any } = {}
 
@@ -30,7 +30,7 @@ export class Config {
         'image/heic',
         'application/pdf'
       ],
-      roles: ['$admin', '$developer', '$anonymous', '$owner'],
+      roles: ['$admin', '$developer', '$anonymous', '$owner', '$loggedIn'],
       everyoneCanCreateKeys: false,
       title: 'ContentWave',
       description: 'The best start for your headless projects',
@@ -53,7 +53,7 @@ export class Config {
   }
 
   static async retrieveConfigFromDb () {
-    const configs = Db.model('WaveConfig')?.find({}) ?? []
+    const configs: any = getWaveConfigModel().find({}) ?? []
     for await (const config of configs) {
       cache[config.name] = config.data
     }
@@ -69,7 +69,7 @@ export class Config {
 
   static async set (name: string, data: any) {
     cache[name] = data
-    await Db.model('WaveConfig')?.updateOne(
+    await getWaveConfigModel().updateOne(
       { name },
       { name, data },
       { upsert: true }
@@ -78,6 +78,6 @@ export class Config {
 
   static async delete (name: string) {
     if (cache[name] !== undefined) delete cache[name]
-    await Db.model('WaveConfig')?.deleteOne({ name })
+    await getWaveConfigModel().deleteOne({ name })
   }
 }

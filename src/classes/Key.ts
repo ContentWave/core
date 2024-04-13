@@ -1,8 +1,7 @@
-import { Db } from './Db'
 import wcmatch from 'wildcard-match'
-import { HydratedDocument } from 'mongoose'
 import { IWaveUser } from '../models/WaveUser'
 import { randomUUID } from 'crypto'
+import { IWaveKey, getWaveKeyModel } from '../models/WaveKey'
 
 interface IKey {
   secret: string
@@ -26,7 +25,7 @@ export class Key {
       }
     } catch {}
 
-    const keys = Db.model('WaveKey')?.find({}) ?? []
+    const keys: IWaveKey[] = await getWaveKeyModel().find({})
     for await (const key of keys) {
       cache[key.id] = {
         secret: key.secret,
@@ -60,16 +59,17 @@ export class Key {
   }
 
   static async create (
-    user: HydratedDocument<IWaveUser>,
+    user: IWaveUser,
     name: string,
     domains: string[]
-  ): Promise<INewKey> {
-    const created = await Db.model('WaveKey')?.create({
+  ): Promise<INewKey | null> {
+    const created = await getWaveKeyModel().create({
       user: user.id,
       name,
       domains,
       secret: randomUUID()
     })
+    if (!created) return null
     cache[created.id] = {
       secret: created.secret,
       domains: created.domains ?? []
@@ -82,11 +82,11 @@ export class Key {
 
   static async update (
     id: string,
-    user: HydratedDocument<IWaveUser>,
+    user: IWaveUser,
     name: string,
     domains: string[]
   ) {
-    const res = await Db.model('WaveKey')?.updateOne(
+    const res = await getWaveKeyModel().updateOne(
       { _id: id, user: user.id },
       { $set: { name, domains } }
     )
@@ -94,8 +94,8 @@ export class Key {
       cache[id].domains = domains
   }
 
-  static async delete (id: string, user: HydratedDocument<IWaveUser>) {
-    const res = await Db.model('WaveKey')?.deleteOne({
+  static async delete (id: string, user: IWaveUser) {
+    const res = await getWaveKeyModel().deleteOne({
       _id: id,
       user: user.id
     })

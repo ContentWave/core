@@ -1,5 +1,6 @@
 import {
   Accepts,
+  Access,
   Body,
   Description,
   FastifyReply,
@@ -15,15 +16,16 @@ import {
 import { Key } from '../classes/Key'
 import { Config } from '../classes/Config'
 import { Plugins } from '../classes/Plugins'
-import { Db } from '../classes/Db'
 import dayjs from 'dayjs'
-import { HydratedDocument } from 'mongoose'
-import { IWaveUser, WaveUserModel } from '../models/WaveUser'
+import { IWaveUser } from '../models/WaveUser'
 import jwt from 'jsonwebtoken'
 import { BadRequest } from 'http-errors'
 import UAParser from 'ua-parser-js'
 import crypto, { randomUUID } from 'crypto'
-import { IWaveSession, IWaveSessionMethods } from '../models/WaveSession'
+import { getWaveAuthorizationCodeModel } from '../models/WaveAuthorizationCode'
+import { Session } from '../decorators/session'
+import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationChallenge'
+import { getWaveSessionModel } from '../models/WaveSession'
 
 @Title('Auth')
 @Description('Handles authentication to this server')
@@ -71,7 +73,7 @@ export class Auth {
         res,
         'This client_id does not exists or has been deleted.'
       )
-    const challenge = await Db.model('WaveAuthorizationChallenge')?.create({
+    const challenge = await getWaveAuthorizationChallengeModel().create({
       redirectUri,
       expiresAt: dayjs().add(15, 'minutes').toDate(),
       codeChallenge,
@@ -89,9 +91,9 @@ export class Auth {
   static async fulfillChallengeWithUser (
     res: FastifyReply,
     challengeId: string,
-    user: HydratedDocument<IWaveUser>
+    user: IWaveUser
   ) {
-    const challenge = await Db.model('WaveAuthorizationChallenge')?.findById(
+    const challenge: any = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
     if (!challenge || +challenge.expiresAt < +new Date())
@@ -99,11 +101,11 @@ export class Auth {
         res,
         'The challenge is expired, please try again.'
       )
-    await Db.model('WaveAuthorizationChallenge')?.deleteOne({
+    await getWaveAuthorizationChallengeModel().deleteOne({
       _id: challenge._id
     })
 
-    const code = await Db.model('WaveAuthorizationCode')?.create({
+    const code = await getWaveAuthorizationCodeModel().create({
       code: jwt.sign(
         {
           uri: challenge.redirectUri,
@@ -160,11 +162,7 @@ export class Auth {
     @Header('user-agent') userAgent: string = ''
   ) {
     try {
-      let session: HydratedDocument<
-        IWaveSession,
-        IWaveSessionMethods,
-        WaveUserModel
-      > | null = null
+      let session: any = null
       if (grantType === 'client_credentials') {
         if (!Key.validateKeyAndSecret(clientId, clientSecret))
           throw new BadRequest()
@@ -185,7 +183,7 @@ export class Auth {
         const parser = new UAParser(userAgent)
         const parserResult = parser.getResult()
         const decoded: any = jwt.verify(code, Config.get('jwtKey'))
-        const challenge = await Db.model('WaveAuthorizationCode')?.findOne({
+        const challenge = await getWaveAuthorizationCodeModel().findOne({
           code,
           expiresAt: {
             $gt: new Date()
@@ -212,7 +210,7 @@ export class Auth {
           Config.get('jwtKey')
         )
 
-        session = await Db.model('WaveSession')?.create({
+        session = await getWaveSessionModel().create({
           user: challenge.user._id,
           browserName: parserResult.browser?.name ?? 'Unknown',
           osName: parserResult.os?.name ?? 'Unknown',
@@ -220,8 +218,7 @@ export class Auth {
           lastUsed: new Date()
         })
       } else if (grantType === 'refresh_token') {
-        session =
-          (await Db.model('WaveSession')?.findOne({ refreshToken })) ?? null
+        session = await getWaveSessionModel().findOne({ refreshToken })
         if (session) {
           session.lastUsed = new Date()
           await session.save()
@@ -242,6 +239,17 @@ export class Auth {
     } catch {
       throw new BadRequest()
     }
+  }
+
+  @Post('/logout')
+  @Title('Destroy the session')
+  @Description('Deletes the session')
+  @Access('$loggedIn')
+  @Returns(204, { type: 'object' }, 'Session deleted')
+  @Returns(403, 'Error', 'Session does not exists')
+  static async logout (@Session() session: any) {
+    await getWaveSessionModel().deleteOne({ _id: session._id })
+    return {}
   }
 
   @Get('/config')

@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-interface IWavePlugin {
+interface IWavePlugin extends Document {
   name: string
   enabled: boolean
   conf: any
@@ -19,4 +20,8 @@ const schema = new mongoose.Schema<IWavePlugin, WavePluginModel, {}>({
 
 export default function createWavePlugin (conn: Connection) {
   conn.model<IWavePlugin, WavePluginModel>('WavePlugin', schema)
+}
+
+export const getWavePluginModel = function () {
+  return Db.instance.model<IWavePlugin, WavePluginModel>('WavePlugin')
 }

@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-interface IWaveKey {
+export interface IWaveKey extends Document {
   user: mongoose.Types.ObjectId
   name: string
   secret: string
@@ -8,7 +9,7 @@ interface IWaveKey {
   domains: string[]
 }
 
-interface WaveKeyModel extends mongoose.Model<IWaveKey, {}, {}> {}
+export interface WaveKeyModel extends mongoose.Model<IWaveKey, {}, {}> {}
 
 const schema = new mongoose.Schema<IWaveKey, WaveKeyModel, {}>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' },
@@ -20,4 +21,8 @@ const schema = new mongoose.Schema<IWaveKey, WaveKeyModel, {}>({
 
 export default function createWaveKey (conn: Connection) {
   conn.model<IWaveKey, WaveKeyModel>('WaveKey', schema)
+}
+
+export const getWaveKeyModel = function () {
+  return Db.instance.model<IWaveKey, WaveKeyModel>('WaveKey')
 }

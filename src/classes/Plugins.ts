@@ -1,7 +1,7 @@
 import path from 'path'
 import { I18nString, PluginType } from '@contentwave/plugin'
-import { Db } from './Db'
 import { Config } from './Config'
+import { getWavePluginModel } from '../models/WavePlugin'
 
 interface IWavePlugin {
   name: I18nString
@@ -73,7 +73,7 @@ export class Plugins {
 
   static async load (name: string, requiredCls: any) {
     const instance = new requiredCls()
-    const conf = await Db.model('WavePlugin')?.findOne({ name })
+    const conf = await getWavePluginModel().findOne({ name })
     if (conf) await instance.setup(conf)
     const types = instance.getType()
     plugins[name] = {

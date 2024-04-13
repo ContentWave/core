@@ -1,14 +1,13 @@
 import crypto from 'crypto'
 import axios from 'axios'
 import fs from 'fs'
-import { IWaveErrorContext } from '../models/WaveError'
-import { Db } from './Db'
+import { IWaveErrorContext, getWaveErrorModel } from '../models/WaveError'
 import { Config } from './Config'
 import { Plugins } from './Plugins'
 
 let contextCache: { [key: string]: IWaveErrorContext } = {}
 
-function getContext (stack: string): IWaveErrorContext {
+function getContext (stack: string): Partial<IWaveErrorContext> {
   const stackLines: string[] = stack.split('\n')
   const re = /(\/[^:]+):([0-9]+):([0-9]+)/
   const m = re.exec(stackLines[1] ?? '')
@@ -26,7 +25,7 @@ function getContext (stack: string): IWaveErrorContext {
   if (contextCache[`${filePath}:${line}:${column}`] !== undefined)
     return contextCache[`${filePath}:${line}:${column}`]
 
-  const ret: IWaveErrorContext = {
+  const ret: Partial<IWaveErrorContext> = {
     file: filePath,
     line: +line,
     column: +column,
@@ -39,11 +38,11 @@ function getContext (stack: string): IWaveErrorContext {
     fs.existsSync(filePath) ? fs.readFileSync(filePath).toString() : ''
   ).split('\n')
 
-  if (ret.fromLine < 1) ret.fromLine = 1
-  if (ret.toLine > src.length) ret.toLine = src.length
-  ret.lines = src.slice(ret.fromLine - 1, ret.toLine - 1)
+  if (ret.fromLine ?? 1 < 1) ret.fromLine = 1
+  if (ret.toLine ?? src.length > src.length) ret.toLine = src.length
+  ret.lines = src.slice(ret.fromLine ?? 0 - 1, ret.toLine ?? 0 - 1)
 
-  contextCache[`${filePath}:${line}:${column}`] = ret
+  contextCache[`${filePath}:${line}:${column}`] = ret as IWaveErrorContext
   return ret
 }
 
@@ -53,7 +52,7 @@ function handleAxiosError (err: any) {
   const details: any = err.toJSON()
 
   if (err.response) {
-    Db.model('WaveError')?.create({
+    getWaveErrorModel().create({
       footprint: crypto
         .createHash('sha1')
         .update(
@@ -90,7 +89,7 @@ function handleAxiosError (err: any) {
   }
 
   if (err.request) {
-    Db.model('WaveError')?.create({
+    getWaveErrorModel().create({
       footprint: crypto
         .createHash('sha1')
         .update(
@@ -130,7 +129,7 @@ export function handleError (err: any) {
   if (Config.get('handleErrors')) {
     if (handleAxiosError(err)) return
 
-    Db.model('WaveError')?.create({
+    getWaveErrorModel().create({
       footprint: crypto
         .createHash('sha1')
         .update(JSON.stringify({ msg: err.message, stack: err.stack ?? '' }))

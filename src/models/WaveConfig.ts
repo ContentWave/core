@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-interface IWaveConfig {
+interface IWaveConfig extends Document {
   name: string
   data: any
 }
@@ -17,4 +18,8 @@ const schema = new mongoose.Schema<IWaveConfig, WaveConfigModel, {}>({
 
 export default function createWaveConfig (conn: Connection) {
   conn.model<IWaveConfig, WaveConfigModel>('WaveConfig', schema)
+}
+
+export const getWaveConfigModel = function () {
+  return Db.instance.model<IWaveConfig, WaveConfigModel>('WaveConfig')
 }

@@ -57,18 +57,13 @@ export class Db {
     if (Db.instance) await Db.instance.close()
   }
 
-  static model<T, U, V> (
-    name: string
-  ): mongoose.Model<any, unknown, unknown, {}, any, any> | null {
+  static model<T, U> (name: string): mongoose.Model<T, U> {
     const models = Db.instance.modelNames()
-    if (models.includes(name) === false) return null
-    return Db.instance.model<T, U, V>(name) as mongoose.Model<
-      any,
-      unknown,
-      unknown,
-      {},
-      any,
-      any
-    >
+    if (models.includes(name) === false)
+      return Db.instance.model<T, U>(
+        name,
+        new mongoose.Schema()
+      ) as mongoose.Model<T, U>
+    return Db.instance.model<T, U>(name) as mongoose.Model<T, U>
   }
 }

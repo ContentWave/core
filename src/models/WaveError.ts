@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-export interface IWaveErrorContext {
+export interface IWaveErrorContext extends Document {
   file: string
   line: number
   column: number
@@ -39,4 +40,8 @@ const schema = new mongoose.Schema<IWaveError, WaveErrorModel, {}>({
 
 export default function createWaveError (conn: Connection) {
   conn.model<IWaveError, WaveErrorModel>('WaveError', schema)
+}
+
+export const getWaveErrorModel = function () {
+  return Db.instance.model<IWaveError, WaveErrorModel>('WaveError')
 }

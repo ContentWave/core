@@ -1,6 +1,7 @@
-import mongoose, { Connection } from 'mongoose'
+import mongoose, { Connection, Document } from 'mongoose'
+import { Db } from '../classes/Db'
 
-interface IWaveAuthorizationCode {
+export interface IWaveAuthorizationCode extends Document {
   code: string
   codeChallenge: string
   codeChallengeMethod: string
@@ -10,7 +11,7 @@ interface IWaveAuthorizationCode {
   user: mongoose.Types.ObjectId
 }
 
-interface WaveAuthorizationCodeModel
+export interface WaveAuthorizationCodeModel
   extends mongoose.Model<IWaveAuthorizationCode, {}, {}> {}
 
 const schema = new mongoose.Schema<
@@ -31,5 +32,11 @@ export default function createWaveAuthorizationCode (conn: Connection) {
   conn.model<IWaveAuthorizationCode, WaveAuthorizationCodeModel>(
     'WaveAuthorizationCode',
     schema
+  )
+}
+
+export const getWaveAuthorizationCodeModel = function () {
+  return Db.instance.model<IWaveAuthorizationCode, WaveAuthorizationCodeModel>(
+    'WaveAuthorizationCode'
   )
 }

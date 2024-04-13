@@ -1,10 +1,11 @@
 import { Swarm } from '@swarmjs/core'
-import { Db } from './Db'
 import { handleError } from './Errors'
 import { Config } from './Config'
 import path from 'path'
 import { Auth } from '../controllers/Auth'
 import { Ui } from '../controllers/Ui'
+import { getWaveSessionModel } from '../models/WaveSession'
+import { getWaveRequestModel } from '../models/WaveRequest'
 
 let instance: Swarm
 
@@ -30,14 +31,23 @@ export class Server {
       languages: Config.get('languages') ?? ['en']
     })
 
+    /**
+     * Handle CORS
+     */
     app.fastify.register(require('@fastify/cors'), {
       origin: true,
       methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
       allowedHeaders: ['Content-Type', 'Authorization']
     })
 
+    /**
+     * Allow urlencoded forms
+     */
     app.fastify.register(require('@fastify/formbody'))
 
+    /**
+     * Allow file uploads
+     */
     app.fastify.register(require('@fastify/multipart'), {
       limits: {
         fieldNameSize: 100, // Max field name size in bytes
@@ -49,13 +59,15 @@ export class Server {
       }
     })
 
+    /**
+     * Handle frontends
+     */
     app.fastify.register(require('@fastify/static'), {
       root: path.join(__dirname, '../frontend/auth/.output/public/'),
       prefix: '/auth',
       decorateReply: false,
       prefixAvoidTrailingSlash: true
     })
-
     app.fastify.register(require('@fastify/static'), {
       root: path.join(__dirname, '../frontend/dashboard/.output/public/'),
       prefix: '/dashboard',
@@ -63,13 +75,15 @@ export class Server {
       prefixAvoidTrailingSlash: true
     })
 
-    // Hooks to monitor performance
+    /**
+     * Hooks to monitor performance
+     */
     app.hooks.add('preHandler', (state: any) => {
       state.startDate = +new Date()
       return state
     })
     app.hooks.add('postHandler', (state: any) => {
-      Db.model('WaveRequest')?.create({
+      getWaveRequestModel().create({
         controller: state.controller,
         method: state.method,
         duration: +new Date() - state.startDate,
@@ -79,7 +93,7 @@ export class Server {
     })
     app.hooks.add('onError', (state: any) => {
       handleError(state.error)
-      Db.model('WaveRequest')?.create({
+      getWaveRequestModel().create({
         controller: state.controller,
         method: state.method,
         duration: +new Date() - state.startDate,
@@ -88,13 +102,17 @@ export class Server {
       })
     })
 
-    // Global error handler
+    /**
+     * Global error handler
+     */
     process.on('uncaughtException', function (err: any) {
       handleError(err)
       console.error(err)
     })
 
-    // I18n
+    /**
+     * I18n
+     */
     app.i18n.addTranslations(
       {
         en: require('../locales/auth/en.json'),
@@ -103,7 +121,64 @@ export class Server {
       'auth'
     )
 
-    // Controllers
+    /**
+     * Auth
+     */
+    app.fastify.decorateRequest('user', null)
+    app.fastify.decorateRequest('session', null)
+    app.fastify.addHook('preHandler', async function (req: any) {
+      if (req.headers.authorization === undefined) return
+
+      const [mode, token] = req.headers.authorization.split(' ')
+
+      switch (mode) {
+        case 'Bearer':
+          const session = await getWaveSessionModel().findByAccessToken(token)
+          if (session) {
+            req.session = session
+            req.user = session.user
+          }
+          break
+      }
+    })
+    app.onSocketConnection(async (socket: any, eventBus: any) => {
+      const session = await getWaveSessionModel().findByAccessToken(
+        socket.handshake.auth.token
+      )
+      if (session) {
+        socket.join(`user:${session.user.id}`)
+        socket.data.userId = session.user.id
+        eventBus.emit('loggedIn', session.user.id)
+      } else {
+        socket.disconnect(true)
+      }
+    })
+    app.setOption('getUserAccess', (req: any) => {
+      if (req.user === null) return ['$anonymous']
+      return ['$loggedIn', `user:${req.user.id}`, ...(req.user.roles ?? [])]
+    })
+    app.oauth2AuthAutorizationCode(
+      `${process.env.BASE_URL ?? ''}/auth/authorize`,
+      `${process.env.BASE_URL ?? ''}/auth/token`,
+      `${process.env.BASE_URL ?? ''}/auth/token`,
+      {}
+    )
+    app.appendOption('injectors', {
+      name: 'auth:user',
+      getValue (req: any) {
+        return req.user
+      }
+    })
+    app.appendOption('injectors', {
+      name: 'auth:session',
+      getValue (req: any) {
+        return req.session
+      }
+    })
+
+    /**
+     * Controllers
+     */
     app.controllers.add(Auth)
     app.controllers.add(Ui)
 

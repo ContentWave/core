@@ -1,10 +1,11 @@
+import { getWaveConfigModel } from '../models/WaveConfig'
 import { Config } from './Config'
 import { Db } from './Db'
 
 describe('Config', () => {
   beforeAll(async () => {
     await Db.init()
-    await Db.model('WaveConfig')?.insertMany([
+    await getWaveConfigModel().insertMany([
       {
         name: 'foo',
         data: 'bar'
