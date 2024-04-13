@@ -2,7 +2,10 @@
   "type": "object",
   "properties": {
     "token_type": {
-      "type": "string"
+      "type": "string",
+      "enum": [
+        "bearer"
+      ]
     },
     "expires_in": {
       "type": "number"
@@ -10,7 +13,7 @@
     "access_token": {
       "type": "string"
     },
-    "id_token": {
+    "refresh_token": {
       "type": "string"
     },
     "scope": {

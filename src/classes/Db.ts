@@ -10,6 +10,7 @@ import createWaveUser from '../models/WaveUser'
 import createWaveError from '../models/WaveError'
 import createWaveKey from '../models/WaveKey'
 import { Key } from './Key'
+import createWaveAuthorizationChallenge from '../models/WaveAuthorizationChallenge'
 
 /**
  * Handles Database connection
@@ -34,6 +35,7 @@ export class Db {
     createWaveError(newInstance)
     createWaveUser(newInstance)
     createWaveKey(newInstance)
+    createWaveAuthorizationChallenge(newInstance)
 
     const oldInstance = Db.instance
     Db.instance = newInstance
