@@ -55,16 +55,8 @@ export class Key {
     return matchingDomains.length > 0
   }
 
-  static validateKeyAndSecret (
-    id: string,
-    secret: string,
-    redirectUri: string
-  ): boolean {
-    return (
-      cache[id] &&
-      cache[id].secret === secret &&
-      Key.validateKey(id, redirectUri)
-    )
+  static validateKeyAndSecret (id: string, secret: string): boolean {
+    return cache[id] && cache[id].secret === secret
   }
 
   static async create (

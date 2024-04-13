@@ -37,7 +37,8 @@ const schema = new mongoose.Schema<
 schema.method('getAccessToken', async function getAccessToken () {
   return jwt.sign(
     {
-      id: this.id
+      id: this.id,
+      type: 'user'
     },
     Config.get('jwtKey'),
     { expiresIn: 1800 }

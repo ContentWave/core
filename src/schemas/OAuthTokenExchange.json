@@ -6,6 +6,30 @@
         "grant_type": {
           "type": "string",
           "enum": [
+            "client_credentials"
+          ]
+        },
+        "client_id": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{24}$"
+        },
+        "client_secret": {
+          "type": "string",
+          "format": "uuid"
+        }
+      },
+      "required": [
+        "grant_type",
+        "client_id",
+        "client_secret"
+      ]
+    },
+    {
+      "type": "object",
+      "properties": {
+        "grant_type": {
+          "type": "string",
+          "enum": [
             "authorization_code"
           ]
         },

@@ -149,8 +149,10 @@ export class Auth {
   @Returns(200, 'OAuthToken', 'Access and refresh tokens')
   @Returns(400, 'Error', 'Code expired')
   static async token (
-    @Body('grant_type') grantType: 'refresh_token' | 'authorization_code',
+    @Body('grant_type')
+    grantType: 'refresh_token' | 'authorization_code' | 'client_credentials',
     @Body('client_id') clientId: string,
+    @Body('client_secret') clientSecret: string = '',
     @Body('redirect_uri') redirectUri: string = '',
     @Body('code_verifier') codeVerifier: string = '',
     @Body('code') code: string = '',
@@ -163,6 +165,22 @@ export class Auth {
         IWaveSessionMethods,
         WaveUserModel
       > | null = null
+      if (grantType === 'client_credentials') {
+        if (!Key.validateKeyAndSecret(clientId, clientSecret))
+          throw new BadRequest()
+        return {
+          token_type: 'bearer',
+          expires_in: 1800,
+          access_token: jwt.sign(
+            {
+              id: clientId,
+              type: 'client'
+            },
+            Config.get('jwtKey'),
+            { expiresIn: 1800 }
+          )
+        }
+      }
       if (grantType === 'authorization_code') {
         const parser = new UAParser(userAgent)
         const parserResult = parser.getResult()

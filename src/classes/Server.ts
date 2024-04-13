@@ -36,6 +36,8 @@ export class Server {
       allowedHeaders: ['Content-Type', 'Authorization']
     })
 
+    app.fastify.register(require('@fastify/formbody'))
+
     app.fastify.register(require('@fastify/multipart'), {
       limits: {
         fieldNameSize: 100, // Max field name size in bytes
