@@ -5,20 +5,28 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Email', () => {
   let simpleEmail: IEmailOrmField = {
-    type: 'email'
+    type: 'email',
+    title: '',
+    description: ''
   }
   let nullableEmail: IEmailOrmField = {
     type: 'email',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let simpleMultipleEmail: IEmailOrmField = {
     type: 'email',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableMultipleEmail: IEmailOrmField = {
     type: 'email',
     nullable: true,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

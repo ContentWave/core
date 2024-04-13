@@ -5,20 +5,28 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Uuid', () => {
   let simpleUuid: IUuidOrmField = {
-    type: 'uuid'
+    type: 'uuid',
+    title: '',
+    description: ''
   }
   let multipleUuid: IUuidOrmField = {
     type: 'uuid',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableUuid: IUuidOrmField = {
     type: 'uuid',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let multipleNullableUuid: IUuidOrmField = {
     type: 'uuid',
     multiple: true,
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

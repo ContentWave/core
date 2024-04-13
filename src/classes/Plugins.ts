@@ -8,6 +8,7 @@ interface IWavePlugin {
   description: I18nString
   instance: any
   configured: boolean
+  enabled: boolean
   types: PluginType[]
   version: string
 }
@@ -17,6 +18,7 @@ interface IWavePluginInList {
   name: I18nString
   description: I18nString
   configured: boolean
+  enabled: boolean
   types: PluginType[]
   version: string
 }
@@ -39,7 +41,7 @@ let defaultPlugins: { [key: string]: string | null } = {
   payments: null
 }
 
-let contentWaveVersion: string
+//let contentWaveVersion: string
 
 /**
  * Handles ContentWave plugins
@@ -54,7 +56,7 @@ export class Plugins {
       'package.json'
     ))
 
-    contentWaveVersion = packageJson.version ?? '0.0.0'
+    //contentWaveVersion = packageJson.version ?? '0.0.0'
 
     for (let dependency in packageJson?.dependencies) {
       if (dependency.substring(0, 21) !== '@contentwave-plugins/') continue
@@ -78,6 +80,7 @@ export class Plugins {
       name: instance.getName(),
       description: instance.getDescription(),
       version: instance.getVersion(),
+      enabled: conf?.enabled ?? false,
       instance,
       configured: !!conf,
       types: types instanceof Array ? types : [types]
@@ -92,7 +95,8 @@ export class Plugins {
         description: conf.description,
         configured: conf.configured,
         types: conf.types,
-        version: conf.version
+        version: conf.version,
+        enabled: conf.enabled
       }))
       .filter(item => type === null || item.types.includes(type))
   }

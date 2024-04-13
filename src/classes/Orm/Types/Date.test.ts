@@ -6,21 +6,29 @@ import addFormats from 'ajv-formats'
 describe('ORM: Date', () => {
   let simpleDate: IDateOrmField = {
     type: 'date',
-    defaultToCurrentTime: false
+    defaultToCurrentTime: false,
+    title: '',
+    description: ''
   }
   let defaultDate: IDateOrmField = {
     type: 'date',
-    defaultToCurrentTime: true
+    defaultToCurrentTime: true,
+    title: '',
+    description: ''
   }
   let nullableDate: IDateOrmField = {
     type: 'date',
     defaultToCurrentTime: false,
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let nullableButDefaultDate: IDateOrmField = {
     type: 'date',
     defaultToCurrentTime: true,
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

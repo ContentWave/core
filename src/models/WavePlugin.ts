@@ -2,6 +2,7 @@ import mongoose, { Connection } from 'mongoose'
 
 interface IWavePlugin {
   name: string
+  enabled: boolean
   conf: any
 }
 
@@ -12,6 +13,7 @@ const schema = new mongoose.Schema<IWavePlugin, WavePluginModel, {}>({
     type: String,
     unique: true
   },
+  enabled: { type: Boolean, default: true },
   conf: {}
 })
 

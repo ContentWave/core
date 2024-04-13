@@ -35,8 +35,8 @@ interface IOrmFieldWithAuthorizations {
 }
 
 interface IOrmFieldWithDescriptors {
-  title: string
-  description: string
+  title?: string
+  description?: string
 }
 
 export interface ITextOrmField

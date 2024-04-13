@@ -6,21 +6,29 @@ import addFormats from 'ajv-formats'
 describe('ORM: Time', () => {
   let simpleTime: ITimeOrmField = {
     type: 'time',
-    defaultToCurrentTime: false
+    defaultToCurrentTime: false,
+    title: '',
+    description: ''
   }
   let defaultTime: ITimeOrmField = {
     type: 'time',
-    defaultToCurrentTime: true
+    defaultToCurrentTime: true,
+    title: '',
+    description: ''
   }
   let nullableTime: ITimeOrmField = {
     type: 'time',
     defaultToCurrentTime: false,
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let nullableButDefaultTime: ITimeOrmField = {
     type: 'time',
     defaultToCurrentTime: true,
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

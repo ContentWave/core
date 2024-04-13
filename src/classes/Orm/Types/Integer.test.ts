@@ -5,29 +5,41 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Integer', () => {
   let simpleInteger: IIntegerOrmField = {
-    type: 'integer'
+    type: 'integer',
+    title: '',
+    description: ''
   }
   let defaultInteger: IIntegerOrmField = {
     type: 'integer',
-    default: 42
+    default: 42,
+    title: '',
+    description: ''
   }
   let nullableInteger: IIntegerOrmField = {
     type: 'integer',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let simpleMultipleInteger: IIntegerOrmField = {
     type: 'integer',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let defaultMultipleInteger: IIntegerOrmField = {
     type: 'integer',
     default: 42,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableMultipleInteger: IIntegerOrmField = {
     type: 'integer',
     nullable: true,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

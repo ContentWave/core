@@ -1,6 +1,10 @@
 import { Swarm } from '@swarmjs/core'
 import { Db } from './Db'
 import { handleError } from './Errors'
+import { Config } from './Config'
+import path from 'path'
+import { Auth } from '../controllers/Auth'
+import { Ui } from '../controllers/Ui'
 
 let instance: Swarm
 
@@ -14,16 +18,16 @@ export class Server {
   static async start () {
     const app = new Swarm({
       logLevel: process.env.LOG_LEVEL ?? 'info',
-      title: process.env.APP_TITLE ?? '',
-      description: process.env.APP_DESCRIPTION ?? '',
+      title: Config.get('title') ?? '',
+      description: Config.get('description') ?? '',
       baseUrl: process.env.BASE_URL ?? '',
       servers: [
         {
           url: process.env.BASE_URL ?? '',
-          description: process.env.APP_TITLE ?? ''
+          description: Config.get('title') ?? ''
         }
       ],
-      languages: (process.env.LANGUAGES ?? 'en').split(',')
+      languages: Config.get('languages') ?? ['en']
     })
 
     app.fastify.register(require('@fastify/cors'), {
@@ -35,12 +39,26 @@ export class Server {
     app.fastify.register(require('@fastify/multipart'), {
       limits: {
         fieldNameSize: 100, // Max field name size in bytes
-        fieldSize: +(process.env.FILE_UPLOAD_LIMIT ?? 5242880), // Max field value size in bytes
+        fieldSize: Config.get('fileUploadLimit') ?? 5242880, // Max field value size in bytes
         fields: 10, // Max number of non-file fields
-        fileSize: +(process.env.FILE_UPLOAD_LIMIT ?? 5242880), // For multipart forms, the max file size in bytes
+        fileSize: Config.get('fileUploadLimit') ?? 5242880, // For multipart forms, the max file size in bytes
         files: 1, // Max number of file fields
         headerPairs: 2000 // Max number of header key=>value pairs
       }
+    })
+
+    app.fastify.register(require('@fastify/static'), {
+      root: path.join(__dirname, '../frontend/auth/.output/public/'),
+      prefix: '/auth',
+      decorateReply: false,
+      prefixAvoidTrailingSlash: true
+    })
+
+    app.fastify.register(require('@fastify/static'), {
+      root: path.join(__dirname, '../frontend/dashboard/.output/public/'),
+      prefix: '/dashboard',
+      decorateReply: false,
+      prefixAvoidTrailingSlash: true
     })
 
     // Hooks to monitor performance
@@ -82,6 +100,10 @@ export class Server {
       },
       'auth'
     )
+
+    // Controllers
+    app.controllers.add(Auth)
+    app.controllers.add(Ui)
 
     if (instance) {
       await instance.fastify.close()

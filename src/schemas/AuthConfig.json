@@ -1,0 +1,56 @@
+{
+  "type": "object",
+  "properties": {
+    "conf": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "boolean"
+        },
+        "fido2": {
+          "type": "boolean"
+        },
+        "googleAuthenticator": {
+          "type": "boolean"
+        },
+        "otl": {
+          "type": "boolean"
+        },
+        "invite": {
+          "type": "boolean"
+        },
+        "register": {
+          "type": "boolean"
+        }
+      }
+    },
+    "plugins": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "style": {
+            "type": "object",
+            "properties": {
+              "label": {
+                "type": "string"
+              },
+              "textColor": {
+                "type": "string"
+              },
+              "backgroundColor": {
+                "type": "string"
+              },
+              "icon": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -18,6 +18,14 @@ const cache: { [key: string]: IKey } = {}
 
 export class Key {
   static async retrieveKeysFromDb () {
+    try {
+      const url = new URL(process.env.BASE_URL ?? '')
+      cache.self = {
+        secret: 'self',
+        domains: [url.host]
+      }
+    } catch {}
+
     const keys = Db.model('WaveKey')?.find({}) ?? []
     for await (const key of keys) {
       cache[key.id] = {
@@ -70,6 +78,10 @@ export class Key {
       domains,
       secret: randomUUID()
     })
+    cache[created.id] = {
+      secret: created.secret,
+      domains: created.domains ?? []
+    }
     return {
       client_id: created.id,
       client_secret: created.secret

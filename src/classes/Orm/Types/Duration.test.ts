@@ -5,20 +5,28 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Duration', () => {
   let simpleDuration: IDurationOrmField = {
-    type: 'duration'
+    type: 'duration',
+    title: '',
+    description: ''
   }
   let nullableDuration: IDurationOrmField = {
     type: 'duration',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let simpleMultipleDuration: IDurationOrmField = {
     type: 'duration',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableMultipleDuration: IDurationOrmField = {
     type: 'duration',
     nullable: true,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

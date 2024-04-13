@@ -5,29 +5,41 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Text', () => {
   let simpleText: ITextOrmField = {
-    type: 'text'
+    type: 'text',
+    title: '',
+    description: ''
   }
   let defaultText: ITextOrmField = {
     type: 'text',
-    default: 'foo'
+    default: 'foo',
+    title: '',
+    description: ''
   }
   let nullableText: ITextOrmField = {
     type: 'text',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let simpleMultipleText: ITextOrmField = {
     type: 'text',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let defaultMultipleText: ITextOrmField = {
     type: 'text',
     default: 'foo',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableMultipleText: ITextOrmField = {
     type: 'text',
     nullable: true,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

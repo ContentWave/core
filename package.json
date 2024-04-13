@@ -2,18 +2,17 @@
   "name": "@contentwave/plugin",
   "version": "1.0.0",
   "description": "TS interfaces for ContentWave plugins",
-  "main": "build/main/index.js",
-  "typings": "build/main/index.d.ts",
-  "module": "build/module/index.js",
+  "main": "build/index.js",
+  "typings": "build/index.d.ts",
   "repository": "https://github.com/contentwave/plugin",
   "license": "MIT",
   "keywords": [],
   "scripts": {
     "dev": "nodemon",
     "test": "jest",
-    "build": "run-p build:*",
-    "build:main": "tsc -p tsconfig.json",
-    "build:module": "tsc -p tsconfig.module.json"
+    "build": "yarn clean && tsc -p tsconfig.json && yarn copy-files",
+    "clean": "rm -Rf ./build",
+    "copy-files": "cp -Rf ./src/locales ./build/locales && cp -Rf ./src/schemas ./build/schemas"
   },
   "engines": {
     "node": ">=10"
@@ -21,6 +20,7 @@
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@fastify/multipart": "^8.2.0",
+    "@fastify/static": "^7.0.3",
     "@swarmjs/core": "^1.7.1",
     "@swarmjs/swagger": "^1.0.5",
     "@types/uuid": "^9.0.8",
@@ -30,11 +30,11 @@
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "dotenv": "^16.4.5",
+    "gm": "^1.25.0",
     "heic-convert": "^2.1.0",
     "http-errors": "^2.0.0",
     "mime-types": "^2.1.35",
     "mongoose": "^8.2.4",
-    "sharp": "^0.33.3",
     "wildcard-match": "^5.1.3"
   },
   "devDependencies": {
@@ -43,7 +43,9 @@
     "@babel/preset-typescript": "^7.24.1",
     "@contentwave/plugin": "^1.3.2",
     "@shelf/jest-mongodb": "^4.2.0",
+    "@types/gm": "^1.25.4",
     "@types/heic-convert": "^1.2.3",
+    "@types/http-errors": "^2.0.4",
     "@types/jest": "^29.5.12",
     "@types/mime-types": "^2.1.4",
     "@types/node": "^20.12.2",
@@ -55,8 +57,7 @@
     "typescript": "^5.4.3"
   },
   "files": [
-    "build/main",
-    "build/module",
+    "build",
     "!**/*.spec.*",
     "!**/*.json",
     "CHANGELOG.md",

@@ -5,6 +5,7 @@ import { Conflict, InternalServerError } from 'http-errors'
 import { randomUUID } from 'crypto'
 import { Mail } from '../classes/Mail'
 import { IWaveModelAuthorizations } from './WaveModel'
+import { Config } from '../classes/Config'
 
 interface IFido2Credential {
   id: string
@@ -411,17 +412,17 @@ schema.static(
       request.$t(
         `You have been invited to {name} !`,
         {
-          name: process.env.APP_TITLE ?? ''
+          name: Config.get('title') ?? ''
         },
         null,
         'auth'
       )
     )
       .header({
-        logo: process.env.APP_LOGO ?? '',
+        logo: Config.get('logo') ?? '',
         title: request.$t(
           'You have been invited to register to {name}',
-          { name: process.env.APP_TITLE ?? '' },
+          { name: Config.get('title') ?? '' },
           null,
           'auth'
         )
@@ -442,7 +443,7 @@ schema.static(
       request.$t(
         `You have been invited to {name} !`,
         {
-          name: process.env.APP_TITLE ?? ''
+          name: Config.get('title') ?? ''
         },
         null,
         'auth'

@@ -1,0 +1,27 @@
+{
+  "type": "object",
+  "properties": {
+    "logo": {
+      "type": "string"
+    },
+    "logoBackground": {
+      "type": "string"
+    },
+    "logoSize": {
+      "type": "string",
+      "enum": [
+        "cover",
+        "contain"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}

@@ -5,29 +5,41 @@ import addFormats from 'ajv-formats'
 
 describe('ORM: Number', () => {
   let simpleNumber: INumberOrmField = {
-    type: 'number'
+    type: 'number',
+    title: '',
+    description: ''
   }
   let defaultNumber: INumberOrmField = {
     type: 'number',
-    default: 42
+    default: 42,
+    title: '',
+    description: ''
   }
   let nullableNumber: INumberOrmField = {
     type: 'number',
-    nullable: true
+    nullable: true,
+    title: '',
+    description: ''
   }
   let simpleMultipleNumber: INumberOrmField = {
     type: 'number',
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let defaultMultipleNumber: INumberOrmField = {
     type: 'number',
     default: 42,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
   let nullableMultipleNumber: INumberOrmField = {
     type: 'number',
     nullable: true,
-    multiple: true
+    multiple: true,
+    title: '',
+    description: ''
   }
 
   test('fromDb', async () => {

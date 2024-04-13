@@ -1,0 +1,4 @@
+node_modules
+frontend/auth/node_modules
+frontend/dashboard/node_modules
+build

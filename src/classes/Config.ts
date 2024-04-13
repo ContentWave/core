@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto'
 import { Db } from './Db'
 
 const cache: { [key: string]: any } = {}
@@ -30,7 +31,24 @@ export class Config {
         'application/pdf'
       ],
       roles: ['$admin', '$developer', '$anonymous', '$owner'],
-      everyoneCanCreateKeys: false
+      everyoneCanCreateKeys: false,
+      title: 'ContentWave',
+      description: 'The best start for your headless projects',
+      logo: '',
+      logoBackground: '',
+      logoSize: 'contain',
+      color: '#FF6F47',
+      languages: ['en'],
+      fileUploadLimit: 5242880,
+      jwtKey: randomUUID(),
+      auth: {
+        password: true,
+        fido2: true,
+        googleAuthenticator: true,
+        otl: true,
+        invite: false,
+        register: true
+      }
     }
   }
 

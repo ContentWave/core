@@ -3,8 +3,8 @@ import { ensureArray } from '../../Array'
 import { Plugins } from '../../Plugins'
 import { IImageOrmField } from '../../../interfaces/IOrmConf'
 import mime from 'mime-types'
-import sharp from 'sharp'
 import heicConvert from 'heic-convert'
+import gm from 'gm'
 import { Config } from '../../Config'
 
 interface ImageContent {
@@ -110,15 +110,33 @@ export class TypeImage {
     }
 
     if (conf.resize) {
-      image.content = (
-        await sharp(Buffer.from(image.content, 'base64'), {
-          animated: mimeType === 'image/gif'
-        })
-          .resize(conf.maxWidth, conf.maxHeight, {
-            fit: conf.crop ? 'outside' : 'inside'
+      image.content = await new Promise(async (resolve: any) => {
+        const ext = image.filename.split('.')
+        let i = gm(Buffer.from(image.content, 'base64'), image.filename)
+        const size: any = await new Promise((resolveSize: any) => {
+          i.size(function (_, s) {
+            resolveSize(s)
           })
-          .toBuffer()
-      ).toString('base64')
+        })
+
+        const ratio = Math.min(
+          conf.maxWidth ?? 999999 / size.width,
+          conf.maxHeight ?? 999999 / size.height
+        )
+        const newWidth = Math.floor(size.width * ratio)
+        const newHeight = Math.floor(size.height * ratio)
+
+        i = i.resize(newWidth, newHeight)
+
+        if (conf.crop)
+          i = i
+            .gravity('Center')
+            .crop(conf.maxWidth ?? 999999, conf.maxHeight ?? 999999)
+
+        i.toBuffer(ext[ext.length - 1].toUpperCase(), function (_, buffer) {
+          resolve(buffer.toString('base64'))
+        })
+      })
     }
 
     return await fsPlugin.storeImage(

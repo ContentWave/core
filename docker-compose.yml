@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+      MONGO_INITDB_DATABASE: contentwave
+  app:
+    build:
+      context: .
+      args:
+        - NUXT_LICENSE=745659D6-3694-49F3-BF2F-EDF4D01D44F9
+    ports:
+      - "80:80"
+    environment:
+      MONGO_URL: mongodb://root:toor@mongo:27017/contentwave?authSource=admin

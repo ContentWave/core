@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "token_type": {
+      "type": "string"
+    },
+    "expires_in": {
+      "type": "number"
+    },
+    "access_token": {
+      "type": "string"
+    },
+    "id_token": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "string"
+    }
+  }
+}
