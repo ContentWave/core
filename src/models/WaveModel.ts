@@ -29,7 +29,7 @@ export interface IWaveModelSearch {
     | 'rag'
     | 'js'
   fields: string[]
-  js?: any
+  js?: string
 }
 
 export interface IWaveModel extends Document {
@@ -82,7 +82,7 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
        */
     },
     fields: [String],
-    js: {}
+    js: String
   },
   cached: { type: Boolean, default: false }
 })
