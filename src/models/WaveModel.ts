@@ -21,8 +21,15 @@ export interface IWaveModelRelation {
 
 export interface IWaveModelSearch {
   enabled: boolean
-  method: 'regex' | 'atlassearch' | 'memory' | 'atlasvectorsearch' | 'rag'
+  method:
+    | 'regex'
+    | 'atlassearch'
+    | 'memory'
+    | 'atlasvectorsearch'
+    | 'rag'
+    | 'js'
   fields: string[]
+  js?: any
 }
 
 export interface IWaveModel extends Document {
@@ -64,16 +71,18 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     enabled: { type: Boolean, default: false },
     method: {
       type: String,
-      enum: ['regex', 'atlassearch', 'memory', 'atlasvectorsearch', 'rag']
+      enum: ['regex', 'atlassearch', 'memory', 'atlasvectorsearch', 'rag', 'js']
       /**
        * regex: search in mongodb with a regex (or locally if collection is cached)
        * memory: search in memory with flexsearch (https://github.com/nextapps-de/flexsearch)
-       * rag: search in memory with RAG (needs an AI plugin enabled)
+       * rag: search in memory with RAG (https://github.com/Stevenic/vectra?tab=readme-ov-file) (needs an AI plugin enabled)
        * atlassearch: search in mongodb with Atlas Search ($search aggregation pipeline stage)
        * atlasvectorsearch: search in mongodb with Atlas Vector Search ($vectorSearch aggregation pipeline stage) (needs an AI plugin enabled)
+       * js: run user provided JS script to filter and ponderate search results
        */
     },
-    fields: [String]
+    fields: [String],
+    js: {}
   },
   cached: { type: Boolean, default: false }
 })
