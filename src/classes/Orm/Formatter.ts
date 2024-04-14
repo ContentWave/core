@@ -19,6 +19,7 @@ import { IWaveUser, WaveUserModel } from '../../models/WaveUser'
 import { Unauthorized } from 'http-errors'
 import { IWaveModelAuthorizations } from '../../models/WaveModel'
 import dayjs from 'dayjs'
+import { IModelConf } from '../Model'
 
 const formatters: any = {
   date: TypeDate,
@@ -121,7 +122,9 @@ export class Formatter {
     return ret as JSONSchema7
   }
 
-  static getMongooseSchema (conf: IOrmConf): any {
+  static getMongooseSchema (modelConf: IModelConf): any {
+    const conf = modelConf.conf
+
     const schema = new mongoose.Schema(
       {
         _owner: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' }
@@ -137,6 +140,13 @@ export class Formatter {
       if (idx !== null) {
         schema.index(idx)
       }
+    }
+
+    if (modelConf.search.enabled) {
+      schema.add({
+        _searchData: String,
+        _searchVector: [Number]
+      })
     }
 
     schema.pre('save', async function (next) {

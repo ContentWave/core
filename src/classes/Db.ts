@@ -52,7 +52,7 @@ export class Db {
     // Handle dynamic models
     const models = Model.getList()
     for (let modelName in models) {
-      const schema = Formatter.getMongooseSchema(models[modelName].conf)
+      const schema = Formatter.getMongooseSchema(models[modelName])
       newInstance.model(modelName, schema)
     }
   }

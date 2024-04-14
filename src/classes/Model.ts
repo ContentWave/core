@@ -1,15 +1,18 @@
 import {
   IWaveModelAuthorizations,
   IWaveModelRelation,
+  IWaveModelSearch,
   getWaveModelModel
 } from '../models/WaveModel'
 import { Db } from './Db'
 import { IOrmConf } from '../interfaces/IOrmConf'
 
-interface IModelConf {
+export interface IModelConf {
   conf: IOrmConf
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
+  search: IWaveModelSearch
+  cached: boolean
 }
 
 const cache: { [key: string]: IModelConf } = {}
@@ -21,7 +24,9 @@ export class Model {
       cache[model.name] = {
         conf: model.conf,
         relations: model.relations,
-        authorizations: model.authorizations
+        authorizations: model.authorizations,
+        search: model.search,
+        cached: model.cached
       }
     }
   }
@@ -38,6 +43,14 @@ export class Model {
     return cache[name]?.authorizations ?? undefined
   }
 
+  static getSearch (name: string): IWaveModelSearch | undefined {
+    return cache[name]?.search ?? undefined
+  }
+
+  static getCached (name: string): boolean {
+    return cache[name]?.cached ?? false
+  }
+
   static getList (): { [key: string]: IModelConf } {
     return cache
   }
@@ -46,12 +59,14 @@ export class Model {
     name: string,
     conf: IOrmConf,
     relations: IWaveModelRelation[],
-    authorizations: IWaveModelAuthorizations
+    authorizations: IWaveModelAuthorizations,
+    search: IWaveModelSearch,
+    cached: boolean
   ) {
-    cache[name] = { conf, relations, authorizations }
+    cache[name] = { conf, relations, authorizations, search, cached }
     await getWaveModelModel().updateOne(
       { name },
-      { $set: { name, conf, relations, authorizations } },
+      { $set: { name, conf, relations, authorizations, search, cached } },
       { upsert: true }
     )
     await Db.init()

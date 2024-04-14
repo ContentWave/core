@@ -21,7 +21,7 @@ export interface IWaveModelRelation {
 
 export interface IWaveModelSearch {
   enabled: boolean
-  method: 'regex' | 'memory' | 'rag'
+  method: 'regex' | 'atlassearch' | 'memory' | 'atlasvectorsearch'
   fields: string[]
 }
 
@@ -62,7 +62,10 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
   },
   search: {
     enabled: { type: Boolean, default: false },
-    method: { type: String, enum: ['regex', 'memory', 'rag'] },
+    method: {
+      type: String,
+      enum: ['regex', 'atlassearch', 'memory', 'atlasvectorsearch']
+    },
     fields: [String]
   },
   cached: { type: Boolean, default: false }
