@@ -21,7 +21,7 @@ export interface IWaveModelRelation {
 
 export interface IWaveModelSearch {
   enabled: boolean
-  method: 'regex' | 'atlassearch' | 'memory' | 'atlasvectorsearch'
+  method: 'regex' | 'atlassearch' | 'memory' | 'atlasvectorsearch' | 'rag'
   fields: string[]
 }
 
@@ -64,7 +64,14 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     enabled: { type: Boolean, default: false },
     method: {
       type: String,
-      enum: ['regex', 'atlassearch', 'memory', 'atlasvectorsearch']
+      enum: ['regex', 'atlassearch', 'memory', 'atlasvectorsearch', 'rag']
+      /**
+       * regex: search in mongodb with a regex (or locally if collection is cached)
+       * memory: search in memory with flexsearch (https://github.com/nextapps-de/flexsearch)
+       * rag: search in memory with RAG (needs an AI plugin enabled)
+       * atlassearch: search in mongodb with Atlas Search ($search aggregation pipeline stage)
+       * atlasvectorsearch: search in mongodb with Atlas Vector Search ($vectorSearch aggregation pipeline stage) (needs an AI plugin enabled)
+       */
     },
     fields: [String]
   },
