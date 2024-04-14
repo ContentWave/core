@@ -2,7 +2,7 @@ import mongoose, { Connection, Document } from 'mongoose'
 import { IOrmConf } from '../interfaces/IOrmConf'
 import { Db } from '../classes/Db'
 
-interface IWaveModelAuthorization extends Document {
+export interface IWaveModelAuthorization {
   allow: boolean
   roles: string[]
 }
@@ -19,11 +19,19 @@ export interface IWaveModelRelation {
   field: string
 }
 
-interface IWaveModel {
+export interface IWaveModelSearch {
+  enabled: boolean
+  method: 'regex' | 'memory' | 'rag'
+  fields: string[]
+}
+
+export interface IWaveModel extends Document {
   name: string
   conf: IOrmConf
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
+  search: IWaveModelSearch
+  cached: boolean
 }
 
 interface WaveModelModel extends mongoose.Model<IWaveModel, {}, {}> {}
@@ -51,7 +59,13 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
       allow: Boolean,
       roles: [String]
     }
-  }
+  },
+  search: {
+    enabled: { type: Boolean, default: false },
+    method: { type: String, enum: ['regex', 'memory', 'rag'] },
+    fields: [String]
+  },
+  cached: { type: Boolean, default: false }
 })
 
 export default function createWaveModel (conn: Connection) {
