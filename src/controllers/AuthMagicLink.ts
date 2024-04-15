@@ -14,14 +14,12 @@ import {
 } from '@swarmjs/core'
 import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationChallenge'
 import { BadRequest } from 'http-errors'
-import { IWaveUser, getWaveUserModel } from '../models/WaveUser'
+import { getWaveUserModel } from '../models/WaveUser'
 import { randomUUID } from 'crypto'
-import { Crypt } from '../classes/Crypt'
 import { Config } from '../classes/Config'
 import { Auth } from './Auth'
 import { Plugins } from '../classes/Plugins'
 import { HtmlEmail } from '../classes/HtmlEmail'
-import { AuthOneTimeCode } from './AuthOneTimeCode'
 
 @Title('Auth')
 @Description('Handles authentication to this server')
