@@ -12,6 +12,7 @@ import { AuthOneTimeCode } from '../controllers/AuthOneTimeCode'
 import { AuthFido } from '../controllers/AuthFido'
 import { AuthTotp } from '../controllers/AuthTotp'
 import { AuthMagicLink } from '../controllers/AuthMagicLink'
+import { AuthSso } from '../controllers/AuthSso'
 
 let instance: Swarm
 
@@ -198,6 +199,7 @@ export class Server {
     app.controllers.add(AuthFido)
     app.controllers.add(AuthTotp)
     app.controllers.add(AuthMagicLink)
+    app.controllers.add(AuthSso)
     app.controllers.add(Ui)
 
     if (instance) {
