@@ -15,6 +15,7 @@ export interface IWaveAuthorizationChallenge extends Document {
   needsOneTimeCode: boolean
   oneTimeCode: string
   user: mongoose.Types.ObjectId | IWaveUser
+  magicLinks: string[]
 }
 
 export interface WaveAuthorizationChallengeModel
@@ -36,7 +37,8 @@ const schema = new mongoose.Schema<
   needsTotp: Boolean,
   needsValidation: Boolean,
   needsOneTimeCode: Boolean,
-  oneTimeCode: String
+  oneTimeCode: String,
+  magicLinks: [String]
 })
 
 export default function createWaveAuthorizationChallenge (conn: Connection) {

@@ -11,6 +11,7 @@ import { SwaggerPlugin } from '@swarmjs/swagger'
 import { AuthOneTimeCode } from '../controllers/AuthOneTimeCode'
 import { AuthFido } from '../controllers/AuthFido'
 import { AuthTotp } from '../controllers/AuthTotp'
+import { AuthMagicLink } from '../controllers/AuthMagicLink'
 
 let instance: Swarm
 
@@ -196,6 +197,7 @@ export class Server {
     app.controllers.add(AuthOneTimeCode)
     app.controllers.add(AuthFido)
     app.controllers.add(AuthTotp)
+    app.controllers.add(AuthMagicLink)
     app.controllers.add(Ui)
 
     if (instance) {

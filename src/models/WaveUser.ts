@@ -17,11 +17,6 @@ interface IFido2Credential {
   prevCounter: number
 }
 
-interface IMagicLink {
-  code: string
-  validity: number
-}
-
 interface ITotp {
   secret: string
   pending: boolean
@@ -42,7 +37,6 @@ export interface IWaveUser extends Document {
   validationCode: string
   invited: boolean
   invitationCode: string
-  magicLinks: IMagicLink[]
   totp: ITotp
   fido2: IFido2Credential[]
   sso: { [key: string]: string }
@@ -361,7 +355,6 @@ const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
     validationCode: String,
     invited: Boolean,
     invitationCode: String,
-    magicLinks: [{ code: String, validity: Number }],
     totp: {
       secret: String,
       pending: Boolean,
