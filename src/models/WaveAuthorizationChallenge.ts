@@ -1,5 +1,6 @@
 import mongoose, { Connection, Document } from 'mongoose'
 import { Db } from '../classes/Db'
+import { IWaveUser } from './WaveUser'
 
 export interface IWaveAuthorizationChallenge extends Document {
   redirectUri: string
@@ -7,6 +8,13 @@ export interface IWaveAuthorizationChallenge extends Document {
   codeChallenge: string
   codeChallengeMethod: string
   clientId: string
+  authorized: boolean
+  readyToRedirect: boolean
+  needsTotp: boolean
+  needsValidation: boolean
+  needsOneTimeCode: boolean
+  oneTimeCode: string
+  user: mongoose.Types.ObjectId | IWaveUser
 }
 
 export interface WaveAuthorizationChallengeModel
@@ -17,11 +25,18 @@ const schema = new mongoose.Schema<
   WaveAuthorizationChallengeModel,
   {}
 >({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' },
   redirectUri: String,
   expiresAt: Date,
   codeChallenge: String,
   codeChallengeMethod: String,
-  clientId: String
+  clientId: String,
+  authorized: Boolean,
+  readyToRedirect: Boolean,
+  needsTotp: Boolean,
+  needsValidation: Boolean,
+  needsOneTimeCode: Boolean,
+  oneTimeCode: String
 })
 
 export default function createWaveAuthorizationChallenge (conn: Connection) {

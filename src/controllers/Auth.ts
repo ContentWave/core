@@ -6,6 +6,7 @@ import {
   FastifyReply,
   Get,
   Header,
+  Parameter,
   Post,
   Prefix,
   Query,
@@ -35,7 +36,7 @@ export class Auth {
   @Title('Start OAuth2 login process')
   @Description('Redirects the user to the login page')
   @Query('response_type', { type: 'string', enum: ['code'] })
-  @Query('client_id', { type: 'string', pattern: '^[0-9a-f]{24}$' })
+  @Query('client_id', 'ObjectID')
   @Query('redirect_uri', { type: 'string', format: 'uri' })
   @Query('scope', { type: 'string' })
   @Query('state', { type: 'string' })
@@ -88,19 +89,16 @@ export class Auth {
     return Auth.sendToLoginPage(res, challenge.id)
   }
 
-  static async fulfillChallengeWithUser (
-    res: FastifyReply,
-    challengeId: string,
-    user: IWaveUser
-  ) {
+  static async fulfillChallenge (challengeId: string): Promise<string> {
     const challenge: any = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
     if (!challenge || +challenge.expiresAt < +new Date())
-      return Auth.sendToErrorPage(
-        res,
+      return `${
+        process.env.AUTH_FRONTEND_URL ?? ''
+      }/auth/error?msg=${encodeURIComponent(
         'The challenge is expired, please try again.'
-      )
+      )}`
     await getWaveAuthorizationChallengeModel().deleteOne({
       _id: challenge._id
     })
@@ -118,12 +116,12 @@ export class Auth {
       codeChallengeMethod: challenge.codeChallengeMethod,
       redirectUri: challenge.redirectUri,
       clientId: challenge.clientId,
-      user: user._id
+      user: challenge.user._id
     })
 
     const url = new URL(challenge.redirectUri)
     url.searchParams.set('code', code.code)
-    res.redirect(url.href)
+    return url.href
   }
 
   static async sendToErrorPage (res: FastifyReply, errorMessage: string) {
@@ -264,6 +262,7 @@ export class Auth {
         magicLink: true,
         oneTimeCode: false,
         invite: false,
+        validation: false,
         register: true
       },
       plugins: Plugins.getList('auth')
@@ -272,6 +271,39 @@ export class Auth {
           key: plugin.key,
           style: Plugins.getInstance('auth', plugin.key)?.getButtonStyle()
         }))
+    }
+  }
+
+  @Get('/challenges/:challengeId/state')
+  @Title('Retrieve auth challenge state')
+  @Description('Returns the current auth challenge state')
+  @Parameter('challengeId', 'ObjectID', 'Challenge ID')
+  @Returns(200, 'AuthChallengeState', 'State')
+  @Returns(400, 'Error', 'Bad code')
+  static async getState (@Parameter('challengeId') challengeId: string) {
+    const challenge = await getWaveAuthorizationChallengeModel().findById(
+      challengeId
+    )
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
+
+    await challenge.populate('user')
+    const user: IWaveUser = challenge.user as IWaveUser
+
+    challenge.readyToRedirect =
+      !challenge.needsTotp && user.validated && !challenge.needsOneTimeCode
+    await challenge.save()
+
+    return {
+      authorized: challenge.authorized,
+      readyToRedirect: challenge.readyToRedirect,
+      redirectUrl: challenge.readyToRedirect
+        ? await Auth.fulfillChallenge(challengeId)
+        : undefined,
+      needsTotp: challenge.needsTotp,
+      needsValidation: challenge.needsValidation,
+      needsOneTimeCode: challenge.needsOneTimeCode,
+      haveTotp: user?.totp?.secret && !user?.totp?.pending,
+      totpType: user?.totp?.isGoogle ? 'google' : 'totp'
     }
   }
 }

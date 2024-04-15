@@ -10,5 +10,10 @@
   "Login with a magic link": "Login with a magic link",
   "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}": "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}",
   "Log in": "Log in",
-  "Log in to {name}": "Log in to {name}"
+  "Log in to {name}": "Log in to {name}",
+  "Confirm your authentication request": "Confirm your authentication request",
+  "Security code": "Security code",
+  "Please enter the code below into the log in form :": "Please enter the code below into the log in form :",
+  "This code is strictly personal !": "This code is strictly personal !",
+  "Do not give this code to anybody, and make sure you enter this code only on this website: {baseUrl}.": "Do not give this code to anybody, and make sure you enter this code only on this website: {baseUrl}."
 }

@@ -3,7 +3,7 @@ import { IDbPostalAddress } from '../classes/Orm/Types/PostalAddress'
 import { Plugins } from '../classes/Plugins'
 import { Conflict, InternalServerError } from 'http-errors'
 import { randomUUID } from 'crypto'
-import { Mail } from '../classes/Mail'
+import { HtmlEmail } from '../classes/HtmlEmail'
 import { IWaveModelAuthorizations } from './WaveModel'
 import { Config } from '../classes/Config'
 import { Db } from '../classes/Db'
@@ -17,25 +17,35 @@ interface IFido2Credential {
   prevCounter: number
 }
 
+interface IMagicLink {
+  code: string
+  validity: number
+}
+
+interface ITotp {
+  secret: string
+  pending: boolean
+  isGoogle: boolean
+}
+
 export interface IWaveUser extends Document {
   firstname: string
   lastname: string
   email: string
+  password: string
   phone: string
   avatar: string
   address: IDbPostalAddress
   metadata: { [key: string]: any }
-  sso: { [key: string]: string }
   roles: string[]
   validated: boolean
   validationCode: string
   invited: boolean
   invitationCode: string
-  magicLinkCode: string
-  magicLinkValidity: number
-  totpSecret: string
-  totpPending: boolean
-  fido2Credentials: IFido2Credential[]
+  magicLinks: IMagicLink[]
+  totp: ITotp
+  fido2: IFido2Credential[]
+  sso: { [key: string]: string }
 }
 
 interface IWaveUserMethods {}
@@ -62,6 +72,7 @@ const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
     firstname: String,
     lastname: String,
     email: String,
+    password: String,
     phone: String,
     avatar: String,
     address: {
@@ -350,11 +361,13 @@ const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
     validationCode: String,
     invited: Boolean,
     invitationCode: String,
-    magicLinkCode: String,
-    magicLinkValidity: Number,
-    totpSecret: String,
-    totpPending: Boolean,
-    fido2Credentials: [
+    magicLinks: [{ code: String, validity: Number }],
+    totp: {
+      secret: String,
+      pending: Boolean,
+      isGoogle: Boolean
+    },
+    fido2: [
       {
         id: String,
         deviceName: String,
@@ -409,7 +422,7 @@ schema.static(
       user.invitationCode
     }&redirect=${encodeURIComponent(redirect ?? '')}`
 
-    const html = Mail.create(
+    const html = HtmlEmail.create(
       request.$t(
         `You have been invited to {name} !`,
         {

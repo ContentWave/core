@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "properties": {
+    "challenge": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "rpId": {
+      "type": "string"
+    },
+    "timeout": {
+      "type": "number"
+    },
+    "userVerification": {
+      "type": "string"
+    }
+  }
+}

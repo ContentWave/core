@@ -6,6 +6,11 @@ import { Auth } from '../controllers/Auth'
 import { Ui } from '../controllers/Ui'
 import { getWaveSessionModel } from '../models/WaveSession'
 import { getWaveRequestModel } from '../models/WaveRequest'
+import { AuthPassword } from '../controllers/AuthPassword'
+import { SwaggerPlugin } from '@swarmjs/swagger'
+import { AuthOneTimeCode } from '../controllers/AuthOneTimeCode'
+import { AuthFido } from '../controllers/AuthFido'
+import { AuthTotp } from '../controllers/AuthTotp'
 
 let instance: Swarm
 
@@ -177,9 +182,20 @@ export class Server {
     })
 
     /**
+     * Swarm plugins
+     */
+    app.use(SwaggerPlugin)
+
+    /**
      * Controllers
      */
+    AuthFido.setup()
+
     app.controllers.add(Auth)
+    app.controllers.add(AuthPassword)
+    app.controllers.add(AuthOneTimeCode)
+    app.controllers.add(AuthFido)
+    app.controllers.add(AuthTotp)
     app.controllers.add(Ui)
 
     if (instance) {

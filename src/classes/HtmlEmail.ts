@@ -1,7 +1,7 @@
 import { MailAlertOptions } from '../interfaces/MailAlertOptions'
 import { MailHeaderOptions } from '../interfaces/MailHeaderOptions'
 
-export class Mail {
+export class HtmlEmail {
   blocks: string[]
   preview: string
   width: number
@@ -13,7 +13,7 @@ export class Mail {
   }
 
   static create (preview: string, width: number = 600) {
-    return new Mail(preview, width)
+    return new HtmlEmail(preview, width)
   }
 
   header (options: Partial<MailHeaderOptions>) {

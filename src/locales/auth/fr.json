@@ -10,5 +10,10 @@
   "Login with a magic link": "Se connecter avec un magic link",
   "Please click on the button below to log in, or copy-paste the following link in your browser address bar :<br />{url}": "Merci de cliquer sur le bouton ci-dessous pour vous connecter, ou copier/coller le lien suivant dans la barre d'adresse de votre navigateur:<br />{url}",
   "Log in": "Se connecter",
-  "Log in to {name}": "Se connecter sur {name}"
+  "Log in to {name}": "Se connecter sur {name}",
+  "Confirm your authentication request": "Confirmez votre demande de connexion",
+  "Security code": "Code de sécurité",
+  "Please enter the code below into the log in form:": "Veuillez entrer le code ci-dessous dans le formulaire de connexion :",
+  "This code is strictly personal !": "Ce code est strictement personnel !",
+  "Do not give this code to anybody, and make sure you enter this code only on this website: {baseUrl}.": "Ne le donnez à personne, et assurez-vous de le saisir uniquement sur ce site : {baseUrl}."
 }

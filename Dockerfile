@@ -1,7 +1,7 @@
 FROM node:20.11.0-alpine
 ARG NUXT_LICENSE
 WORKDIR /app
-RUN apk add --no-cache ghostscript graphicsmagick 
+RUN apk add --no-cache ghostscript graphicsmagick python3 make g++
 ENV NODE_ENV=production
 ENV PORT=80
 ENV HOST=0.0.0.0
@@ -17,4 +17,4 @@ RUN yarn install && yarn generate
 WORKDIR /app
 RUN mkdir -p ./build/frontend/auth/.output && cp -Rf ./frontend/auth/.output/public ./build/frontend/auth/.output/public && mkdir -p ./build/frontend/dashboard/.output && cp -Rf ./frontend/dashboard/.output/public ./build/frontend/dashboard/.output/public && rm -Rf ./frontend
 EXPOSE 80
-CMD ["node", "./build/index.js"]
+CMD ["node", "./build/index.js --no-node-snapshot"]

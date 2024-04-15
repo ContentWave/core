@@ -48,6 +48,7 @@ export class Config {
         magicLink: true,
         oneTimeCode: false,
         invite: false,
+        validation: false,
         register: true
       }
     }
