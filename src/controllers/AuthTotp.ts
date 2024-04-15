@@ -45,7 +45,7 @@ export class AuthTotp {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -100,7 +100,7 @@ export class AuthTotp {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -146,7 +146,12 @@ export class AuthTotp {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge || !challenge.needsTotp) throw new BadRequest()
+    if (
+      !challenge ||
+      +challenge.expiresAt < +new Date() ||
+      !challenge.needsTotp
+    )
+      throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()

@@ -38,7 +38,7 @@ export class AuthOneTimeCode {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -127,7 +127,12 @@ export class AuthOneTimeCode {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge || challenge.oneTimeCode !== code) throw new BadRequest()
+    if (
+      !challenge ||
+      +challenge.expiresAt < +new Date() ||
+      challenge.oneTimeCode !== code
+    )
+      throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()

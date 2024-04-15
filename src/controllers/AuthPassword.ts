@@ -42,7 +42,7 @@ export class AuthPassword {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     email = email.toLowerCase()
 
@@ -109,7 +109,7 @@ export class AuthPassword {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -181,7 +181,7 @@ export class AuthPassword {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     email = email.toLowerCase()
 

@@ -59,7 +59,7 @@ export class AuthFido {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -108,7 +108,7 @@ export class AuthFido {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -173,7 +173,7 @@ export class AuthFido {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     await challenge.populate('user')
     if (!challenge.user) throw new BadRequest()
@@ -215,7 +215,7 @@ export class AuthFido {
     const challenge = await getWaveAuthorizationChallengeModel().findById(
       challengeId
     )
-    if (!challenge) throw new BadRequest()
+    if (!challenge || +challenge.expiresAt < +new Date()) throw new BadRequest()
 
     const user = await getWaveUserModel().findOne({
       'fido2.id': credentialId
