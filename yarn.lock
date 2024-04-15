@@ -1028,10 +1028,10 @@
   resolved "https://registry.yarnpkg.com/@cbor-extract/cbor-extract-win32-x64/-/cbor-extract-win32-x64-2.2.0.tgz#4b3f07af047f984c082de34b116e765cb9af975f"
   integrity sha512-l2M+Z8DO2vbvADOBNLbbh9y5ST1RY5sqkWOg/58GkUPBYou/cuNZ68SGQ644f1CvZ8kcOxyZtw06+dxWHIoN/w==
 
-"@contentwave/plugin@^1.3.2":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@contentwave/plugin/-/plugin-1.3.3.tgz#6de592c8586f641951aac3e95931b86a3442a393"
-  integrity sha512-kOZf7h8yRP5IUxX4bQJsccm0e29ydZcvYlODarzCKoio2vH8d1/Hc6tTMcjWgH5xTLLgl8jQulBx7UVTYW2+cg==
+"@contentwave/plugin@^1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@contentwave/plugin/-/plugin-1.3.4.tgz#eb3af3f57ad0c8f7a79ed1201322402fe56dc834"
+  integrity sha512-O4kHdhdBgBeAjRZa7G7zr0KTyG+sGN9tNPpb5Lf7KQft9l64ZRAjeEsFao1pzKqfckUMuoF7Q/oXvjgTjHsnKw==
 
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
