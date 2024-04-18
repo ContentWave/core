@@ -50,21 +50,21 @@ export class AuthSso {
   @Title('SSO callback')
   @Description('Receive code')
   @Query('code', 'String', 'OAuth2 authorization code')
+  @Query('state', 'String', 'OAuth2 state')
   @Parameter('provider', 'String', 'Provider key')
   static async callback (
     @Parameter('provider') provider: string,
     @Query('code') code: string,
-    @Res() res: FastifyReply
+    @Res() res: FastifyReply,
+    @Query('state') state: string = ''
   ) {
     const plugin = Plugins.getInstance('auth', provider)
     if (!plugin) return Auth.sendToErrorPage(res, 'Unknown provider.')
 
-    const ret: SsoUserData = await plugin.processCallback(code)
+    const ret: SsoUserData = await plugin.processCallback(code, state)
     ret.email = ret.email.toLowerCase()
 
-    const challenge = await getWaveAuthorizationChallengeModel().findById(
-      ret.state
-    )
+    const challenge = await getWaveAuthorizationChallengeModel().findById(state)
     if (!challenge || +challenge.expiresAt < +new Date())
       return Auth.sendToErrorPage(res, 'Challenge expired, please try again.')
 

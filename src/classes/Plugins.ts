@@ -61,7 +61,7 @@ export class Plugins {
     for (let dependency in packageJson?.dependencies) {
       if (dependency.substring(0, 21) !== '@contentwave-plugins/') continue
       const cls = require(dependency)
-      await Plugins.load(dependency, cls)
+      await Plugins.load(dependency.substring(21), cls)
     }
 
     // Handle defaults

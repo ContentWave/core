@@ -5,6 +5,8 @@ import { IWaveUser } from './WaveUser'
 export interface IWaveAuthorizationChallenge extends Document {
   redirectUri: string
   expiresAt: Date
+  state: string
+  scope: string
   codeChallenge: string
   codeChallengeMethod: string
   clientId: string
@@ -29,6 +31,8 @@ const schema = new mongoose.Schema<
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' },
   redirectUri: String,
   expiresAt: Date,
+  state: String,
+  scope: String,
   codeChallenge: String,
   codeChallengeMethod: String,
   clientId: String,

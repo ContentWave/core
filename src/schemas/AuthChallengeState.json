@@ -7,10 +7,6 @@
     "readyToRedirect": {
       "type": "boolean"
     },
-    "redirectUrl": {
-      "type": "string",
-      "format": "uri"
-    },
     "needsTotp": {
       "type": "boolean"
     },

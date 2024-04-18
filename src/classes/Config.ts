@@ -49,7 +49,8 @@ export class Config {
         oneTimeCode: false,
         invite: false,
         validation: false,
-        register: true
+        register: true,
+        defaultRedirectUrl: ''
       }
     }
   }

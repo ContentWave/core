@@ -36,7 +36,7 @@ export class Auth {
   @Title('Start OAuth2 login process')
   @Description('Redirects the user to the login page')
   @Query('response_type', { type: 'string', enum: ['code'] })
-  @Query('client_id', 'ObjectID')
+  @Query('client_id', 'ObjectIDOrSelf')
   @Query('redirect_uri', { type: 'string', format: 'uri' })
   @Query('scope', { type: 'string' })
   @Query('state', { type: 'string' })
@@ -79,7 +79,14 @@ export class Auth {
       expiresAt: dayjs().add(15, 'minutes').toDate(),
       codeChallenge,
       codeChallengeMethod,
-      clientId
+      clientId,
+      state,
+      scope,
+      authorized: false,
+      readyToRedirect: false,
+      needsTotp: false,
+      needsValidation: false,
+      needsOneTimeCode: false
     })
     if (!challenge)
       return Auth.sendToErrorPage(
@@ -255,6 +262,48 @@ export class Auth {
   @Description('Returns various configurations for the login/register page')
   static async getConfiguration () {
     return {
+      conf: {
+        password: true,
+        fido2: true,
+        totp: true,
+        magicLink: true,
+        oneTimeCode: true,
+        invite: false,
+        validation: true,
+        register: true,
+        defaultRedirectUrl: 'https://google.com'
+      },
+      plugins: [
+        {
+          key: 'facebook',
+          style: {
+            label: 'Facebook',
+            textColor: '#fff',
+            backgroundColor: '#fff',
+            icon: 'i-simple-icons-facebook'
+          }
+        },
+        {
+          key: 'google',
+          style: {
+            label: 'Google',
+            textColor: '#fff',
+            backgroundColor: '#fff',
+            icon: 'i-simple-icons-google'
+          }
+        },
+        {
+          key: 'linkedin',
+          style: {
+            label: 'Linkedin',
+            textColor: '#fff',
+            backgroundColor: '#fff',
+            icon: 'i-simple-icons-linkedin'
+          }
+        }
+      ]
+    }
+    return {
       conf: Config.get('auth') ?? {
         password: true,
         fido2: true,
@@ -263,7 +312,8 @@ export class Auth {
         oneTimeCode: false,
         invite: false,
         validation: false,
-        register: true
+        register: true,
+        defaultRedirectUrl: ''
       },
       plugins: Plugins.getList('auth')
         .filter(plugin => plugin.enabled)
@@ -290,20 +340,41 @@ export class Auth {
     const user: IWaveUser = challenge.user as IWaveUser
 
     challenge.readyToRedirect =
-      !challenge.needsTotp && user.validated && !challenge.needsOneTimeCode
+      !challenge.needsTotp && user?.validated && !challenge.needsOneTimeCode
     await challenge.save()
 
     return {
       authorized: challenge.authorized,
       readyToRedirect: challenge.readyToRedirect,
-      redirectUrl: challenge.readyToRedirect
-        ? await Auth.fulfillChallenge(challengeId)
-        : undefined,
       needsTotp: challenge.needsTotp,
       needsValidation: challenge.needsValidation,
       needsOneTimeCode: challenge.needsOneTimeCode,
       haveTotp: user?.totp?.secret && !user?.totp?.pending,
       totpType: user?.totp?.isGoogle ? 'google' : 'totp'
+    }
+  }
+
+  @Get('/challenges/:challengeId/redirect-url')
+  @Title('Retrieve auth challenge redirect URL')
+  @Description(
+    'Returns the current auth challenge redirect URL, only when challenge is ready'
+  )
+  @Parameter('challengeId', 'ObjectID', 'Challenge ID')
+  @Returns(200, 'AuthRedirectUrl', 'State')
+  @Returns(400, 'Error', 'Challenge is not ready')
+  static async getRedirectUrl (@Parameter('challengeId') challengeId: string) {
+    const challenge = await getWaveAuthorizationChallengeModel().findById(
+      challengeId
+    )
+    if (
+      !challenge ||
+      +challenge.expiresAt < +new Date() ||
+      !challenge.readyToRedirect
+    )
+      throw new BadRequest()
+
+    return {
+      redirectUrl: await Auth.fulfillChallenge(challengeId)
     }
   }
 }

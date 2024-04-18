@@ -1,0 +1,14 @@
+{
+  "oneOf": [
+    {
+      "type": "string",
+      "pattern": "^[0-9a-f]{24}$"
+    },
+    {
+      "type": "string",
+      "enum": [
+        "self"
+      ]
+    }
+  ]
+}

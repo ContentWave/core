@@ -17,7 +17,6 @@ import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationC
 import { BadRequest, Forbidden } from 'http-errors'
 import { IWaveUser } from '../models/WaveUser'
 import { Config } from '../classes/Config'
-import { Auth } from './Auth'
 import { authenticator, totp } from 'otplib'
 import qrcode from 'qrcode'
 import randomstring from 'randomstring'
@@ -180,9 +179,6 @@ export class AuthTotp {
     return {
       authorized: challenge.authorized,
       readyToRedirect: challenge.readyToRedirect,
-      redirectUrl: challenge.readyToRedirect
-        ? await Auth.fulfillChallenge(challengeId)
-        : undefined,
       needsTotp: challenge.needsTotp,
       needsValidation: challenge.needsValidation,
       needsOneTimeCode: challenge.needsOneTimeCode,

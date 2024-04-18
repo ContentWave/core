@@ -16,7 +16,6 @@ import {
 import { BadRequest } from 'http-errors'
 import { IWaveUser } from '../models/WaveUser'
 import { Config } from '../classes/Config'
-import { Auth } from './Auth'
 import { Plugins } from '../classes/Plugins'
 import { HtmlEmail } from '../classes/HtmlEmail'
 import randomstring from 'randomstring'
@@ -146,9 +145,6 @@ export class AuthOneTimeCode {
     return {
       authorized: challenge.authorized,
       readyToRedirect: challenge.readyToRedirect,
-      redirectUrl: challenge.readyToRedirect
-        ? await Auth.fulfillChallenge(challengeId)
-        : undefined,
       needsTotp: challenge.needsTotp,
       needsValidation: challenge.needsValidation,
       needsOneTimeCode: challenge.needsOneTimeCode,

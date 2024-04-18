@@ -21,7 +21,6 @@ import {
   Fido2Lib
 } from 'fido2-lib'
 import base64url from 'base64url'
-import { Auth } from './Auth'
 
 let fido: Fido2Lib
 let origin: string
@@ -259,9 +258,6 @@ export class AuthFido {
         return {
           authorized: challenge.authorized,
           readyToRedirect: challenge.readyToRedirect,
-          redirectUrl: challenge.readyToRedirect
-            ? await Auth.fulfillChallenge(challengeId)
-            : undefined,
           needsTotp: false,
           needsValidation: challenge.needsValidation,
           needsOneTimeCode: false,

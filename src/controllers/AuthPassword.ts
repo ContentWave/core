@@ -15,7 +15,6 @@ import { IWaveUser, getWaveUserModel } from '../models/WaveUser'
 import { randomUUID } from 'crypto'
 import { Crypt } from '../classes/Crypt'
 import { Config } from '../classes/Config'
-import { Auth } from './Auth'
 import { Plugins } from '../classes/Plugins'
 import { HtmlEmail } from '../classes/HtmlEmail'
 import { AuthOneTimeCode } from './AuthOneTimeCode'
@@ -56,7 +55,7 @@ export class AuthPassword {
       email,
       firstname,
       lastname,
-      password: Crypt.hash(password),
+      password: await Crypt.hash(password),
       validated: !Config.get('auth')?.validation,
       validationCode: !!Config.get('auth')?.validation ? randomUUID() : ''
     })
@@ -82,9 +81,6 @@ export class AuthPassword {
       return {
         authorized: challenge.authorized,
         readyToRedirect: challenge.readyToRedirect,
-        redirectUrl: challenge.readyToRedirect
-          ? await Auth.fulfillChallenge(challengeId)
-          : undefined,
         needsTotp: false,
         needsValidation: challenge.needsValidation,
         needsOneTimeCode: false,
@@ -128,6 +124,7 @@ export class AuthPassword {
     request: any
   ): Promise<boolean> {
     const emailPlugin = Plugins.getInstance('email')
+    if (!emailPlugin) return false
 
     const html = HtmlEmail.create(
       request.$t('Please confirm your email address', {}, null, 'auth')
@@ -218,9 +215,6 @@ export class AuthPassword {
       return {
         authorized: challenge.authorized,
         readyToRedirect: challenge.readyToRedirect,
-        redirectUrl: challenge.readyToRedirect
-          ? await Auth.fulfillChallenge(challengeId)
-          : undefined,
         needsTotp,
         needsValidation: challenge.needsValidation,
         needsOneTimeCode,
