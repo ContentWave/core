@@ -3,35 +3,52 @@ const { t } = useI18n({ useScope: 'global' })
 const ui = useUiStore()
 const route = useRoute()
 const router = useRouter()
-const auth = useAuthStore()
 const challenge = useChallengeStore()
-const config = useRuntimeConfig()
-useSeoMeta({
-  title: `${t('Login')} | ${ui.title}`
+const api = useApi()
+
+const field: Ref<string> = ref('')
+const saving: Ref<boolean> = ref(false)
+const error: Ref<boolean> = ref(false)
+
+const codeValid = computed(() => {
+  return /^[0-9]{6}$/.test(field.value)
 })
 
-const fields: Ref<any[]> = ref([])
-const providers: Ref<any[]> = ref([])
+const allowResend = ref(false)
 
-const validate = (state: any) => {
-  const errors = []
-  if (!state.email)
-    errors.push({ path: 'email', message: t('Email is required') })
-  else if (
-    !state.email
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      )
-  )
-    errors.push({ path: 'email', message: t('Email is not valid') })
-  if (!state.password)
-    errors.push({ path: 'password', message: t('Password is required') })
-  return errors
+useSeoMeta({
+  title: `${t('One-time code')} | ${ui.title}`
+})
+
+async function sendCode() {
+  if (!codeValid.value) return
+  saving.value = true
+  error.value = false
+  try {
+    const ret = await api.post(
+      `/auth/challenges/${route.query.challenge_id}/one-time-code`,
+      {
+        code: field.value
+      }
+    )
+    await challenge.updateFromApi(ret)
+  } catch {
+    error.value = true
+    field.value = ''
+  }
+  saving.value = false
 }
 
-function onSubmit(data: any) {
-  console.log('Submitted', data)
+async function resend() {
+  allowResend.value = false
+  try {
+    await api.post(
+      `/challenges/${route.query.challenge_id}/one-time-code/retry`
+    )
+  } catch {}
+  setTimeout(() => {
+    allowResend.value = true
+  }, 30000)
 }
 
 onMounted(async () => {
@@ -39,68 +56,52 @@ onMounted(async () => {
     router.push(`/error?msg=${encodeURIComponent('No challenge ID.')}`)
     return
   }
-
-  if (auth.conf.password) {
-    fields.value.push({
-      name: 'email',
-      type: 'email',
-      label: t('Email'),
-      placeholder: t('Enter your email')
-    })
-    fields.value.push({
-      name: 'password',
-      label: t('Password'),
-      type: 'password',
-      placeholder: t('Enter your password')
-    })
-  }
-
-  for (let provider of auth.plugins)
-    providers.value.push({
-      label: t('Continue with {label}', { label: provider.style.label }),
-      icon: provider.style.icon,
-      color: 'white' as const,
-      click: () => {
-        window.location.href = `${config.public.apiUrl}/auth/challenges/${route.query.challenge_id}/social/${provider.key}`
-      }
-    })
+  setTimeout(() => {
+    allowResend.value = true
+  }, 30000)
 })
 </script>
 
 <!-- eslint-disable vue/multiline-html-element-content-newline -->
 <!-- eslint-disable vue/singleline-html-element-content-newline -->
 <template>
-  <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
-    <UAuthForm
-      :fields="fields"
-      :validate="validate"
-      :providers="providers"
-      :title="$t('Welcome back')"
-      align="bottom"
-      icon="i-heroicons-lock-closed"
-      :divider="$t('or')"
-      :ui="{
-        base: 'text-center',
-        footer: 'text-center',
-        default: { submitButton: { label: $t('Continue') } }
-      }"
-      :submit-button="{ trailingIcon: 'i-heroicons-arrow-right-20-solid' }"
-      @submit="onSubmit"
-    >
-      <template #description v-if="auth.conf.password">
-        {{ $t("Don't have an account?") }}
-        <NuxtLink to="/signup" class="text-primary font-medium">{{
-          $t('Sign up')
-        }}</NuxtLink
-        >.
-      </template>
+  <UCard
+    class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur text-center"
+  >
+    <div class="mb-4 text-4xl">
+      <UIcon name="i-heroicons-envelope-open-solid" class="" />
+    </div>
+    <h1 class="text-xl font-bold">
+      {{ $t('Check your emails') }}
+    </h1>
+    <p class="my-4">
+      {{
+        $t(
+          `Please check your emails, and enter below the received code. If you haven't received this email, you can click the button below in 30s to receive a new one.`
+        )
+      }}
+    </p>
 
-      <template #password-hint>
-        <NuxtLink to="/" class="text-primary font-medium">{{
-          $t('Forgot password?')
-        }}</NuxtLink>
-      </template>
-    </UAuthForm>
+    <UInput v-model="field" size="xl" class="my-4" @keyup.enter="sendCode" />
+    <UAlert
+      v-if="error"
+      class="mb-4"
+      color="red"
+      icon="i-heroicons-information-circle-20-solid"
+      :title="$t('The submitted code is invalid')"
+    />
+    <UButton
+      color="primary"
+      @click="sendCode"
+      :disabled="!codeValid"
+      :loading="saving"
+    >
+      {{ $t('OK') }}
+    </UButton>
+
+    <UButton color="primary" @click="resend" :disabled="!allowResend">
+      {{ $t('Receive a new confirmation email') }}
+    </UButton>
   </UCard>
 </template>
 

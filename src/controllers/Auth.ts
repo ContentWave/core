@@ -27,6 +27,27 @@ import { getWaveAuthorizationCodeModel } from '../models/WaveAuthorizationCode'
 import { Session } from '../decorators/session'
 import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationChallenge'
 import { getWaveSessionModel } from '../models/WaveSession'
+import { User } from '../decorators/user'
+
+function sha256 (plain: any) {
+  const encoder = new TextEncoder()
+  const data = encoder.encode(plain)
+  return crypto.subtle.digest('SHA-256', data)
+}
+
+function base64urlencode (a: any) {
+  let str = ''
+  const bytes = new Uint8Array(a)
+  const len = bytes.byteLength
+  for (let i = 0; i < len; i++) {
+    str += String.fromCharCode(bytes[i])
+  }
+  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+}
+
+async function getChallengeFromVerifier (v: any) {
+  return base64urlencode(await sha256(v))
+}
 
 @Title('Auth')
 @Description('Handles authentication to this server')
@@ -123,11 +144,14 @@ export class Auth {
       codeChallengeMethod: challenge.codeChallengeMethod,
       redirectUri: challenge.redirectUri,
       clientId: challenge.clientId,
+      state: challenge.state,
+      scope: challenge.scope,
       user: challenge.user._id
     })
 
     const url = new URL(challenge.redirectUri)
     url.searchParams.set('code', code.code)
+    url.searchParams.set('state', code.state)
     return url.href
   }
 
@@ -139,12 +163,18 @@ export class Auth {
     )
   }
 
-  static async sendToLoginPage (res: FastifyReply, challengeId: string) {
-    res.redirect(
+  static async sendToLoginPage (
+    res: FastifyReply,
+    challengeId: string,
+    query: { [key: string]: any } = {}
+  ) {
+    const url = new URL(
       `${
         process.env.AUTH_FRONTEND_URL ?? ''
       }/auth/login/?challenge_id=${challengeId}`
     )
+    for (let key in query) url.searchParams.set(key, query[key])
+    res.redirect(url.href)
   }
 
   @Post('/token')
@@ -172,7 +202,7 @@ export class Auth {
         if (!Key.validateKeyAndSecret(clientId, clientSecret))
           throw new BadRequest()
         return {
-          token_type: 'bearer',
+          token_type: 'Bearer',
           expires_in: 1800,
           access_token: jwt.sign(
             {
@@ -194,6 +224,7 @@ export class Auth {
             $gt: new Date()
           }
         })
+        console.log(decoded, challenge)
         if (
           !challenge ||
           challenge.redirectUri !== decoded.uri ||
@@ -203,9 +234,9 @@ export class Auth {
         )
           throw new BadRequest()
 
-        const codeChallenge: string = crypto.subtle
-          .digest('SHA-256', new TextEncoder().encode(codeVerifier))
-          .toString()
+        const codeChallenge: string = await getChallengeFromVerifier(
+          codeVerifier
+        )
         if (codeChallenge !== challenge.codeChallenge) throw new BadRequest()
 
         refreshToken = jwt.sign(
@@ -235,7 +266,7 @@ export class Auth {
       const accessToken = session.getAccessToken()
 
       return {
-        token_type: 'bearer',
+        token_type: 'Bearer',
         expires_in: 1800,
         access_token: accessToken,
         refresh_token: refreshToken,
@@ -375,6 +406,24 @@ export class Auth {
 
     return {
       redirectUrl: await Auth.fulfillChallenge(challengeId)
+    }
+  }
+
+  @Get('/me')
+  @Title('Retrieve logged in user info')
+  @Description('Returns profile about logged in user')
+  @Access('$loggedIn')
+  @Returns(200, 'AuthUser', 'User info')
+  @Returns(403, 'Error', 'User not logged in')
+  static async me (@User() user: IWaveUser) {
+    return {
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      avatar: user.avatar ?? '',
+      email: user.email,
+      phone: user.phone ?? '',
+      roles: user.roles ?? []
     }
   }
 }

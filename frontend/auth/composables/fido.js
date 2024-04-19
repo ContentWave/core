@@ -51,7 +51,7 @@ export async function registerFido (deviceName) {
     )
     window.localStorage.setItem('fidoDeviceId', deviceId)
 
-    const registerRet = await api.post(
+    await api.post(
       `/auth/challenges/${route.query.challenge_id}/fido2/${deviceId}/register`,
       {
         credential: {
@@ -68,7 +68,7 @@ export async function registerFido (deviceName) {
       }
     )
 
-    return registerRet.status
+    return true
   } catch (e) {
     console.error('registration failed', e)
     return false

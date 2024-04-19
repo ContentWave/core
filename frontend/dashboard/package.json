@@ -4,29 +4,33 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "API_URL=http://127.0.0.1:8080 nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
+    "typecheck": "nuxt typecheck",
+    "i18n": "vue-i18n-extract report --vueFiles \"./?(components|pages|layouts|plugins)/**/*.?(js|vue)\" --languageFiles \"./locales/*.json\" --separator=£ --add --remove && node tools/translate.js"
   },
   "dependencies": {
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/simple-icons": "^1.1.97",
     "@nuxt/fonts": "^0.6.1",
     "@nuxt/ui-pro": "^1.1.0",
+    "@nuxtjs/i18n": "^8.3.0",
+    "@pinia/nuxt": "^0.5.1",
     "@unovis/ts": "^1.3.5",
     "@unovis/vue": "^1.3.5",
     "@vueuse/nuxt": "^10.9.0",
     "date-fns": "^3.6.0",
     "nuxt": "^3.11.1",
+    "nuxt-icon": "^0.6.10",
     "v-calendar": "^3.1.2"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.2.0",
-    "@rollup/rollup-linux-x64-musl": "^4.14.2",
     "eslint": "^8.57.0",
+    "sass": "^1.75.0",
     "vue-tsc": "^2.0.7"
   }
 }

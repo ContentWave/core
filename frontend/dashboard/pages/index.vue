@@ -4,17 +4,25 @@ import type { Period, Range } from '~/types'
 
 const { isNotificationsSlideoverOpen } = useDashboard()
 
-const items = [[{
-  label: 'New mail',
-  icon: 'i-heroicons-paper-airplane',
-  to: '/inbox'
-}, {
-  label: 'New user',
-  icon: 'i-heroicons-user-plus',
-  to: '/users'
-}]]
+const items = [
+  [
+    {
+      label: 'New mail',
+      icon: 'i-heroicons-paper-airplane',
+      to: '/inbox'
+    },
+    {
+      label: 'New user',
+      icon: 'i-heroicons-user-plus',
+      to: '/users'
+    }
+  ]
+]
 
-const range = ref<Range>({ start: sub(new Date(), { days: 14 }), end: new Date() })
+const range = ref<Range>({
+  start: sub(new Date(), { days: 14 }),
+  end: new Date()
+})
 const period = ref<Period>('daily')
 </script>
 
@@ -24,7 +32,12 @@ const period = ref<Period>('daily')
       <UDashboardNavbar title="Home">
         <template #right>
           <UTooltip text="Notifications" :shortcuts="['N']">
-            <UButton color="gray" variant="ghost" square @click="isNotificationsSlideoverOpen = true">
+            <UButton
+              color="gray"
+              variant="ghost"
+              square
+              @click="isNotificationsSlideoverOpen = true"
+            >
               <UChip color="red" inset>
                 <UIcon name="i-heroicons-bell" class="w-5 h-5" />
               </UChip>
@@ -32,7 +45,11 @@ const period = ref<Period>('daily')
           </UTooltip>
 
           <UDropdown :items="items">
-            <UButton icon="i-heroicons-plus" size="md" class="ml-1.5 rounded-full" />
+            <UButton
+              icon="i-heroicons-plus"
+              size="md"
+              class="ml-1.5 rounded-full"
+            />
           </UDropdown>
         </template>
       </UDashboardNavbar>

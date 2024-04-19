@@ -128,9 +128,12 @@ onMounted(async () => {
       </template>
 
       <template #password-hint>
-        <NuxtLink to="/forgot-password" class="text-primary font-medium">{{
-          $t('Forgot password?')
-        }}</NuxtLink>
+        <NuxtLink
+          :to="`/magic-link?challenge_id=${$route.query.challenge_id}`"
+          class="text-primary font-medium"
+          v-if="auth.conf.magicLink"
+          >{{ $t('Login without password') }}</NuxtLink
+        >
       </template>
     </UAuthForm>
   </UCard>

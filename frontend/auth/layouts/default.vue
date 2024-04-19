@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n({ useScope: 'global' })
 useHead({
   bodyAttrs: {
     class: 'dark:bg-gray-950'
@@ -9,9 +10,18 @@ const loading = ref(true)
 const ui = useUiStore()
 const auth = useAuthStore()
 const challenge = useChallengeStore()
+const route = useRoute()
+const toast = useToast()
 
 onMounted(async () => {
   await Promise.all([ui.init(), auth.init()])
+  if (route.query.emailConfirmed) {
+    toast.add({
+      title: t('Your email address is confirmed!'),
+      timeout: 5000,
+      color: 'green'
+    })
+  }
   await challenge.update()
   appConfig.ui.primary = ui.color
   loading.value = false

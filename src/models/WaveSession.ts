@@ -70,7 +70,7 @@ schema.static(
   }
 )
 
-schema.method('getAccessToken', async function getAccessToken () {
+schema.method('getAccessToken', function getAccessToken () {
   return jwt.sign(
     {
       id: this.id,

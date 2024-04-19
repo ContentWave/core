@@ -4,7 +4,7 @@
     "token_type": {
       "type": "string",
       "enum": [
-        "bearer"
+        "Bearer"
       ]
     },
     "expires_in": {

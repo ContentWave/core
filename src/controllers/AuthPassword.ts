@@ -2,10 +2,13 @@ import {
   Accepts,
   Body,
   Description,
+  FastifyReply,
+  Get,
   Parameter,
   Post,
   Prefix,
   Req,
+  Res,
   Returns,
   Title
 } from '@swarmjs/core'
@@ -18,6 +21,7 @@ import { Config } from '../classes/Config'
 import { Plugins } from '../classes/Plugins'
 import { HtmlEmail } from '../classes/HtmlEmail'
 import { AuthOneTimeCode } from './AuthOneTimeCode'
+import { Auth } from './Auth'
 
 @Title('Auth')
 @Description('Handles authentication to this server')
@@ -158,6 +162,38 @@ export class AuthPassword {
       request.$t(`Confirm your email address`, {}, null, 'auth'),
       html
     )
+  }
+
+  @Get('/confirm-email/:code')
+  @Title('Confirm email')
+  @Description('Confirm email and redirect user to auth UI')
+  @Parameter('code', 'Uuid', 'Validation code')
+  static async confirmEmail (
+    @Parameter('code') validationCode: string,
+    @Res() res: FastifyReply
+  ) {
+    const user = await getWaveUserModel().findOne({ validationCode })
+    if (!user) return Auth.sendToErrorPage(res, 'Validation code is invalid')
+    user.validated = true
+    user.validationCode = ''
+    await user.save()
+    await getWaveAuthorizationChallengeModel().updateMany(
+      {
+        user: user._id
+      },
+      {
+        $set: {
+          needsValidation: false
+        }
+      }
+    )
+    const challenge = await getWaveAuthorizationChallengeModel().findOne({
+      user: user._id,
+      expiresAt: { $gt: new Date() }
+    })
+    if (challenge)
+      return Auth.sendToLoginPage(res, challenge.id, { emailConfirmed: 'true' })
+    res.redirect(`${process.env.AUTH_FRONTEND_URL ?? ''}/auth/email-confirmed`)
   }
 
   @Post('/challenges/:challengeId/login')

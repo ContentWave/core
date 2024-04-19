@@ -10,6 +10,7 @@
     "Welcome back": "Welcome back",
     "Don't have an account?": "Don't have an account?",
     "Sign up": "Sign up",
+    "Forgot password?": "Forgot password?",
     "Continue": "Continue",
     "or": "or",
     "Email is not valid": "Email is not valid",
@@ -51,13 +52,5 @@
     "Validation required": "Validation required",
     "Check your emails": "Check your emails",
     "Please check your emails, and click in the received email link to validate your email address. If you haven't received this email, you can click the button below in 30s to receive a new one.": "Please check your emails, and click in the received email link to validate your email address. If you haven't received this email, you can click the button below in 30s to receive a new one.",
-    "Receive a new confirmation email": "Receive a new confirmation email",
-    "Email confirmed": "Email confirmed",
-    "Your email address has been confirmed, you can now login again.": "Your email address has been confirmed, you can now login again.",
-    "Login without password": "Login without password",
-    "One-time code": "One-time code",
-    "Please check your emails, and enter below the received code. If you haven't received this email, you can click the button below in 30s to receive a new one.": "Please check your emails, and enter below the received code. If you haven't received this email, you can click the button below in 30s to receive a new one.",
-    "Magic link": "Magic link",
-    "Log in without password": "Log in without password",
-    "Enter your email below to receive an email with a one-time login link.": "Enter your email below to receive an email with a one-time login link."
+    "Receive a new confirmation email": "Receive a new confirmation email"
 }

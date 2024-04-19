@@ -8,6 +8,8 @@ export interface IWaveAuthorizationCode extends Document {
   redirectUri: string
   clientId: string
   expiresAt: Date
+  state: string
+  scope: string
   user: mongoose.Types.ObjectId
 }
 
@@ -25,6 +27,8 @@ const schema = new mongoose.Schema<
   codeChallengeMethod: String,
   redirectUri: String,
   clientId: String,
+  state: String,
+  scope: String,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' }
 })
 

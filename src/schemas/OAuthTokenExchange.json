@@ -10,8 +10,7 @@
           ]
         },
         "client_id": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{24}$"
+          "type": "string"
         },
         "client_secret": {
           "type": "string",
@@ -34,8 +33,7 @@
           ]
         },
         "client_id": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{24}$"
+          "type": "string"
         },
         "redirect_uri": {
           "type": "string",
@@ -66,8 +64,7 @@
           ]
         },
         "client_id": {
-          "type": "string",
-          "pattern": "^[0-9a-f]{24}$"
+          "type": "string"
         },
         "refresh_token": {
           "type": "string"

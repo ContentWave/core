@@ -59,7 +59,7 @@ export class AuthOneTimeCode {
     const emailPlugin = Plugins.getInstance('email')
 
     challenge.oneTimeCode = randomstring.generate({
-      length: 6,
+      length: 8,
       charset: 'numeric'
     })
 

@@ -18,7 +18,9 @@ const cache: { [key: string]: IKey } = {}
 export class Key {
   static async retrieveKeysFromDb () {
     try {
-      const url = new URL(process.env.BASE_URL ?? '')
+      const url = new URL(
+        process.env.DASHBOARD_FRONTEND_URL ?? process.env.BASE_URL ?? ''
+      )
       cache.self = {
         secret: 'self',
         domains: [url.host]

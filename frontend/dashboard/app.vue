@@ -3,7 +3,11 @@ const colorMode = useColorMode()
 
 const color = computed(() => (colorMode.value === 'dark' ? '#111827' : 'white'))
 
+const ui = useUiStore()
+
 useHead({
+  titleTemplate: (title?: string) =>
+    title ? `${title} | ${ui.title}` : ui.title,
   meta: [
     { charset: 'utf-8' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,23 +19,22 @@ useHead({
   }
 })
 
-const title = 'Nuxt UI Pro - Dashboard template pwet'
-const description =
-  'Nuxt UI Pro is a collection of premium Vue components built on top of Nuxt UI to create beautiful & responsive Nuxt applications in minutes.'
-
-useSeoMeta({
-  title,
-  description,
-  ogTitle: title,
-  ogDescription: description,
-  ogImage: 'https://dashboard-template.nuxt.dev/social-card.png',
-  twitterImage: 'https://dashboard-template.nuxt.dev/social-card.png',
-  twitterCard: 'summary_large_image'
+const auth = useAuthStore()
+onMounted(async () => {
+  const route = useRoute()
+  auth.init()
+  if (!auth.loggedIn) {
+    if (route.path === auth.callbackUrl) {
+      auth.resolveCode()
+    } else {
+      auth.login()
+    }
+  }
 })
 </script>
 
 <template>
-  <div>
+  <div v-if="auth.userdata !== null">
     <NuxtLoadingIndicator />
 
     <NuxtLayout>
@@ -41,4 +44,146 @@ useSeoMeta({
     <UNotifications />
     <UModals />
   </div>
+  <div class="h-screen flex items-center justify-center overlay" v-else>
+    <div class="gradient"></div>
+    <UCard class="max-w-sm w-full bg-white/75 dark:bg-white/5 backdrop-blur">
+      <div class="flex items-center justify-center opacity-30">
+        <div class="lds-grid">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      </div>
+    </UCard>
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.gradient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    50% 50% at 50% 50%,
+    rgb(var(--color-primary-500) / 0.25) 0,
+    #fff 100%
+  );
+}
+
+.dark {
+  .gradient {
+    background: radial-gradient(
+      50% 50% at 50% 50%,
+      rgb(var(--color-primary-400) / 0.1) 0,
+      rgb(var(--color-gray-950)) 100%
+    );
+  }
+}
+
+.overlay {
+  background-size: 100px 100px;
+  background-image: linear-gradient(
+      to right,
+      rgb(var(--color-gray-200)) 0.5px,
+      transparent 0.5px
+    ),
+    linear-gradient(
+      to bottom,
+      rgb(var(--color-gray-200)) 0.5px,
+      transparent 0.5px
+    );
+}
+.dark {
+  .overlay {
+    background-image: linear-gradient(
+        to right,
+        rgb(var(--color-gray-900)) 0.5px,
+        transparent 0.5px
+      ),
+      linear-gradient(
+        to bottom,
+        rgb(var(--color-gray-900)) 0.5px,
+        transparent 0.5px
+      );
+  }
+}
+
+.lds-grid,
+.lds-grid div {
+  box-sizing: border-box;
+}
+.lds-grid {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-grid div {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: lds-grid 1.2s linear infinite;
+}
+.lds-grid div:nth-child(1) {
+  top: 8px;
+  left: 8px;
+  animation-delay: 0s;
+}
+.lds-grid div:nth-child(2) {
+  top: 8px;
+  left: 32px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(3) {
+  top: 8px;
+  left: 56px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(4) {
+  top: 32px;
+  left: 8px;
+  animation-delay: -0.4s;
+}
+.lds-grid div:nth-child(5) {
+  top: 32px;
+  left: 32px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(6) {
+  top: 32px;
+  left: 56px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(7) {
+  top: 56px;
+  left: 8px;
+  animation-delay: -0.8s;
+}
+.lds-grid div:nth-child(8) {
+  top: 56px;
+  left: 32px;
+  animation-delay: -1.2s;
+}
+.lds-grid div:nth-child(9) {
+  top: 56px;
+  left: 56px;
+  animation-delay: -1.6s;
+}
+@keyframes lds-grid {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+</style>

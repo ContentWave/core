@@ -7,11 +7,19 @@ export const useChallengeStore = defineStore('challenge', {
       needsValidation: false,
       needsOneTimeCode: false,
       haveTotp: false,
-      totpType: false
+      totpType: 'google',
+      avoidFido: false,
+      avoidTotp: false
     }
   },
 
   actions: {
+    ignoreFido () {
+      this.avoidFido = true
+    },
+    ignoreTotp () {
+      this.avoidTotp = true
+    },
     async update () {
       try {
         const route = useRoute()
@@ -26,7 +34,11 @@ export const useChallengeStore = defineStore('challenge', {
     async updateFromApi (state) {
       try {
         for (let key in state) this[key] = state[key]
-
+        await this.handleNewData()
+      } catch {}
+    },
+    async handleNewData () {
+      try {
         const route = useRoute()
         const router = useRouter()
         const auth = useAuthStore()
@@ -40,11 +52,11 @@ export const useChallengeStore = defineStore('challenge', {
         } else if (this.needsTotp) {
           router.push(`/totp?challenge_id=${route.query.challenge_id}`)
         } else if (this.readyToRedirect) {
-          if (!this.haveTotp && auth.conf.totp) {
+          if (!this.haveTotp && auth.conf.totp && !this.avoidTotp) {
             router.push(
               `/propose-totp?challenge_id=${route.query.challenge_id}`
             )
-          } else if (canSetupFido() && auth.conf.fido2) {
+          } else if (canSetupFido() && auth.conf.fido2 && !this.avoidFido) {
             router.push(
               `/propose-fido?challenge_id=${route.query.challenge_id}`
             )

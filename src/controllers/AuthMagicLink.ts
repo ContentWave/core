@@ -31,7 +31,7 @@ export class AuthMagicLink {
   @Parameter('challengeId', 'ObjectID', 'Challenge ID')
   @Accepts('MagicLink')
   @Returns(200, 'Empty', 'Mail sent if the user exists')
-  @Returns(400, 'Error', 'Bad credentials')
+  @Returns(400, 'Error', 'Challenge expired')
   static async send (
     @Parameter('challengeId') challengeId: string,
     @Body('email') email: string,
