@@ -29,7 +29,13 @@ export const useChallengeStore = defineStore('challenge', {
           `/auth/challenges/${route.query.challenge_id}/state`
         )
         await this.updateFromApi(state)
-      } catch {}
+      } catch {
+        useRouter().push(
+          `/error?msg=${encodeURIComponent(
+            'Authorization challenge is expired, please try again.'
+          )}`
+        )
+      }
     },
     async updateFromApi (state) {
       try {
