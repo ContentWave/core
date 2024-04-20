@@ -1544,10 +1544,10 @@
     require-main-filename "^2.0.0"
     socket.io "^4.7.4"
 
-"@swarmjs/swagger@^1.0.5":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@swarmjs/swagger/-/swagger-1.0.5.tgz#b5c106b971cad2853551ec6831768bf75b5caff4"
-  integrity sha512-zZQuHcn4JSLcym1jUu3AVEtT30+EUP64LHXsuOxP7bzN+vfTTdVPKJyaMZ5hZFw7xiAmrMAaoiwY8bjqf/8lrQ==
+"@swarmjs/swagger@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@swarmjs/swagger/-/swagger-1.1.1.tgz#8671695570462a4cd9a289f18652f38d78426e11"
+  integrity sha512-bdGT6G8BelSkMJqjDI4KCxOnQvfHG1GaPJ/bNid8D0PfgmmSKTAYPrW27qyrh4B9DIae/dq3CkodI+8F6D8apQ==
   dependencies:
     "@fastify/static" "^6.10.1"
     swagger-ui-dist "^4.18.3"
