@@ -4,7 +4,7 @@ import { Formatter } from '../Formatter'
 import { IRefOrmField } from '../../../interfaces/IOrmConf'
 import { Model } from '../../Model'
 import mongoose, { HydratedDocument } from 'mongoose'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 import { Db } from '../../Db'
 import { IWaveUser, WaveUserModel } from '../../../models/WaveUser'
 

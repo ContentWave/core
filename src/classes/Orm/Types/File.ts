@@ -1,5 +1,5 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 import { Config } from '../../Config'
 import { Plugins } from '../../Plugins'
 import { IFileOrmField } from '../../../interfaces/IOrmConf'

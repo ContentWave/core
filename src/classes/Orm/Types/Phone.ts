@@ -1,6 +1,6 @@
 import { parsePhoneNumber } from 'awesome-phonenumber'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 import { IPhoneOrmField } from '../../../interfaces/IOrmConf'
 
 export class TypePhone {

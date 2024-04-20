@@ -16,10 +16,10 @@ import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationC
 import { BadRequest } from 'http-errors'
 import { IWaveUser, getWaveUserModel } from '../models/WaveUser'
 import { randomUUID } from 'crypto'
-import { Crypt } from '../classes/Crypt'
+import { Crypt } from '../classes/Tools/Crypt'
 import { Config } from '../classes/Config'
 import { Plugins } from '../classes/Plugins'
-import { HtmlEmail } from '../classes/HtmlEmail'
+import { HtmlEmail } from '../classes/Tools/HtmlEmail'
 import { AuthOneTimeCode } from './AuthOneTimeCode'
 import { Auth } from './Auth'
 

@@ -19,7 +19,7 @@ import { randomUUID } from 'crypto'
 import { Config } from '../classes/Config'
 import { Auth } from './Auth'
 import { Plugins } from '../classes/Plugins'
-import { HtmlEmail } from '../classes/HtmlEmail'
+import { HtmlEmail } from '../classes/Tools/HtmlEmail'
 
 @Title('Auth')
 @Description('Handles authentication to this server')

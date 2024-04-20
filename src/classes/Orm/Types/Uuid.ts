@@ -1,5 +1,5 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 import { IUuidOrmField } from '../../../interfaces/IOrmConf'
 import { randomUUID } from 'crypto'
 

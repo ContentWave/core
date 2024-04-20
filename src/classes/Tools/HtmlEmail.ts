@@ -1,5 +1,5 @@
-import { MailAlertOptions } from '../interfaces/MailAlertOptions'
-import { MailHeaderOptions } from '../interfaces/MailHeaderOptions'
+import { MailAlertOptions } from '../../interfaces/MailAlertOptions'
+import { MailHeaderOptions } from '../../interfaces/MailHeaderOptions'
 
 export class HtmlEmail {
   blocks: string[]

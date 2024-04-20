@@ -1,6 +1,6 @@
 import { IDurationOrmField } from '../../../interfaces/IOrmConf'
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 
 export class TypeDuration {
   static getValidationSchema (conf: IDurationOrmField): JSONSchema7 {

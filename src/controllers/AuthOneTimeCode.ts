@@ -17,7 +17,7 @@ import { BadRequest } from 'http-errors'
 import { IWaveUser } from '../models/WaveUser'
 import { Config } from '../classes/Config'
 import { Plugins } from '../classes/Plugins'
-import { HtmlEmail } from '../classes/HtmlEmail'
+import { HtmlEmail } from '../classes/Tools/HtmlEmail'
 import randomstring from 'randomstring'
 
 @Title('Auth')

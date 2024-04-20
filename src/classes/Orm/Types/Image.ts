@@ -1,5 +1,5 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
-import { ensureArray } from '../../Array'
+import { ensureArray } from '../../Tools/Array'
 import { Plugins } from '../../Plugins'
 import { IImageOrmField } from '../../../interfaces/IOrmConf'
 import mime from 'mime-types'
