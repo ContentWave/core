@@ -39,6 +39,37 @@ export class Server {
     })
 
     /**
+     * Swarm plugins
+     */
+    app.use(SwaggerPlugin)
+
+    /**
+     * Global error handler
+     */
+    process.on('uncaughtException', function (err: any) {
+      handleError(err)
+      console.error(err)
+    })
+
+    await Server.registerFastifyPlugins(app)
+    await Server.registerPerformanceHooks(app)
+    await Server.registerAuthHooks(app)
+    await Server.registerControllers(app)
+
+    if (instance) {
+      await instance.fastify.close()
+    }
+
+    instance = app
+
+    await instance.listen(
+      +(process.env.PORT ?? 8080),
+      process.env.HOST ?? '0.0.0.0'
+    )
+  }
+
+  static async registerFastifyPlugins (app: Swarm) {
+    /**
      * Handle CORS
      */
     app.fastify.register(require('@fastify/cors'), {
@@ -81,7 +112,9 @@ export class Server {
       decorateReply: false,
       prefixAvoidTrailingSlash: true
     })
+  }
 
+  static async registerPerformanceHooks (app: Swarm) {
     /**
      * Hooks to monitor performance
      */
@@ -108,26 +141,9 @@ export class Server {
         date: new Date()
       })
     })
+  }
 
-    /**
-     * Global error handler
-     */
-    process.on('uncaughtException', function (err: any) {
-      handleError(err)
-      console.error(err)
-    })
-
-    /**
-     * I18n
-     */
-    app.i18n.addTranslations(
-      {
-        en: require('../locales/auth/en.json'),
-        fr: require('../locales/auth/fr.json')
-      },
-      'auth'
-    )
-
+  static async registerAuthHooks (app: Swarm) {
     /**
      * Auth
      */
@@ -184,13 +200,18 @@ export class Server {
     })
 
     /**
-     * Swarm plugins
+     * I18n
      */
-    app.use(SwaggerPlugin)
+    app.i18n.addTranslations(
+      {
+        en: require('../locales/auth/en.json'),
+        fr: require('../locales/auth/fr.json')
+      },
+      'auth'
+    )
+  }
 
-    /**
-     * Controllers
-     */
+  static async registerControllers (app: Swarm) {
     AuthFido.setup()
 
     app.controllers.add(Auth)
@@ -201,16 +222,5 @@ export class Server {
     app.controllers.add(AuthMagicLink)
     app.controllers.add(AuthSso)
     app.controllers.add(Ui)
-
-    if (instance) {
-      await instance.fastify.close()
-    }
-
-    instance = app
-
-    await instance.listen(
-      +(process.env.PORT ?? 8080),
-      process.env.HOST ?? '0.0.0.0'
-    )
   }
 }
