@@ -23,7 +23,7 @@
     "@fastify/multipart": "^8.2.0",
     "@fastify/static": "^7.0.3",
     "@swarmjs/core": "^1.7.2",
-    "@swarmjs/swagger": "^1.1.1",
+    "@swarmjs/swagger": "^1.2.0",
     "@types/uuid": "^9.0.8",
     "ajv": "^8.12.0",
     "ajv-formats": "^3.0.1",

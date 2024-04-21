@@ -41,7 +41,19 @@ export class Server {
     /**
      * Swarm plugins
      */
-    app.use(SwaggerPlugin)
+    app.use(SwaggerPlugin, {
+      appendToJs: `window.ui.initOAuth({
+        clientId: "self",
+        clientSecret: "",
+        realm: "",
+        appName: "",
+        scopeSeparator: " ",
+        scopes: "",
+        additionalQueryStringParams: {},
+        useBasicAuthenticationWithAccessCodeGrant: false,
+        usePkceWithAuthorizationCodeGrant: true
+      })`
+    })
 
     /**
      * Global error handler

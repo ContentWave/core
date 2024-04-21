@@ -21,9 +21,10 @@ export class Key {
       const url = new URL(
         process.env.DASHBOARD_FRONTEND_URL ?? process.env.BASE_URL ?? ''
       )
+      const url2 = new URL(process.env.BASE_URL ?? '')
       cache.self = {
         secret: 'self',
-        domains: [url.host]
+        domains: [url.host, url2.host]
       }
     } catch {}
 

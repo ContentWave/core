@@ -224,7 +224,6 @@ export class Auth {
             $gt: new Date()
           }
         })
-        console.log(decoded, challenge)
         if (
           !challenge ||
           challenge.redirectUri !== decoded.uri ||
