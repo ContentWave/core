@@ -10,17 +10,27 @@
         "fido2": {
           "type": "boolean"
         },
-        "googleAuthenticator": {
+        "totp": {
           "type": "boolean"
         },
-        "otl": {
+        "magicLink": {
+          "type": "boolean"
+        },
+        "oneTimeCode": {
           "type": "boolean"
         },
         "invite": {
           "type": "boolean"
         },
+        "validation": {
+          "type": "boolean"
+        },
         "register": {
           "type": "boolean"
+        },
+        "defaultRedirectUrl": {
+          "type": "string",
+          "format": "uri"
         }
       }
     },

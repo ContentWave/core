@@ -290,6 +290,7 @@ export class Auth {
   @Get('/config')
   @Title('Retrieves auth configuration')
   @Description('Returns various configurations for the login/register page')
+  @Returns(200, 'AuthConfig', 'Auth UI configuration')
   static async getConfiguration () {
     return {
       conf: {
