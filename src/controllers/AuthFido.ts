@@ -39,7 +39,8 @@ export class AuthFido {
       attestation: 'none',
       cryptoParams: [-7, -257],
       authenticatorAttachment: 'platform',
-      authenticatorRequireResidentKey: false,
+      authenticatorRequireResidentKey:
+        Config.get('auth')?.passkey ?? false ? true : false,
       authenticatorUserVerification: 'required'
     })
     origin = new URL(process.env.BASE_URL ?? '').origin

@@ -302,6 +302,7 @@ export class Auth {
         invite: false,
         validation: true,
         register: true,
+        passkey: true,
         defaultRedirectUrl: 'https://google.com'
       },
       plugins: [

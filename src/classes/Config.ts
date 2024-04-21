@@ -50,7 +50,8 @@ export class Config {
         invite: false,
         validation: false,
         register: true,
-        defaultRedirectUrl: ''
+        defaultRedirectUrl: '',
+        passkey: true
       }
     }
   }

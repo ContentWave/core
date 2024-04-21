@@ -31,6 +31,9 @@
         "defaultRedirectUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "passkey": {
+          "type": "boolean"
         }
       }
     },
