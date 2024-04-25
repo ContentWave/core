@@ -6,27 +6,27 @@ import addFormats from 'ajv-formats'
 describe('ORM: Enum', () => {
   let simpleEnum: IEnumOrmField = {
     type: 'enum',
-    values: ['foo'],
+    values: [{ label: 'foo', value: 'foo' }],
     title: '',
     description: ''
   }
   let nullableEnum: IEnumOrmField = {
     type: 'enum',
-    values: ['foo'],
+    values: [{ label: 'foo', value: 'foo' }],
     nullable: true,
     title: '',
     description: ''
   }
   let simpleMultipleEnum: IEnumOrmField = {
     type: 'enum',
-    values: ['foo'],
+    values: [{ label: 'foo', value: 'foo' }],
     multiple: true,
     title: '',
     description: ''
   }
   let nullableMultipleEnum: IEnumOrmField = {
     type: 'enum',
-    values: ['foo'],
+    values: [{ label: 'foo', value: 'foo' }],
     nullable: true,
     multiple: true,
     title: '',

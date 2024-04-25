@@ -8,6 +8,7 @@ import { TypeEmail } from './Types/Email'
 import { TypeEnum } from './Types/Enum'
 import { TypeFile } from './Types/File'
 import { TypeImage } from './Types/Image'
+import { TypeInteger } from './Types/Integer'
 import { TypeNumber } from './Types/Number'
 import { TypePhone } from './Types/Phone'
 import { TypePostalAddress } from './Types/PostalAddress'
@@ -28,6 +29,7 @@ const formatters: any = {
   email: TypeEmail,
   file: TypeFile,
   image: TypeImage,
+  integer: TypeInteger,
   number: TypeNumber,
   phone: TypePhone,
   ref: TypeRef,
@@ -109,7 +111,7 @@ export class Formatter {
     const ret: any = {
       type: 'object',
       properties: {
-        id: { type: 'string', regex: '^[0-9a-f]{24}$' }
+        id: { type: 'string', pattern: '^[0-9a-f]{24}$' }
       },
       required: []
     }

@@ -7,8 +7,8 @@ export class TypeInteger {
     let integerField: JSONSchema7 = {
       type: 'integer'
     }
-    if (conf.min) integerField.minimum = conf.min
-    if (conf.max) integerField.maximum = conf.max
+    if (conf.min !== undefined) integerField.minimum = conf.min
+    if (conf.max !== undefined) integerField.maximum = conf.max
 
     let field: JSONSchema7 = conf.nullable
       ? {

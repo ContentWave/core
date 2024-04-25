@@ -876,9 +876,9 @@ export class TypePostalAddress {
   static async preSave (
     name: string,
     obj: any,
-    _: IPostalAddressOrmField
+    conf: IPostalAddressOrmField
   ): Promise<void> {
-    if (obj.isModified(name)) {
+    if (conf.geocode && obj.isModified(name)) {
       const geocodePlugin = Plugins.getInstance('geocode')
       if (geocodePlugin) {
         const location = await geocodePlugin.geocode({

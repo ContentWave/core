@@ -6,7 +6,7 @@ export class TypeEnum {
   static getValidationSchema (conf: IEnumOrmField): JSONSchema7 {
     let stringField: JSONSchema7 = {
       type: 'string',
-      enum: conf.values
+      enum: conf.values.map(v => v.value)
     }
 
     let field: JSONSchema7 = conf.nullable

@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     icons: [],
     safelistColors: ['primary', 'red', 'orange', 'green']
   },
+  css: ['@vuepic/vue-datepicker/dist/main.css', 'leaflet/dist/leaflet.css'],
   i18n: {
     strategy: 'no_prefix',
     vueI18n: './i18n.config.ts',
@@ -46,5 +47,8 @@ export default defineNuxtConfig({
   },
   devServer: {
     port: 3000
+  },
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
   }
 })

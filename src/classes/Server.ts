@@ -13,6 +13,7 @@ import { AuthFido } from '../controllers/AuthFido'
 import { AuthTotp } from '../controllers/AuthTotp'
 import { AuthMagicLink } from '../controllers/AuthMagicLink'
 import { AuthSso } from '../controllers/AuthSso'
+import { Schemas } from '../controllers/Schemas'
 
 let instance: Swarm
 
@@ -234,5 +235,6 @@ export class Server {
     app.controllers.add(AuthMagicLink)
     app.controllers.add(AuthSso)
     app.controllers.add(Ui)
+    app.controllers.add(Schemas)
   }
 }

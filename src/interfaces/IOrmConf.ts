@@ -165,6 +165,7 @@ export interface IRefOrmField
     IOrmFieldWithDescriptors {
   type: 'ref'
   model: string
+  nameFields: string[]
 }
 
 export interface IPhoneOrmField
@@ -194,6 +195,17 @@ export interface IImageOrmField
   crop?: boolean
 }
 
+export type I18nString =
+  | string
+  | {
+      [key: string]: string
+    }
+
+export interface IEnumValue {
+  label: I18nString
+  value: string
+}
+
 export interface IEnumOrmField
   extends IOrmFieldWithMultiple,
     IOrmFieldWithNullable,
@@ -203,7 +215,7 @@ export interface IEnumOrmField
     IOrmFieldWithAuthorizations,
     IOrmFieldWithDescriptors {
   type: 'enum'
-  values: string[]
+  values: IEnumValue[]
 }
 
 export interface IPostalAddressOrmField
@@ -212,6 +224,7 @@ export interface IPostalAddressOrmField
     IOrmFieldWithAuthorizations,
     IOrmFieldWithDescriptors {
   type: 'postaladdress'
+  geocode?: boolean
 }
 
 export type IOrmField =
