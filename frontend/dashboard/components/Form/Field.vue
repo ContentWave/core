@@ -17,7 +17,8 @@ import FormUuid from './Uuid'
 
 const props = defineProps({
   conf: {},
-  name: { type: String }
+  name: { type: String },
+  uploadFiles: { type: Boolean, default: false }
 })
 const model = defineModel()
 const types = {
@@ -70,6 +71,7 @@ onMounted(() => {
       v-model="model"
       :conf="conf"
       :name="name"
+      :uploadFiles="uploadFiles"
     />
   </UFormGroup>
   <UFormGroup :label="conf.title" :hint="conf.description" v-else-if="isReady">
@@ -83,6 +85,7 @@ onMounted(() => {
               v-model="model[idx]"
               :conf="conf"
               :name="name"
+              :uploadFiles="uploadFiles"
             />
           </UFormGroup>
         </div>

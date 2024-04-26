@@ -1,8 +1,11 @@
 import {
+  Accepts,
   Access,
+  Body,
   Description,
   Get,
   Parameter,
+  Post,
   Prefix,
   Query,
   Returns,
@@ -10,6 +13,8 @@ import {
 } from '@swarmjs/core'
 import { Model } from '../classes/Model'
 import { Db } from '../classes/Db'
+import { TypeFile } from '../classes/Orm/Types/File'
+import { TypeImage } from '../classes/Orm/Types/Image'
 
 @Title('Dashboard')
 @Description('Dashboard related methods')
@@ -72,5 +77,50 @@ export class Dashboard {
     const item: any = await Db.model(modelName).findById(docId)
 
     return [{ label: item?.[field] ?? '-', value: docId }]
+  }
+
+  @Post('/upload-file')
+  @Title('Upload a single file')
+  @Access('$admin')
+  @Accepts('Base64File')
+  @Returns(200, 'UploadedFile', 'Results with one item')
+  @Returns(403, 'Error', 'Cannot access to this ressource')
+  static async uploadFile (
+    @Body('filename') filename: string,
+    @Body('content') content: string
+  ) {
+    const url = await TypeFile.toDb({ filename, content }, { type: 'file' })
+    return { url }
+  }
+
+  @Post('/upload-image')
+  @Title('Upload a single image and resize it')
+  @Access('$admin')
+  @Accepts('Base64File')
+  @Query('resize', 'TextBoolean', 'Asks to resize image')
+  @Query('crop', 'TextBoolean', 'Tells if the image must be cropped')
+  @Query('maxHeight', 'String', 'Max height in px')
+  @Query('maxWidth', 'String', 'Max width in px')
+  @Returns(200, 'UploadedFile', 'Results with one item')
+  @Returns(403, 'Error', 'Cannot access to this ressource')
+  static async uploadImage (
+    @Body('filename') filename: string,
+    @Body('content') content: string,
+    @Query('resize') resize: string = 'false',
+    @Query('crop') crop: string = 'false',
+    @Query('maxHeight') maxHeight: string = '0',
+    @Query('maxWidth') maxWidth: string = '0'
+  ) {
+    const url = await TypeImage.toDb(
+      { filename, content },
+      {
+        type: 'image',
+        resize: resize === 'true',
+        crop: crop === 'true',
+        maxHeight: +maxHeight,
+        maxWidth: +maxWidth
+      }
+    )
+    return { url }
   }
 }

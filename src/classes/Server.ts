@@ -37,7 +37,8 @@ export class Server {
           description: Config.get('title') ?? ''
         }
       ],
-      languages: Config.get('languages') ?? ['en']
+      languages: Config.get('languages') ?? ['en'],
+      bodyLimit: Config.get('fileUploadLimit') ?? 5242880
     })
 
     /**

@@ -1,20 +1,36 @@
 <script setup>
 const props = defineProps({
   conf: {},
-  name: { type: String }
+  name: { type: String },
+  uploadFiles: { type: Boolean, default: false }
 })
 const model = defineModel()
 const inSetup = ref(true)
 const input = ref(null)
+const loading = ref(false)
+const api = useApi()
 
 function readFile (file) {
+  loading.value = true
   const reader = new FileReader()
   reader.readAsDataURL(file)
-  reader.onload = () => {
-    model.value = {
-      content: reader.result.split(',')[1],
-      filename: file.name
-    }
+  reader.onload = async () => {
+    if (props.uploadFiles) {
+      const { url } = await api.post('/dashboard/upload-image', {
+        content: reader.result.split(',')[1],
+        filename: file.name,
+        resize: props.conf.resize ? 'true' : 'false',
+        crop: props.conf.crop ? 'true' : 'false',
+        maxHeight: `${props.conf.maxHeight ?? 0}`,
+        maxWidth: `${props.conf.maxWidth ?? 0}`
+      })
+      model.value = url
+    } else
+      model.value = {
+        content: reader.result.split(',')[1],
+        filename: file.name
+      }
+    loading.value = false
   }
 }
 
@@ -34,6 +50,20 @@ function isImage (filename) {
     default:
       return false
   }
+}
+
+function viewFile () {
+  let url = ''
+  if (model.value.filename !== undefined) {
+    const ext = model.value.filename.toLowerCase().split('.')
+    url = `data:image/${ext[ext.length - 1]};base64,${model.value.content}`
+  } else {
+    url = model.value
+  }
+  const a = document.createElement('a')
+  a.href = url
+  a.target = '_blank'
+  a.click()
 }
 
 const imagePreview = computed(() => {
@@ -86,7 +116,7 @@ onMounted(() => {
       @drop.prevent="dropHandler"
       @dragover.prevent="hover = true"
       @dragleave.prevent="hover = false"
-      class="form-image-preview overflow-hidden flex max-w-64 h-36 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
+      class="form-image-preview relative overflow-hidden flex max-w-64 h-36 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
       :class="{ 'ring-4 ring-primary ring-inset': hover }"
       @click="input.click()"
       :style="imagePreview"
@@ -94,6 +124,11 @@ onMounted(() => {
       <div class="hover" :class="{ noText: !!model }">
         {{ $t('Drop a file here, or click here') }}
       </div>
+      <UProgress
+        animation="carousel"
+        class="absolute bottom-0 left-0 w-full z-50"
+        v-if="loading"
+      />
     </div>
     <input
       type="file"
@@ -103,6 +138,9 @@ onMounted(() => {
       @change="handleClick"
     />
     <div class="mt-2 text-sm" v-if="model">
+      <UButton size="sm" variant="ghost" @click="viewFile" class="mr-4">{{
+        $t('Open image in a new tab')
+      }}</UButton>
       <UButton size="sm" variant="ghost" @click="model = null">{{
         $t('Clear')
       }}</UButton>

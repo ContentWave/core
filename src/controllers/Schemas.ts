@@ -20,4 +20,13 @@ export class Schemas {
   static async toJsonSchema (@Body() schema: IOrmConf) {
     return Formatter.getValidationSchema(schema)
   }
+
+  @Post('/format-form-data')
+  @Title('Format data from a form as if we store it in the database')
+  static async formatData (
+    @Body('schema') schema: IOrmConf,
+    @Body('doc') doc: any
+  ) {
+    return await Formatter.toDb(doc, schema, undefined, null, null)
+  }
 }

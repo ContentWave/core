@@ -1,0 +1,16 @@
+{
+  "type": "object",
+  "properties": {
+    "filename": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "format": "byte"
+    }
+  },
+  "required": [
+    "filename",
+    "content"
+  ]
+}

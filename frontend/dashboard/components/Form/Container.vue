@@ -11,9 +11,11 @@ const api = useApi()
 
 const props = defineProps({
   fields: {},
-  submitButtonLabel: { type: String }
+  submitButtonLabel: { type: String },
+  uploadFiles: { type: Boolean, default: false }
 })
 const model = defineModel()
+const emit = defineEmits(['submit'])
 
 const lastFields = reactive({})
 let validator = {}
@@ -57,6 +59,7 @@ async function validate (state) {
       :key="key"
       :conf="conf"
       :name="key"
+      :uploadFiles="uploadFiles"
       v-model="model[key]"
     />
 

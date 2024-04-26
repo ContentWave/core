@@ -1530,10 +1530,10 @@
   resolved "https://registry.yarnpkg.com/@socket.io/component-emitter/-/component-emitter-3.1.1.tgz#621270c02c0a5d4f4669eb1caa9723c91cf201de"
   integrity sha512-dzJtaDAAoXx4GCOJpbB2eG/Qj8VDpdwkLsWGzGm+0L7E8/434RyMbAHmk9ubXWVAb9nXmc44jUf8GKqVDiKezg==
 
-"@swarmjs/core@^1.7.2":
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/@swarmjs/core/-/core-1.7.2.tgz#b65af1653b6c4a45b2c3f78875528401e989b1c6"
-  integrity sha512-sYHX6nLXVNJaVK5sHlkcg4UbT+yFg8efrcyOVOc+u6Y1jvd1bmckv+t+vTkZuoWuBpyoKg/H4XiJB2HGelBO6Q==
+"@swarmjs/core@^1.7.3":
+  version "1.7.3"
+  resolved "https://registry.yarnpkg.com/@swarmjs/core/-/core-1.7.3.tgz#340162bdbbec178dae5c8116352951ca5ae7eb1c"
+  integrity sha512-QQ1FmIXSb9HatFltjV5sUPSZ9NPDPaIKxRpUqarLta3rpBxCs4u0gagWMzlCxBS/37KLJy/fsn0+/0kOyPDy/A==
   dependencies:
     "@types/http-errors" "^2.0.1"
     async-exit-hook "^2.0.1"

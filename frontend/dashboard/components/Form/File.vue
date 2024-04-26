@@ -3,20 +3,32 @@ import mime from 'mime-types'
 
 const props = defineProps({
   conf: {},
-  name: { type: String }
+  name: { type: String },
+  uploadFiles: { type: Boolean, default: false }
 })
 const model = defineModel()
 const inSetup = ref(true)
 const input = ref(null)
+const loading = ref(false)
+const api = useApi()
 
 function readFile (file) {
+  loading.value = true
   const reader = new FileReader()
   reader.readAsDataURL(file)
-  reader.onload = () => {
-    model.value = {
-      content: reader.result.split(',')[1],
-      filename: file.name
-    }
+  reader.onload = async () => {
+    if (props.uploadFiles) {
+      const { url } = await api.post('/dashboard/upload-file', {
+        content: reader.result.split(',')[1],
+        filename: file.name
+      })
+      model.value = url
+    } else
+      model.value = {
+        content: reader.result.split(',')[1],
+        filename: file.name
+      }
+    loading.value = false
   }
 }
 
@@ -73,11 +85,16 @@ onMounted(() => {
       @drop.prevent="dropHandler"
       @dragover.prevent="hover = true"
       @dragleave.prevent="hover = false"
-      class="flex max-w-64 h-32 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
+      class="relative flex max-w-64 h-32 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
       :class="{ 'ring-4 ring-primary ring-inset': hover }"
       @click="input.click()"
     >
       {{ $t('Drop a file here, or click here') }}
+      <UProgress
+        animation="carousel"
+        class="absolute bottom-0 left-0 w-full z-50"
+        v-if="loading"
+      />
     </div>
     <input
       type="file"

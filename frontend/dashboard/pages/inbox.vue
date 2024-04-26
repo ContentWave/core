@@ -13,6 +13,7 @@ const fields = {
     description: 'Wesh'
   }
 }
+const returned = ref('')
 </script>
 
 <template>
@@ -25,7 +26,10 @@ const fields = {
           v-model="data"
           :fields="fields"
           class="p-8"
+          uploadFiles
+          @submit="returned = JSON.stringify($event, null, 4)"
         ></FormContainer>
+        <pre>{{ JSON.stringify(returned, null, 4) }}</pre>
       </div>
     </UDashboardPanel>
     <UDashboardPanel id="inbox2" :width="300">
