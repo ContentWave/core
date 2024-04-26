@@ -52,6 +52,7 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = accessToken.value
       const refreshToken = useCookie('contentwave_refresh_token')
       this.refreshToken = refreshToken.value
+      if (this.refreshToken && !this.accessToken) await this.refresh()
       if (this.accessToken) await this.setupRefresher()
     },
     generateRandomString () {
@@ -237,7 +238,9 @@ export const useAuthStore = defineStore('auth', {
       await this.fetchUser()
     },
     async setRefreshToken (token, tokenType, expires) {
-      const cookie = useCookie('contentwave_refresh_token')
+      const cookie = useCookie('contentwave_refresh_token', {
+        expires: new Date(Date.now() + expires * 1000)
+      })
       this.refreshToken = {
         token,
         tokenType,

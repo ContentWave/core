@@ -6,7 +6,6 @@ import {
 } from '../models/WaveModel'
 import { Db } from './Db'
 import { IOrmConf } from '../interfaces/IOrmConf'
-import ivm from 'isolated-vm'
 
 export interface IModelConf {
   conf: IOrmConf
@@ -49,23 +48,13 @@ export class Model {
 
   static async runSearchFunction (
     name: string,
-    data: any
+    $data: any
   ): Promise<IModelSearchResult> {
-    const isolate = new ivm.Isolate({ memoryLimit: 64 })
-    const context = await isolate.createContext()
-    const ret = await context.evalClosure(
-      `$data = ${JSON.stringify(data)};
-      let $score = 0;
-      let $keep = true;
-      ${searchFunctions[name]}
-      ; return !!$keep ? +$score : null`
-    )
-    if (ret === null)
-      return {
-        keep: false,
-        score: 0
-      }
-    return { keep: true, score: ret }
+    let $score = 0
+    let $keep = true
+    $data['_original'] = JSON.parse(JSON.stringify($data))
+    eval(searchFunctions[name])
+    return { keep: $keep, score: $score }
   }
 
   static getConf (name: string): IOrmConf | null {

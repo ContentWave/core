@@ -37,7 +37,6 @@
     "gm": "^1.25.0",
     "heic-convert": "^2.1.0",
     "http-errors": "^2.0.0",
-    "isolated-vm": "^4.7.2",
     "jsonwebtoken": "^9.0.2",
     "mime-types": "^2.1.35",
     "mongoose": "^8.2.4",

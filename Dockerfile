@@ -1,4 +1,4 @@
-FROM node:20.11.0-alpine
+FROM node:22.0.0-alpine
 ARG NUXT_LICENSE
 WORKDIR /app
 RUN apk add --no-cache ghostscript graphicsmagick python3 make g++
