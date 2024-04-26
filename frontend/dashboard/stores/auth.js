@@ -161,7 +161,7 @@ export const useAuthStore = defineStore('auth', {
     },
     async fetchUser () {
       const user = useCookie('contentwave_user', {
-        expires: this.accessToken.expiresAt
+        expires: new Date(this.accessToken.expiresAt)
       })
       try {
         const response = await fetch(this.endpoints.userInfo, {
