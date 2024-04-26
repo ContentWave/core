@@ -86,7 +86,7 @@ onMounted(() => {
       @drop.prevent="dropHandler"
       @dragover.prevent="hover = true"
       @dragleave.prevent="hover = false"
-      class="form-image-preview overflow-hidden flex max-w-64 h-32 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
+      class="form-image-preview overflow-hidden flex max-w-64 h-36 items-center justify-center border border-dashed border-gray-400 rounded-md text-sm cursor-pointer"
       :class="{ 'ring-4 ring-primary ring-inset': hover }"
       @click="input.click()"
       :style="imagePreview"
