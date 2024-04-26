@@ -1,0 +1,15 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "value": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{24}$"
+      }
+    }
+  }
+}

@@ -165,7 +165,6 @@ export interface IRefOrmField
     IOrmFieldWithDescriptors {
   type: 'ref'
   model: string
-  nameFields: string[]
 }
 
 export interface IPhoneOrmField

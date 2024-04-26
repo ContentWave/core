@@ -1,26 +1,11 @@
 <script setup lang="ts">
-const data = reactive({})
+const data = reactive({ address: '662b656f211c4d34958181a2' })
 const fields = {
-  test: {
+  address: {
     type: 'ref',
-    title: 'Foo',
+    title: 'Adresse',
     description: 'Bar',
     model: 'test'
-  },
-  test2: {
-    type: 'file',
-    title: 'Foo',
-    description: 'Bar'
-  },
-  test3: {
-    type: 'image',
-    title: 'Foo',
-    description: 'Bar'
-  },
-  test4: {
-    type: 'postaladdress',
-    title: 'Adresse',
-    description: 'Bar'
   }
 }
 </script>
@@ -29,12 +14,17 @@ const fields = {
   <UDashboardPage>
     <UDashboardPanel id="inbox" :width="1000">
       <UDashboardNavbar title="Inbox"> </UDashboardNavbar>
-
-      <!-- ~/components/inbox/InboxList.vue -->
-      <FormContainer v-model="data" :fields="fields"></FormContainer>
+      <div class="grow overflow-auto">
+        <!-- ~/components/inbox/InboxList.vue -->
+        <FormContainer
+          v-model="data"
+          :fields="fields"
+          class="p-8"
+        ></FormContainer>
+      </div>
     </UDashboardPanel>
     <UDashboardPanel id="inbox2" :width="300">
-      {{ data }}
+      <pre>{{ JSON.stringify(data, null, 4) }}</pre>
     </UDashboardPanel>
   </UDashboardPage>
 </template>

@@ -21,9 +21,10 @@ useHead({
 })
 
 const auth = useAuthStore()
+const loaded = ref(false)
 onMounted(async () => {
   const route = useRoute()
-  auth.init()
+  await auth.init()
   if (!auth.loggedIn) {
     if (route.path === auth.callbackUrl) {
       auth.resolveCode()
@@ -31,11 +32,12 @@ onMounted(async () => {
       auth.login()
     }
   }
+  loaded.value = true
 })
 </script>
 
 <template>
-  <div v-if="auth.userdata !== null">
+  <div v-if="auth.userdata !== null && loaded">
     <NuxtLoadingIndicator />
 
     <NuxtLayout>

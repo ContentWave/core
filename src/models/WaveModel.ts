@@ -39,6 +39,7 @@ export interface IWaveModel extends Document {
   authorizations: IWaveModelAuthorizations
   search: IWaveModelSearch
   cached: boolean
+  nameField: string
 }
 
 interface WaveModelModel extends mongoose.Model<IWaveModel, {}, {}> {}
@@ -84,7 +85,8 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     fields: [String],
     js: String
   },
-  cached: { type: Boolean, default: false }
+  cached: { type: Boolean, default: false },
+  nameField: String
 })
 
 export default function createWaveModel (conn: Connection) {

@@ -1,7 +1,12 @@
 let store = null
 
 function getHeaders () {
-  return {}
+  const authStore = useAuthStore()
+  const token = authStore.bearerToken()
+  if (!token) return {}
+  return {
+    Authorization: token
+  }
 }
 
 export const useApi = () => ({

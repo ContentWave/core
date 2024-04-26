@@ -4,14 +4,44 @@ const props = defineProps({
   name: { type: String }
 })
 const model = defineModel()
+const loading = ref(false)
 const inSetup = ref(true)
+const api = useApi()
+const options = ref([])
 
-onMounted(() => {
-  if (!model.value) model.value = ''
+async function search (q) {
+  if (q.length === 0) return []
+  loading.value = true
+  const items = await api.get(`/dashboard/models/${props.conf.model}/search`, {
+    q
+  })
+  options.value = items
+  loading.value = false
+  return items
+}
+
+onMounted(async () => {
+  if (!model.value) model.value = null
+  if (model.value) {
+    options.value = await api.get(
+      `/dashboard/models/${props.conf.model}/${model.value}/name`
+    )
+  }
   inSetup.value = false
 })
 </script>
 
 <template>
-  <UInput v-model="model" v-if="!inSetup" />
+  <USelectMenu
+    v-if="!inSetup"
+    v-model="model"
+    :options="options"
+    :loading="loading"
+    :searchable="search"
+    :placeholder="$t('Search ...')"
+    option-attribute="label"
+    value-attribute="value"
+    trailing
+    by="value"
+  />
 </template>

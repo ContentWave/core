@@ -37,6 +37,7 @@ const types = {
   time: FormTime,
   uuid: FormUuid
 }
+const isReady = ref(false)
 
 function tryToDelete (idx) {
   model.value.splice(idx, 1)
@@ -53,6 +54,7 @@ onMounted(() => {
       while (model.value.length > props.conf.maxItems)
         model.value.splice(model.value.length - 1, 1)
   }
+  isReady.value = true
 })
 </script>
 
@@ -61,7 +63,7 @@ onMounted(() => {
     :label="conf.title"
     :hint="conf.description"
     :name="name"
-    v-if="!conf.multiple"
+    v-if="!conf.multiple && isReady"
   >
     <component
       :is="types[conf.type]"
@@ -70,7 +72,7 @@ onMounted(() => {
       :name="name"
     />
   </UFormGroup>
-  <UFormGroup :label="conf.title" :hint="conf.description" v-else>
+  <UFormGroup :label="conf.title" :hint="conf.description" v-else-if="isReady">
     <div v-for="(item, idx) in model" :key="idx">
       <div v-if="idx > 0" class="my-4 bg-gray-300 dark:bg-gray-800 h-px"></div>
       <div class="flex items-start justify-start">

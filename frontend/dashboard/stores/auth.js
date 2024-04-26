@@ -38,7 +38,7 @@ export const useAuthStore = defineStore('auth', {
     hasRole (role) {
       return (this.userdata?.roles ?? []).includes(role)
     },
-    init () {
+    async init () {
       const config = useRuntimeConfig()
       this.endpoints.authorization = `${
         config.public.apiUrl ?? ''
@@ -52,6 +52,12 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = accessToken.value
       const refreshToken = useCookie('contentwave_refresh_token')
       this.refreshToken = refreshToken.value
+      if (
+        this.accessToken &&
+        this.accessToken.expiresAt &&
+        this.accessToken.expiresAt < Date.now()
+      )
+        await this.refresh()
     },
     generateRandomString () {
       const array = new Uint32Array(56 / 2)
@@ -154,7 +160,9 @@ export const useAuthStore = defineStore('auth', {
       useRouter().push('/')
     },
     async fetchUser () {
-      const user = useCookie('contentwave_user')
+      const user = useCookie('contentwave_user', {
+        expires: this.accessToken.expiresAt
+      })
       try {
         const response = await fetch(this.endpoints.userInfo, {
           headers: {
@@ -222,7 +230,9 @@ export const useAuthStore = defineStore('auth', {
       this.login()
     },
     async setBearerToken (token, tokenType, expires) {
-      const cookie = useCookie('contentwave_access_token')
+      const cookie = useCookie('contentwave_access_token', {
+        expires: new Date(Date.now() + expires * 1000)
+      })
       this.accessToken = {
         token,
         tokenType,

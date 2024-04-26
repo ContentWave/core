@@ -14,6 +14,7 @@ export interface IModelConf {
   authorizations: IWaveModelAuthorizations
   search: IWaveModelSearch
   cached: boolean
+  nameField: string
 }
 
 interface IModelSearchResult {
@@ -33,7 +34,8 @@ export class Model {
         relations: model.relations,
         authorizations: model.authorizations,
         search: model.search,
-        cached: model.cached
+        cached: model.cached,
+        nameField: model.nameField
       }
       if (model.search?.enabled && model.search?.method === 'js') {
         Model.saveSearchFunction(model.name, model.search.js ?? '')
@@ -86,6 +88,10 @@ export class Model {
     return cache[name]?.cached ?? false
   }
 
+  static getNameField (name: string): string | undefined {
+    return cache[name]?.nameField ?? undefined
+  }
+
   static getList (): { [key: string]: IModelConf } {
     return cache
   }
@@ -96,9 +102,17 @@ export class Model {
     relations: IWaveModelRelation[],
     authorizations: IWaveModelAuthorizations,
     search: IWaveModelSearch,
-    cached: boolean
+    cached: boolean,
+    nameField: string
   ) {
-    cache[name] = { conf, relations, authorizations, search, cached }
+    cache[name] = {
+      conf,
+      relations,
+      authorizations,
+      search,
+      cached,
+      nameField
+    }
 
     if (search?.enabled && search?.method === 'js') {
       Model.saveSearchFunction(name, search.js ?? '')
@@ -106,7 +120,17 @@ export class Model {
 
     await getWaveModelModel().updateOne(
       { name },
-      { $set: { name, conf, relations, authorizations, search, cached } },
+      {
+        $set: {
+          name,
+          conf,
+          relations,
+          authorizations,
+          search,
+          cached,
+          nameField
+        }
+      },
       { upsert: true }
     )
     await Db.init()

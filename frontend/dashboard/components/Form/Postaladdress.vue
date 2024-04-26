@@ -36,7 +36,7 @@ watch(searchQuery, async ({ id }) => {
     )
     model.value.country = details.address.country_code.toUpperCase()
     model.value.name_line = ''
-    model.value.organisation_name = ''
+    model.value.organisation_name = details.address.amenity ?? ''
     model.value.administrative_area = details.address.state ?? ''
     model.value.locality =
       details.address.village ??
@@ -108,7 +108,7 @@ onMounted(() => {
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <UInput
           v-model="model.name_line"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -118,7 +118,7 @@ onMounted(() => {
         </UInput>
         <UInput
           v-model="model.organisation_name"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -129,7 +129,7 @@ onMounted(() => {
         <UInput
           v-model="model.thoroughfare"
           class="col-span-1 md:col-span-2"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -141,7 +141,7 @@ onMounted(() => {
           v-model="model.premise"
           class="col-span-1 md:col-span-2"
           :placeholder="$t('Apartment, Suite, Box number, etc.')"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -151,7 +151,7 @@ onMounted(() => {
         </UInput>
         <UInput
           v-model="model.postal_code"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -161,7 +161,7 @@ onMounted(() => {
         </UInput>
         <UInput
           v-model="model.locality"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -171,7 +171,7 @@ onMounted(() => {
         </UInput>
         <UInput
           v-model="model.administrative_area"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{
@@ -182,7 +182,7 @@ onMounted(() => {
         <USelect
           v-model="model.country"
           :options="countries"
-          :ui="{ leading: { padding: { sm: 'ps-28' } } }"
+          :ui="{ leading: { padding: { sm: 'ps-32' } } }"
         >
           <template #leading>
             <span class="text-gray-500 dark:text-gray-400 text-xs">{{

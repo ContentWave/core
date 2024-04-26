@@ -14,6 +14,7 @@ import { AuthTotp } from '../controllers/AuthTotp'
 import { AuthMagicLink } from '../controllers/AuthMagicLink'
 import { AuthSso } from '../controllers/AuthSso'
 import { Schemas } from '../controllers/Schemas'
+import { Dashboard } from '../controllers/Dashboard'
 
 let instance: Swarm
 
@@ -236,5 +237,6 @@ export class Server {
     app.controllers.add(AuthSso)
     app.controllers.add(Ui)
     app.controllers.add(Schemas)
+    app.controllers.add(Dashboard)
   }
 }

@@ -944,12 +944,6 @@
           "multiple": {
             "type": "boolean"
           },
-          "nameFields": {
-            "items": {
-              "type": "string"
-            },
-            "type": "array"
-          },
           "populate": {
             "type": "boolean"
           },
@@ -969,7 +963,6 @@
         },
         "required": [
           "model",
-          "nameFields",
           "type"
         ],
         "type": "object"

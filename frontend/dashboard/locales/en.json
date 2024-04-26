@@ -11,5 +11,16 @@
     "My profile": "My profile",
     "Sign out": "Sign out",
     "Signed in as": "Signed in as",
-    "Settings": "Settings"
+    "Settings": "Settings",
+    "Submit": "Submit",
+    "Search a postal address ...": "Search a postal address ...",
+    "Name": "Name",
+    "Company name": "Company name",
+    "Street address": "Street address",
+    "Apartment, Suite, Box number, etc.": "Apartment, Suite, Box number, etc.",
+    "Premise": "Premise",
+    "Postal code": "Postal code",
+    "City": "City",
+    "State": "State",
+    "Country": "Country"
 }
