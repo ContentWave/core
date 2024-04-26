@@ -22,5 +22,11 @@
   "Postal code": "Code postal",
   "City": "Ville",
   "State": "État",
-  "Country": "Pays"
+  "Country": "Pays",
+  "Drop a file here, or click here": "Déposez un fichier ici, ou cliquez ici",
+  "This file will be uploaded: {filename}": "Ce fichier sera téléchargé : {filename}",
+  "Search ...": "Recherche ...",
+  "Clear": "Effacer",
+  "Filename: {filename}": "Nom de fichier : {filename}",
+  "View file": "Voir le fichier"
 }

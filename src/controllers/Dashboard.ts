@@ -29,17 +29,6 @@ export class Dashboard {
     @Query('q') query: string,
     @Query('limit') limit: string = '50'
   ) {
-    if (modelName === 'test') {
-      return [
-        { label: 'foo', value: '662b65497855667bd0f25628' },
-        { label: 'foo2', value: '662b6560b6451042acc728ac' },
-        { label: 'foo3', value: '662b6567635680bdc1c46c94' },
-        { label: 'foo4', value: '662b656b1332d3e70863a136' },
-        { label: 'foo5', value: '662b656f211c4d34958181a2' },
-        { label: 'foo6', value: '662b6573c152251f4283367d' },
-        { label: 'foo7', value: '662b65764ffd940f961af279' }
-      ]
-    }
     const field = Model.getNameField(modelName)
     if (field === undefined) return []
 
@@ -77,18 +66,6 @@ export class Dashboard {
     @Parameter('modelName') modelName: string,
     @Parameter('docId') docId: string
   ) {
-    if (modelName === 'test') {
-      const data = [
-        { label: 'foo', value: '662b65497855667bd0f25628' },
-        { label: 'foo2', value: '662b6560b6451042acc728ac' },
-        { label: 'foo3', value: '662b6567635680bdc1c46c94' },
-        { label: 'foo4', value: '662b656b1332d3e70863a136' },
-        { label: 'foo5', value: '662b656f211c4d34958181a2' },
-        { label: 'foo6', value: '662b6573c152251f4283367d' },
-        { label: 'foo7', value: '662b65764ffd940f961af279' }
-      ]
-      return [data.find(d => d.value === docId)]
-    }
     const field = Model.getNameField(modelName)
     if (field === undefined) return [{ label: '-', value: docId }]
 

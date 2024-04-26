@@ -1,11 +1,16 @@
 <script setup lang="ts">
-const data = reactive({ address: '662b656f211c4d34958181a2' })
+const data = reactive({
+  file: 'data:text/html;base64,%3Ch1%3EHello%2C%20World%21%3C%2Fh1%3E'
+})
 const fields = {
-  address: {
-    type: 'ref',
-    title: 'Adresse',
-    description: 'Bar',
-    model: 'test'
+  file: {
+    type: 'file',
+    title: 'Fichier'
+  },
+  image: {
+    type: 'image',
+    title: 'Image',
+    description: 'Wesh'
   }
 }
 </script>

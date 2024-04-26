@@ -22,5 +22,11 @@
     "Postal code": "Postal code",
     "City": "City",
     "State": "State",
-    "Country": "Country"
+    "Country": "Country",
+    "Drop a file here, or click here": "Drop a file here, or click here",
+    "This file will be uploaded: {filename}": "This file will be uploaded: {filename}",
+    "Search ...": "Search ...",
+    "Clear": "Clear",
+    "Filename: {filename}": "Filename: {filename}",
+    "View file": "View file"
 }
