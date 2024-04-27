@@ -4,18 +4,18 @@ const links = [
     {
       label: 'General',
       icon: 'i-heroicons-user-circle',
-      to: '/settings',
+      to: '/developer/settings',
       exact: true
     },
     {
       label: 'Members',
       icon: 'i-heroicons-user-group',
-      to: '/settings/members'
+      to: '/developer/settings/members'
     },
     {
       label: 'Notifications',
       icon: 'i-heroicons-bell',
-      to: '/settings/notifications'
+      to: '/developer/settings/notifications'
     }
   ],
   [
@@ -34,12 +34,12 @@ const links = [
   ]
 ]
 useHead({
-  title: 'Settings'
+  title: 'Settings | Developer'
 })
 </script>
 
 <template>
-  <UDashboardPage>
+  <UDashboardPage class="md:h-full md:overflow-hidden">
     <UDashboardPanel grow>
       <UDashboardNavbar :title="$t('Settings')" />
 
@@ -47,7 +47,9 @@ useHead({
         <UHorizontalNavigation :links="links" />
       </UDashboardToolbar>
 
-      <NuxtPage />
+      <div class="md:grow md:overflow-auto">
+        <NuxtPage />
+      </div>
     </UDashboardPanel>
   </UDashboardPage>
 </template>

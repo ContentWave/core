@@ -4,6 +4,7 @@ const { isHelpSlideoverOpen } = useDashboard()
 const { isDashboardSearchModalOpen } = useUIState()
 const { metaSymbol } = useShortcuts()
 
+const config = useRuntimeConfig()
 const auth = await useAuthStore()
 
 const items = computed(() =>
@@ -20,20 +21,14 @@ const items = computed(() =>
         label: t('My profile'),
         icon: 'i-heroicons-cog-8-tooth',
         to: '/profile'
-      },
-      {
-        label: 'Help & Support',
-        icon: 'i-heroicons-question-mark-circle',
-        shortcuts: ['?'],
-        click: () => (isHelpSlideoverOpen.value = true)
       }
     ],
     auth.hasRole('$developer')
       ? [
           {
-            label: 'Documentation',
+            label: t('API documentation'),
             icon: 'i-heroicons-book-open',
-            to: 'https://ui.nuxt.com/pro/getting-started',
+            to: `${config.public.apiUrl}/v1`,
             target: '_blank'
           }
         ]

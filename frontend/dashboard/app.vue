@@ -4,8 +4,6 @@ const colorMode = useColorMode()
 
 const color = computed(() => (colorMode.value === 'dark' ? '#111827' : 'white'))
 
-const ui = useUiStore()
-
 useHead({
   titleTemplate: (title?: string) =>
     title ? `${title} | ${ui.title}` : ui.title,
@@ -19,11 +17,12 @@ useHead({
     lang: locale
   }
 })
-
+const ui = useUiStore()
 const auth = useAuthStore()
 const loaded = ref(false)
 onMounted(async () => {
   const route = useRoute()
+  await ui.init()
   await auth.init()
   if (!auth.loggedIn) {
     if (route.path === auth.callbackUrl) {

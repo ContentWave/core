@@ -28,5 +28,12 @@
     "Search ...": "Search ...",
     "Clear": "Clear",
     "Filename: {filename}": "Filename: {filename}",
-    "View file": "View file"
+    "View file": "View file",
+    "Open image in a new tab": "Open image in a new tab",
+    "API documentation": "API documentation",
+    "Models": "Models",
+    "Developer settings": "Developer settings",
+    "Functions": "Functions",
+    "Home": "Home",
+    "Plugins": "Plugins"
 }

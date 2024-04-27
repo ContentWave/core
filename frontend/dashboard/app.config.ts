@@ -6,6 +6,9 @@ export default defineAppConfig({
       default: {
         openDelay: 500
       }
+    },
+    icons: {
+      dynamic: true
     }
   }
 })
