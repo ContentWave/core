@@ -160,12 +160,12 @@ onMounted(() => {
 
     &.noText {
       opacity: 0;
-    }
 
-    &:hover {
-      opacity: 1;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
+      &:hover {
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+      }
     }
   }
 }
