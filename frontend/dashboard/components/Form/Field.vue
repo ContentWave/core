@@ -1,19 +1,21 @@
 <script setup>
-import FormDate from './Date'
-import FormDatetime from './Datetime'
-import FormDuration from './Duration'
-import FormEmail from './Email'
-import FormEnum from './Enum'
-import FormFile from './File'
-import FormImage from './Image'
-import FormInteger from './Integer'
-import FormNumber from './Number'
-import FormPhone from './Phone'
-import FormPostaladdress from './Postaladdress'
-import FormRef from './Ref'
-import FormText from './Text'
-import FormTime from './Time'
-import FormUuid from './Uuid'
+import FormBoolean from './Boolean.vue'
+import FormUrl from './Url.vue'
+import FormDate from './Date.vue'
+import FormDatetime from './Datetime.vue'
+import FormDuration from './Duration.vue'
+import FormEmail from './Email.vue'
+import FormEnum from './Enum.vue'
+import FormFile from './File.vue'
+import FormImage from './Image.vue'
+import FormInteger from './Integer.vue'
+import FormNumber from './Number.vue'
+import FormPhone from './Phone.vue'
+import FormPostaladdress from './Postaladdress.vue'
+import FormRef from './Ref.vue'
+import FormText from './Text.vue'
+import FormTime from './Time.vue'
+import FormUuid from './Uuid.vue'
 
 const props = defineProps({
   conf: {},
@@ -36,7 +38,9 @@ const types = {
   ref: FormRef,
   text: FormText,
   time: FormTime,
-  uuid: FormUuid
+  uuid: FormUuid,
+  boolean: FormBoolean,
+  url: FormUrl
 }
 const isReady = ref(false)
 

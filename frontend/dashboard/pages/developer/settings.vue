@@ -1,40 +1,28 @@
 <script setup lang="ts">
+const { t } = useI18n({ useScope: 'global' })
+
 const links = [
   [
     {
-      label: 'General',
-      icon: 'i-heroicons-user-circle',
+      label: t('General'),
+      icon: 'i-material-symbols-settings',
       to: '/developer/settings',
       exact: true
     },
     {
-      label: 'Members',
-      icon: 'i-heroicons-user-group',
-      to: '/developer/settings/members'
+      label: t('Auth'),
+      icon: 'i-streamline-interface-user-lock-actions-lock-geometric-human-person-single-up-user',
+      to: '/developer/settings/auth'
     },
     {
-      label: 'Notifications',
-      icon: 'i-heroicons-bell',
-      to: '/developer/settings/notifications'
-    }
-  ],
-  [
-    {
-      label: 'Documentation',
-      icon: 'i-heroicons-book-open',
-      to: 'https://ui.nuxt.com/pro',
-      target: '_blank'
-    },
-    {
-      label: 'Buy now',
-      icon: 'i-heroicons-credit-card',
-      to: 'https://ui.nuxt.com/pro/purchase',
-      target: '_blank'
+      label: t('System'),
+      icon: 'i-tdesign-system-application',
+      to: '/developer/settings/system'
     }
   ]
 ]
 useHead({
-  title: 'Settings | Developer'
+  title: t('Settings')
 })
 </script>
 

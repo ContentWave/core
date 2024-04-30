@@ -6,6 +6,8 @@ import { IWaveKey, getWaveKeyModel } from '../models/WaveKey'
 interface IKey {
   secret: string
   domains: string[]
+  type: 'browser' | 'application'
+  owner: string
 }
 
 interface INewKey {
@@ -24,7 +26,9 @@ export class Key {
       const url2 = new URL(process.env.BASE_URL ?? '')
       cache.self = {
         secret: 'self',
-        domains: [url.host, url2.host]
+        type: 'browser',
+        domains: [url.host, url2.host],
+        owner: ''
       }
     } catch {}
 
@@ -32,9 +36,19 @@ export class Key {
     for await (const key of keys) {
       cache[key.id] = {
         secret: key.secret,
-        domains: key.domains ?? []
+        type: key.type,
+        domains: key.domains ?? [],
+        owner: key.user._id.toHexString()
       }
     }
+  }
+
+  static getKeyType (id: string): 'browser' | 'application' | null {
+    return cache[id]?.type ?? null
+  }
+
+  static getKeyOwnerId (id: string): string | null {
+    return cache[id]?.owner ?? null
   }
 
   static validateKey (id: string, redirectUri: string): boolean {
@@ -64,18 +78,22 @@ export class Key {
   static async create (
     user: IWaveUser,
     name: string,
+    type: 'browser' | 'application',
     domains: string[]
   ): Promise<INewKey | null> {
     const created = await getWaveKeyModel().create({
       user: user.id,
       name,
+      type,
       domains,
       secret: randomUUID()
     })
     if (!created) return null
     cache[created.id] = {
       secret: created.secret,
-      domains: created.domains ?? []
+      type: created.type,
+      domains: created.domains ?? [],
+      owner: user.id
     }
     return {
       client_id: created.id,

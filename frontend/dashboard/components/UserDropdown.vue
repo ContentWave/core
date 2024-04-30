@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const { t } = useI18n({ useScope: 'global' })
-const { isHelpSlideoverOpen } = useDashboard()
 const { isDashboardSearchModalOpen } = useUIState()
 const { metaSymbol } = useShortcuts()
 

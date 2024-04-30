@@ -2,7 +2,6 @@
 const { t } = useI18n({ useScope: 'global' })
 const route = useRoute()
 const appConfig = useAppConfig()
-const { isHelpSlideoverOpen } = useDashboard()
 
 const authStore = useAuthStore()
 
@@ -38,8 +37,8 @@ if (authStore.hasRole('$developer')) {
     to: '/developer/plugins'
   })
   footerLinks.push({
-    label: t('Developer settings'),
-    icon: 'i-heroicons-code-bracket',
+    label: t('Settings'),
+    icon: 'i-material-symbols-settings',
     to: '/developer/settings'
   })
 }
@@ -97,6 +96,7 @@ const ui = useUiStore()
 
         <div class="flex-1" />
 
+        <UDivider :label="$t('Developer')" v-if="footerLinks.length" />
         <UDashboardSidebarLinks :links="footerLinks" />
 
         <UDivider class="sticky bottom-0" />
@@ -110,8 +110,6 @@ const ui = useUiStore()
 
     <slot />
 
-    <!-- ~/components/HelpSlideover.vue -->
-    <HelpSlideover />
     <!-- ~/components/NotificationsSlideover.vue -->
     <NotificationsSlideover />
 

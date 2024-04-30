@@ -15,6 +15,8 @@ import { Model } from '../classes/Model'
 import { Db } from '../classes/Db'
 import { TypeFile } from '../classes/Orm/Types/File'
 import { TypeImage } from '../classes/Orm/Types/Image'
+import { Config } from '../classes/Config'
+import { AuthFido } from './AuthFido'
 
 @Title('Dashboard')
 @Description('Dashboard related methods')
@@ -122,5 +124,33 @@ export class Dashboard {
       }
     )
     return { url }
+  }
+
+  @Get('/config/:key')
+  @Title('Get config key value')
+  @Access('$developer')
+  @Parameter('key', 'String', 'Config key')
+  @Returns(200, 'AnyValue', 'Value')
+  @Returns(403, 'Error', 'Cannot access to this ressource')
+  static async getConfigValue (@Parameter('key') key: string) {
+    return {
+      value: Config.get(key)
+    }
+  }
+
+  @Post('/config/:key')
+  @Title('Set config key value')
+  @Access('$developer')
+  @Accepts('AnyValue')
+  @Parameter('key', 'String', 'Config key')
+  @Returns(200, 'Empty', 'Value saved')
+  @Returns(403, 'Error', 'Cannot access to this ressource')
+  static async setConfigValue (
+    @Parameter('key') key: string,
+    @Body('value') value: any
+  ) {
+    await Config.set(key, value)
+    if (key === 'auth') AuthFido.setup()
+    return {}
   }
 }

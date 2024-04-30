@@ -54,7 +54,7 @@ schema.static(
   > | null> {
     try {
       const decoded: any = jwt.verify(accessToken, Config.get('jwtKey'))
-      if (decoded.type !== 'user') return null
+      if (decoded.type !== 'browser') return null
       const session: HydratedDocument<
         IWaveSession,
         IWaveSessionMethods,
@@ -74,7 +74,7 @@ schema.method('getAccessToken', function getAccessToken () {
   return jwt.sign(
     {
       id: this.id,
-      type: 'user'
+      type: 'browser'
     },
     Config.get('jwtKey'),
     { expiresIn: 1800 }

@@ -21,8 +21,11 @@ import { Unauthorized } from 'http-errors'
 import { IWaveModelAuthorizations } from '../../models/WaveModel'
 import dayjs from 'dayjs'
 import { IModelConf } from '../Model'
+import { TypeBoolean } from './Types/Boolean'
+import { TypeUrl } from './Types/Url'
 
 const formatters: any = {
+  boolean: TypeBoolean,
   date: TypeDate,
   datetime: TypeDatetime,
   duration: TypeDuration,
@@ -36,6 +39,7 @@ const formatters: any = {
   text: TypeText,
   time: TypeTime,
   uuid: TypeUuid,
+  url: TypeUrl,
   enum: TypeEnum,
   postaladdress: TypePostalAddress
 }

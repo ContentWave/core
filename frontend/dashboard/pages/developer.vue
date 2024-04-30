@@ -3,7 +3,7 @@ const { t } = useI18n({ useScope: 'global' })
 const auth = useAuthStore()
 
 if (auth.hasRole('$developer') === false) {
-  useRouter.push('/')
+  useRouter().push('/')
 }
 
 const links = [
@@ -24,8 +24,8 @@ const links = [
       to: '/developer/plugins'
     },
     {
-      label: t('Developer settings'),
-      icon: 'i-heroicons-code-bracket',
+      label: t('Settings'),
+      icon: 'i-material-symbols-settings',
       to: '/developer/settings'
     }
   ]

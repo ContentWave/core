@@ -13,6 +13,7 @@
     "i18n": "vue-i18n-extract report --vueFiles \"./?(components|pages|layouts|plugins)/**/*.?(js|vue)\" --languageFiles \"./locales/*.json\" --separator=£ --add --remove && node tools/translate.js"
   },
   "dependencies": {
+    "@cospired/i18n-iso-languages": "^4.2.0",
     "@iconify-json/heroicons": "^1.1.20",
     "@iconify-json/simple-icons": "^1.1.97",
     "@nuxt/fonts": "^0.6.1",

@@ -157,6 +157,181 @@
           "index": {
             "type": "boolean"
           },
+          "maxItems": {
+            "type": "number"
+          },
+          "minItems": {
+            "type": "number"
+          },
+          "multiple": {
+            "type": "boolean"
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "const": "url",
+            "type": "string"
+          },
+          "unique": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      {
+        "properties": {
+          "authorizations": {
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "read": {
+                "properties": {
+                  "allow": {
+                    "type": "boolean"
+                  },
+                  "roles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "allow",
+                  "roles"
+                ],
+                "type": "object"
+              },
+              "write": {
+                "properties": {
+                  "allow": {
+                    "type": "boolean"
+                  },
+                  "roles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "allow",
+                  "roles"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "enabled",
+              "read",
+              "write"
+            ],
+            "type": "object"
+          },
+          "default": {},
+          "description": {
+            "type": "string"
+          },
+          "index": {
+            "type": "boolean"
+          },
+          "maxItems": {
+            "type": "number"
+          },
+          "minItems": {
+            "type": "number"
+          },
+          "multiple": {
+            "type": "boolean"
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string"
+          },
+          "type": {
+            "const": "boolean",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "type": "object"
+      },
+      {
+        "properties": {
+          "authorizations": {
+            "properties": {
+              "enabled": {
+                "type": "boolean"
+              },
+              "read": {
+                "properties": {
+                  "allow": {
+                    "type": "boolean"
+                  },
+                  "roles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "allow",
+                  "roles"
+                ],
+                "type": "object"
+              },
+              "write": {
+                "properties": {
+                  "allow": {
+                    "type": "boolean"
+                  },
+                  "roles": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "required": [
+                  "allow",
+                  "roles"
+                ],
+                "type": "object"
+              }
+            },
+            "required": [
+              "enabled",
+              "read",
+              "write"
+            ],
+            "type": "object"
+          },
+          "default": {},
+          "description": {
+            "type": "string"
+          },
+          "index": {
+            "type": "boolean"
+          },
           "max": {
             "type": "number"
           },

@@ -3,6 +3,7 @@ import { Db } from '../classes/Db'
 
 export interface IWaveKey extends Document {
   user: mongoose.Types.ObjectId
+  type: 'browser' | 'application'
   name: string
   secret: string
   lastUsed: Date
@@ -14,6 +15,7 @@ export interface WaveKeyModel extends mongoose.Model<IWaveKey, {}, {}> {}
 const schema = new mongoose.Schema<IWaveKey, WaveKeyModel, {}>({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' },
   name: String,
+  type: { type: String, enum: ['browser', 'application'] },
   secret: String,
   lastUsed: Date,
   domains: [String]

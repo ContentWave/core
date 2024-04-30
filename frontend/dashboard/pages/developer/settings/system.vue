@@ -1,67 +1,21 @@
 <script setup>
 const { t, locale } = useI18n({ useScope: 'global' })
 
-const fields = [
-  'title',
-  'description',
-  'logo',
-  'logoBackground',
-  'logoSize',
-  'color',
-  'languages'
-]
+const fields = ['uploadAllowedMimes', 'fileUploadLimit']
 const form = reactive({})
 const ready = ref(false)
 const api = useApi()
 const toast = useToast()
 
 const conf = {
-  title: {
+  uploadAllowedMimes: {
     type: 'text',
-    title: t('Title')
+    title: t('Allowed MIME types for file upload'),
+    multiple: true
   },
-  description: {
-    type: 'text',
-    title: t('Description')
-  },
-  logo: {
-    type: 'image',
-    title: t('Logo'),
-    resize: true,
-    crop: false,
-    maxHeight: 512,
-    maxWidth: 512
-  },
-  logoBackground: {
-    type: 'text',
-    title: t('Logo background color')
-  },
-  logoSize: {
-    type: 'enum',
-    title: t('Logo size'),
-    values: [
-      {
-        label: t('Do not crop'),
-        value: 'contain'
-      },
-      {
-        label: t('Crop'),
-        value: 'cover'
-      }
-    ]
-  },
-  color: {
-    type: 'text',
-    title: t('Theme color')
-  },
-  languages: {
-    type: 'enum',
-    title: t('Languages'),
-    multiple: true,
-    values: Object.entries(useLanguages(locale.value)).map(([code, label]) => ({
-      label,
-      value: code
-    }))
+  fileUploadLimit: {
+    type: 'integer',
+    title: t('File upload limit (in bytes)')
   }
 }
 

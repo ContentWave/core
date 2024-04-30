@@ -15,6 +15,9 @@ import { AuthMagicLink } from '../controllers/AuthMagicLink'
 import { AuthSso } from '../controllers/AuthSso'
 import { Schemas } from '../controllers/Schemas'
 import { Dashboard } from '../controllers/Dashboard'
+import jwt from 'jsonwebtoken'
+import { getWaveUserModel } from '../models/WaveUser'
+import { Key } from './Key'
 
 let instance: Swarm
 
@@ -127,6 +130,16 @@ export class Server {
       decorateReply: false,
       prefixAvoidTrailingSlash: true
     })
+
+    /**
+     * Handle security with Helmet
+     */
+    app.fastify.register(require('@fastify/helmet'), {
+      root: path.join(__dirname, '../frontend/dashboard/.output/public/'),
+      prefix: '/dashboard',
+      decorateReply: false,
+      prefixAvoidTrailingSlash: true
+    })
   }
 
   static async registerPerformanceHooks (app: Swarm) {
@@ -164,6 +177,8 @@ export class Server {
      */
     app.fastify.decorateRequest('user', null)
     app.fastify.decorateRequest('session', null)
+    app.fastify.decorateRequest('isApplication', false)
+    app.fastify.decorateRequest('isBrowser', false)
     app.fastify.addHook('preHandler', async function (req: any) {
       if (req.headers.authorization === undefined) return
 
@@ -171,11 +186,27 @@ export class Server {
 
       switch (mode) {
         case 'Bearer':
-          const session = await getWaveSessionModel().findByAccessToken(token)
-          if (session) {
-            req.session = session
-            req.user = session.user
-          }
+          try {
+            const decoded: any = jwt.verify(token, Config.get('jwtKey'))
+            if (decoded.type === 'browser') {
+              const session = await getWaveSessionModel().findByAccessToken(
+                token
+              )
+              if (session) {
+                req.session = session
+                req.user = session.user
+                req.isBrowser = true
+              }
+            }
+            if (decoded.type === 'application') {
+              const ownerId = Key.getKeyOwnerId(decoded.id)
+              req.isApplication = true
+              if (ownerId) {
+                const owner = await getWaveUserModel().findById(ownerId)
+                if (owner) req.user = owner
+              }
+            }
+          } catch {}
           break
       }
     })
@@ -192,8 +223,16 @@ export class Server {
       }
     })
     app.setOption('getUserAccess', (req: any) => {
-      if (req.user === null) return ['$anonymous']
-      return ['$loggedIn', `user:${req.user.id}`, ...(req.user.roles ?? [])]
+      const ret: string[] = []
+      if (req.isApplication) ret.push('$application')
+      if (req.isBrowser) ret.push('$browser')
+      if (req.user === null) ret.push('$anonymous')
+      else {
+        ret.push('$loggedIn')
+        ret.push(`$user:${req.user.id}`)
+        for (const role of req.user.roles ?? []) ret.push(role)
+      }
+      return ret
     })
     app.oauth2AuthAutorizationCode(
       `${process.env.BASE_URL ?? ''}/auth/authorize`,

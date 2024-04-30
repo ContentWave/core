@@ -28,6 +28,7 @@ import { Session } from '../decorators/session'
 import { getWaveAuthorizationChallengeModel } from '../models/WaveAuthorizationChallenge'
 import { getWaveSessionModel } from '../models/WaveSession'
 import { User } from '../decorators/user'
+import { getWaveKeyModel } from '../models/WaveKey'
 
 function sha256 (plain: any) {
   const encoder = new TextEncoder()
@@ -95,6 +96,8 @@ export class Auth {
         res,
         'This client_id does not exists or has been deleted.'
       )
+    if (Key.getKeyType(clientId) !== 'browser')
+      return Auth.sendToErrorPage(res, 'This key is not "browser" type.')
     const challenge = await getWaveAuthorizationChallengeModel().create({
       redirectUri,
       expiresAt: dayjs().add(15, 'minutes').toDate(),
@@ -201,13 +204,19 @@ export class Auth {
       if (grantType === 'client_credentials') {
         if (!Key.validateKeyAndSecret(clientId, clientSecret))
           throw new BadRequest()
+        if (Key.getKeyType(clientId) !== 'application') throw new BadRequest()
+
+        await getWaveKeyModel().updateOne(
+          { _id: clientId },
+          { $set: { lastUsed: new Date() } }
+        )
         return {
           token_type: 'Bearer',
           expires_in: 1800,
           access_token: jwt.sign(
             {
               id: clientId,
-              type: 'client'
+              type: 'application'
             },
             Config.get('jwtKey'),
             { expiresIn: 1800 }
@@ -293,49 +302,6 @@ export class Auth {
   @Returns(200, 'AuthConfig', 'Auth UI configuration')
   static async getConfiguration () {
     return {
-      conf: {
-        password: true,
-        fido2: true,
-        totp: true,
-        magicLink: true,
-        oneTimeCode: true,
-        invite: false,
-        validation: true,
-        register: true,
-        passkey: true,
-        defaultRedirectUrl: 'https://google.com'
-      },
-      plugins: [
-        {
-          key: 'facebook',
-          style: {
-            label: 'Facebook',
-            textColor: '#fff',
-            backgroundColor: '#fff',
-            icon: 'i-simple-icons-facebook'
-          }
-        },
-        {
-          key: 'google',
-          style: {
-            label: 'Google',
-            textColor: '#fff',
-            backgroundColor: '#fff',
-            icon: 'i-simple-icons-google'
-          }
-        },
-        {
-          key: 'linkedin',
-          style: {
-            label: 'Linkedin',
-            textColor: '#fff',
-            backgroundColor: '#fff',
-            icon: 'i-simple-icons-linkedin'
-          }
-        }
-      ]
-    }
-    return {
       conf: Config.get('auth') ?? {
         password: true,
         fido2: true,
@@ -345,7 +311,8 @@ export class Auth {
         invite: false,
         validation: false,
         register: true,
-        defaultRedirectUrl: ''
+        defaultRedirectUrl: '',
+        passkey: true
       },
       plugins: Plugins.getList('auth')
         .filter(plugin => plugin.enabled)
