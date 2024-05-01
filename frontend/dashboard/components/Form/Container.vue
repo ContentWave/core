@@ -1,11 +1,4 @@
 <script setup>
-import Ajv from 'ajv'
-import addFormats from 'ajv-formats'
-import localize from 'ajv-i18n'
-
-const ajv = new Ajv()
-addFormats(ajv)
-
 const { t, locale } = useI18n({ useScope: 'global' })
 const api = useApi()
 
@@ -27,7 +20,7 @@ watch(
     if (!model) model.value = {}
     Object.assign(lastFields, props.fields)
     const schema = await api.post('/schemas/to-json-schema', lastFields)
-    validator = ajv.compile(schema)
+    validator = useAjv(schema, locale.value)
     loading.value = false
   },
   { deep: true, immediate: true }
@@ -35,11 +28,8 @@ watch(
 
 async function validate (state) {
   if (!validator) return []
-  const valid = validator(state)
-  if (valid) return []
-  if (localize[locale.value] !== undefined)
-    localize[locale.value](validator.errors)
-  return (validator.errors ?? []).map(error => ({
+  const errors = validator(state)
+  return errors.map(error => ({
     path: error.instancePath.substring(1).replace(/\//g, '.'),
     message: error.message ?? t('This value is invalid.')
   }))

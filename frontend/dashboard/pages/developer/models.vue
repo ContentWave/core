@@ -2,6 +2,7 @@
 useHead({
   title: 'Models | Developer'
 })
+const conf = reactive({})
 </script>
 
 <template>
@@ -9,7 +10,11 @@ useHead({
     <UDashboardPanel grow>
       <UDashboardNavbar :title="$t('Models')" />
 
-      <div class="md:grow md:overflow-auto">Pwet</div>
+      <div class="md:grow md:overflow-auto p-4">
+        <OrmEditor v-model="conf" />
+
+        {{ conf }}
+      </div>
     </UDashboardPanel>
   </UDashboardPage>
 </template>

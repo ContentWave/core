@@ -52,8 +52,10 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = accessToken.value
       const refreshToken = useCookie('contentwave_refresh_token')
       this.refreshToken = refreshToken.value
-      if (this.refreshToken && !this.accessToken) await this.refresh()
+      if (this.refreshToken && (!this.accessToken || !this.userdata))
+        await this.refresh()
       if (this.accessToken) await this.setupRefresher()
+      console.log(this.accessToken, this.refreshToken, this.userdata)
     },
     generateRandomString () {
       const array = new Uint32Array(56 / 2)
@@ -174,6 +176,7 @@ export const useAuthStore = defineStore('auth', {
       }
     },
     async refresh () {
+      console.log('trying to refresh')
       if (!this.refreshToken) return
 
       const response = await fetch(this.endpoints.token, {
@@ -187,6 +190,8 @@ export const useAuthStore = defineStore('auth', {
           refresh_token: this.refreshToken.token
         })
       })
+
+      console.log('called endpoint', response)
 
       if (!response.ok) {
         console.warn('Failed to fetch token', response)

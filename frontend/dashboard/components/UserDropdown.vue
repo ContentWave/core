@@ -3,6 +3,16 @@ const { t } = useI18n({ useScope: 'global' })
 const { isDashboardSearchModalOpen } = useUIState()
 const { metaSymbol } = useShortcuts()
 
+const colorMode = useColorMode()
+const isDark = computed({
+  get() {
+    return colorMode.value === 'dark'
+  },
+  set() {
+    colorMode.preference = colorMode.value === 'dark' ? 'light' : 'dark'
+  }
+})
+
 const config = useRuntimeConfig()
 const auth = await useAuthStore()
 
@@ -32,6 +42,19 @@ const items = computed(() =>
           }
         ]
       : null,
+    [
+      {
+        label: isDark.value
+          ? t('Switch to light mode')
+          : t('Switch to dark mode'),
+        icon: isDark.value
+          ? 'i-material-symbols-light-mode'
+          : 'i-material-symbols-dark-mode',
+        click() {
+          isDark.value = !isDark.value
+        }
+      }
+    ],
     [
       {
         label: t('Sign out'),

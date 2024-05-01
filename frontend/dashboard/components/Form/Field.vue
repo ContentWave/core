@@ -16,6 +16,7 @@ import FormRef from './Ref.vue'
 import FormText from './Text.vue'
 import FormTime from './Time.vue'
 import FormUuid from './Uuid.vue'
+import FormHtml from './Html.vue'
 
 const props = defineProps({
   conf: {},
@@ -40,7 +41,8 @@ const types = {
   time: FormTime,
   uuid: FormUuid,
   boolean: FormBoolean,
-  url: FormUrl
+  url: FormUrl,
+  html: FormHtml
 }
 const isReady = ref(false)
 

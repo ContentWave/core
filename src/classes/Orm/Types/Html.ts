@@ -1,12 +1,11 @@
 import { JSONSchema7 } from '../../../interfaces/JsonSchema'
 import { ensureArray } from '../../Tools/Array'
-import { IUrlOrmField } from '../../../interfaces/IOrmConf'
+import { IHtmlOrmField } from '../../../interfaces/IOrmConf'
 
-export class TypeUrl {
-  static getValidationSchema (conf: IUrlOrmField): JSONSchema7 {
+export class TypeHtml {
+  static getValidationSchema (conf: IHtmlOrmField): JSONSchema7 {
     let stringField: JSONSchema7 = {
-      type: 'string',
-      format: 'uri'
+      type: 'string'
     }
 
     let field: JSONSchema7 = conf.nullable
@@ -30,7 +29,7 @@ export class TypeUrl {
     return field
   }
 
-  static getMongooseField (conf: IUrlOrmField): any {
+  static getMongooseField (conf: IHtmlOrmField): any {
     const ret: any = {
       $type: String,
       index: !!conf.index,
@@ -41,13 +40,13 @@ export class TypeUrl {
     return ret
   }
 
-  static getMongooseIndex (_: string, _2: IUrlOrmField): any {
+  static getMongooseIndex (_: string, _2: IHtmlOrmField): any {
     return null
   }
 
-  static async preSave (_: string, _2: any, _3: IUrlOrmField): Promise<void> {}
+  static async preSave (_: string, _2: any, _3: IHtmlOrmField): Promise<void> {}
 
-  static async fromDb (data: any, conf: IUrlOrmField): Promise<string | null> {
+  static async fromDb (data: any, conf: IHtmlOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
       data = data.filter((d: any) => conf.nullable || d !== null)
@@ -57,7 +56,7 @@ export class TypeUrl {
     return `${data}`
   }
 
-  static async toDb (data: any, conf: IUrlOrmField): Promise<string | null> {
+  static async toDb (data: any, conf: IHtmlOrmField): Promise<string | null> {
     if (conf.multiple) {
       data = ensureArray(data)
       data = data.filter((d: any) => conf.nullable || d !== null)

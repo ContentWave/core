@@ -54,6 +54,18 @@ export interface ITextOrmField
   maxLength?: number
 }
 
+export interface IHtmlOrmField
+  extends IOrmFieldWithDefault,
+    IOrmFieldWithMultiple,
+    IOrmFieldWithNullable,
+    IOrmFieldWithRequired,
+    IOrmFieldWithUnique,
+    IOrmFieldWithIndex,
+    IOrmFieldWithAuthorizations,
+    IOrmFieldWithDescriptors {
+  type: 'html'
+}
+
 export interface IUrlOrmField
   extends IOrmFieldWithDefault,
     IOrmFieldWithMultiple,
@@ -251,6 +263,7 @@ export interface IPostalAddressOrmField
 
 export type IOrmField =
   | ITextOrmField
+  | IHtmlOrmField
   | IUrlOrmField
   | IBooleanOrmField
   | INumberOrmField

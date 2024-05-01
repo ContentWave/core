@@ -23,6 +23,7 @@ import dayjs from 'dayjs'
 import { IModelConf } from '../Model'
 import { TypeBoolean } from './Types/Boolean'
 import { TypeUrl } from './Types/Url'
+import { TypeHtml } from './Types/Html'
 
 const formatters: any = {
   boolean: TypeBoolean,
@@ -41,7 +42,8 @@ const formatters: any = {
   uuid: TypeUuid,
   url: TypeUrl,
   enum: TypeEnum,
-  postaladdress: TypePostalAddress
+  postaladdress: TypePostalAddress,
+  html: TypeHtml
 }
 
 export class Formatter {
