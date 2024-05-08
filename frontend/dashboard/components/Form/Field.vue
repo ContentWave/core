@@ -1,4 +1,6 @@
 <script setup>
+const { locale } = useI18n({ useScope: 'global' })
+
 import FormBoolean from './Boolean.vue'
 import FormUrl from './Url.vue'
 import FormDate from './Date.vue'
@@ -17,6 +19,11 @@ import FormText from './Text.vue'
 import FormTime from './Time.vue'
 import FormUuid from './Uuid.vue'
 import FormHtml from './Html.vue'
+
+function i18nText (text) {
+  if (typeof text === 'string') return text
+  return text[locale.value] ?? text[Object.keys(text)[0]] ?? ''
+}
 
 const props = defineProps({
   conf: {},
@@ -80,7 +87,11 @@ onMounted(() => {
       :uploadFiles="uploadFiles"
     />
   </UFormGroup>
-  <UFormGroup :label="conf.title" :hint="conf.description" v-else-if="isReady">
+  <UFormGroup
+    :label="i18nText(conf.title)"
+    :hint="i18nText(conf.description)"
+    v-else-if="isReady"
+  >
     <div v-for="(item, idx) in model" :key="idx">
       <div v-if="idx > 0" class="my-4 bg-gray-300 dark:bg-gray-800 h-px"></div>
       <div class="flex items-start justify-start">
