@@ -47,9 +47,7 @@ const items = computed(() =>
         label: isDark.value
           ? t('Switch to light mode')
           : t('Switch to dark mode'),
-        icon: isDark.value
-          ? 'i-material-symbols-light-mode'
-          : 'i-material-symbols-dark-mode',
+        icon: isDark.value ? 'i-ri-sun-fill' : 'i-material-symbols-dark-mode',
         click() {
           isDark.value = !isDark.value
         }

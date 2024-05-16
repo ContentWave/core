@@ -4,17 +4,16 @@ import { Db } from '../classes/Db'
 interface IWavePlugin extends Document {
   name: string
   enabled: boolean
+  version: string
   conf: any
 }
 
 interface WavePluginModel extends mongoose.Model<IWavePlugin, {}, {}> {}
 
 const schema = new mongoose.Schema<IWavePlugin, WavePluginModel, {}>({
-  name: {
-    type: String,
-    unique: true
-  },
+  name: String,
   enabled: { type: Boolean, default: true },
+  version: String,
   conf: {}
 })
 

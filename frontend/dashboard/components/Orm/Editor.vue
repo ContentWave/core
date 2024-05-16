@@ -2,7 +2,7 @@
 const { t, locale } = useI18n({ useScope: 'global' })
 
 const model = defineModel()
-
+const props = defineProps({ project: String })
 const fields = ref([])
 
 const types = {
@@ -80,7 +80,7 @@ const types = {
     title: t('Enum'),
     description: t('A string field, with a fixed list of possible values'),
     icon: 'i-codicon-symbol-enum',
-    withDefault: false,
+    withDefault: true,
     withMultiple: true,
     withNullable: true,
     withRequired: true,
@@ -116,8 +116,7 @@ const types = {
     withPopulate: false,
     withUnique: true,
     withValues: false,
-    withImage: false,
-    withHtml: true
+    withImage: false
   },
   image: {
     title: t('Image'),
@@ -360,6 +359,7 @@ onMounted(() => {
       :name="fields[idx].key"
       v-model="fields[idx].conf"
       :conf="types[conf.conf.type]"
+      :project="project"
       @delete="fields.splice(idx)"
     />
 

@@ -54,7 +54,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -84,7 +94,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "text",
@@ -152,7 +172,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -173,7 +203,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "html",
@@ -241,7 +281,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -262,7 +312,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "url",
@@ -330,7 +390,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -351,7 +421,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "boolean",
@@ -416,7 +496,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -443,7 +533,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "integer",
@@ -511,7 +611,17 @@
           },
           "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -538,7 +648,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "number",
@@ -608,7 +728,17 @@
             "type": "boolean"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -620,7 +750,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "date",
@@ -687,7 +827,17 @@
             "type": "boolean"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -699,7 +849,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "datetime",
@@ -766,7 +926,17 @@
             "type": "boolean"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -778,7 +948,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "time",
@@ -842,7 +1022,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -863,7 +1053,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "duration",
@@ -927,7 +1127,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -948,7 +1158,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "email",
@@ -1015,7 +1235,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1036,7 +1266,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "uuid",
@@ -1103,7 +1343,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1124,7 +1374,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "file",
@@ -1191,7 +1451,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1211,11 +1481,24 @@
           "populate": {
             "type": "boolean"
           },
+          "project": {
+            "type": "string"
+          },
           "required": {
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "ref",
@@ -1227,6 +1510,7 @@
         },
         "required": [
           "model",
+          "project",
           "type"
         ],
         "type": "object"
@@ -1286,7 +1570,17 @@
             "type": "string"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1307,7 +1601,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "phone",
@@ -1377,7 +1681,17 @@
             "type": "boolean"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1407,7 +1721,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "image",
@@ -1473,8 +1797,19 @@
             ],
             "type": "object"
           },
+          "default": {},
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "index": {
             "type": "boolean"
@@ -1495,7 +1830,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "enum",
@@ -1591,7 +1936,17 @@
             "type": "object"
           },
           "description": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "geocode": {
             "type": "boolean"
@@ -1603,7 +1958,17 @@
             "type": "boolean"
           },
           "title": {
-            "type": "string"
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "string"
+                },
+                "type": "object"
+              },
+              {
+                "type": "string"
+              }
+            ]
           },
           "type": {
             "const": "postaladdress",

@@ -22,24 +22,26 @@ import { AuthFido } from './AuthFido'
 @Description('Dashboard related methods')
 @Prefix('/dashboard', true)
 export class Dashboard {
-  @Get('/models/:modelName/search')
+  @Get('/projects/:project/models/:model/search')
   @Title('Search for references in a model collection')
   @Description('Returns a list of documents with label and value')
   @Access('$admin')
-  @Parameter('modelName', 'String', 'Model name')
+  @Parameter('project', 'String', 'Project name')
+  @Parameter('model', 'String', 'Model name')
   @Query('q', 'String', 'Query')
   @Query('limit', 'String', 'Limit of results, defaults to 50')
   @Returns(200, 'RefSearchResults', 'Results')
   @Returns(403, 'Error', 'Cannot access to this ressource')
   static async searchForReferences (
-    @Parameter('modelName') modelName: string,
+    @Parameter('project') project: string,
+    @Parameter('model') model: string,
     @Query('q') query: string,
     @Query('limit') limit: string = '50'
   ) {
-    const field = Model.getNameField(modelName)
+    const field = Model.getNameField(project, model)
     if (field === undefined) return []
 
-    const items: any[] = await Db.model(modelName).find(
+    const items: any[] = await Db.model(project, model).find(
       {
         [field]: {
           $regex: query,
@@ -61,22 +63,24 @@ export class Dashboard {
     }))
   }
 
-  @Get('/models/:modelName/:docId/name')
+  @Get('/projects/:project/models/:model/:docId/name')
   @Title('Get reference name')
   @Description('Returns the name of a reference')
   @Access('$admin')
-  @Parameter('modelName', 'String', 'Model name')
+  @Parameter('project', 'String', 'Project name')
+  @Parameter('model', 'String', 'Model name')
   @Parameter('docId', 'ObjectID', 'Document ID')
   @Returns(200, 'RefSearchResults', 'Results with one item')
   @Returns(403, 'Error', 'Cannot access to this ressource')
   static async getReferenceName (
-    @Parameter('modelName') modelName: string,
+    @Parameter('project') project: string,
+    @Parameter('model') model: string,
     @Parameter('docId') docId: string
   ) {
-    const field = Model.getNameField(modelName)
+    const field = Model.getNameField(project, model)
     if (field === undefined) return [{ label: '-', value: docId }]
 
-    const item: any = await Db.model(modelName).findById(docId)
+    const item: any = await Db.model(project, model).findById(docId)
 
     return [{ label: item?.[field] ?? '-', value: docId }]
   }
@@ -152,5 +156,20 @@ export class Dashboard {
     await Config.set(key, value)
     if (key === 'auth') AuthFido.setup()
     return {}
+  }
+
+  @Get('/projects/:project/models')
+  @Title('List models for a specified project')
+  @Access('$developer')
+  @Parameter('project', 'String', 'Project key')
+  @Returns(200, 'LabelValueList', 'Models')
+  @Returns(403, 'Error', 'Cannot access to this ressource')
+  static async listModels (@Parameter('project') key: string) {
+    const list = Model.getList(key)
+
+    return Object.entries(list).map(([name, _]) => ({
+      label: name,
+      value: name
+    }))
   }
 }

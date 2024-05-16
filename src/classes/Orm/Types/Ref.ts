@@ -10,7 +10,7 @@ import { IWaveUser, WaveUserModel } from '../../../models/WaveUser'
 
 export class TypeRef {
   static getValidationSchema (conf: IRefOrmField): JSONSchema7 {
-    const model = Model.getConf(conf.model)
+    const model = Model.getConf(conf.project, conf.model)
 
     const nestedSchema: JSONSchema7 = {
       oneOf: [{ type: 'string', pattern: '^[0-9a-f]{24}$' }]
@@ -50,8 +50,8 @@ export class TypeRef {
     conf: IRefOrmField,
     user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
   ): Promise<string | string[] | any | null> {
-    const modelConf = Model.getConf(conf.model)
-    const authorizations = Model.getAuthorizations(conf.model)
+    const modelConf = Model.getConf(conf.project, conf.model)
+    const authorizations = Model.getAuthorizations(conf.project, conf.model)
 
     if (conf.multiple) {
       if (!modelConf) return []
@@ -78,8 +78,8 @@ export class TypeRef {
     conf: IRefOrmField,
     user: HydratedDocument<IWaveUser, WaveUserModel> | null = null
   ): Promise<ObjectId | ObjectId[] | null> {
-    const modelConf = Model.getConf(conf.model)
-    const authorizations = Model.getAuthorizations(conf.model)
+    const modelConf = Model.getConf(conf.project, conf.model)
+    const authorizations = Model.getAuthorizations(conf.project, conf.model)
 
     if (conf.multiple) {
       data = ensureArray(data)
@@ -99,7 +99,9 @@ export class TypeRef {
             authorizations,
             user
           )
-          const created = await Db.model(conf.model).create(formatted)
+          const created = await Db.model(conf.project, conf.model).create(
+            formatted
+          )
           if (created) ret.push(ObjectId.createFromHexString(created.id))
         }
       }
@@ -117,7 +119,7 @@ export class TypeRef {
       authorizations,
       user
     )
-    const created = await Db.model(conf.model).create(formatted)
+    const created = await Db.model(conf.project, conf.model).create(formatted)
     if (created) return ObjectId.createFromHexString(created.id)
     return null
   }

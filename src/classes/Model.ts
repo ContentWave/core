@@ -9,6 +9,7 @@ import { IOrmConf } from '../interfaces/IOrmConf'
 
 export interface IModelConf {
   conf: IOrmConf
+  project: string
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
   search: IWaveModelSearch
@@ -21,15 +22,19 @@ interface IModelSearchResult {
   score: number
 }
 
-const cache: { [key: string]: IModelConf } = {}
-const searchFunctions: { [key: string]: string } = {}
+let cache: { [key: string]: IModelConf } = {}
+let searchFunctions: { [key: string]: string } = {}
 
 export class Model {
   static async retrieveModelsFromDb () {
+    const newCache: { [key: string]: IModelConf } = {}
+    const newSearchFunctions: { [key: string]: string } = {}
+
     const models = getWaveModelModel().find({}) ?? []
     for await (const model of models) {
-      cache[model.name] = {
+      newCache[`${model.project}:${model.name}`] = {
         conf: model.conf,
+        project: model.project,
         relations: model.relations,
         authorizations: model.authorizations,
         search: model.search,
@@ -37,55 +42,77 @@ export class Model {
         nameField: model.nameField
       }
       if (model.search?.enabled && model.search?.method === 'js') {
-        Model.saveSearchFunction(model.name, model.search.js ?? '')
+        newSearchFunctions[`${model.project}_${model.name}`] =
+          model.search.js ?? ''
       }
     }
+
+    cache = newCache
+    searchFunctions = newSearchFunctions
+
+    getWaveModelModel()
+      .watch()
+      .on('change', () => {
+        Db.init()
+      })
   }
 
-  static saveSearchFunction (name: string, code: string) {
-    searchFunctions[name] = code
+  static saveSearchFunction (project: string, name: string, code: string) {
+    searchFunctions[`${project}_${name}`] = code
   }
 
   static async runSearchFunction (
+    project: string,
     name: string,
     $data: any
   ): Promise<IModelSearchResult> {
     let $score = 0
     let $keep = true
     $data['_original'] = JSON.parse(JSON.stringify($data))
-    eval(searchFunctions[name])
+    eval(searchFunctions[`${project}_${name}`])
     return { keep: $keep, score: $score }
   }
 
-  static getConf (name: string): IOrmConf | null {
-    return cache[name]?.conf ?? null
+  static getConf (project: string, name: string): IOrmConf | null {
+    return cache[`${project}_${name}`]?.conf ?? null
   }
 
-  static getRelations (name: string): IWaveModelRelation[] {
-    return cache[name]?.relations ?? []
+  static getRelations (project: string, name: string): IWaveModelRelation[] {
+    return cache[`${project}_${name}`]?.relations ?? []
   }
 
-  static getAuthorizations (name: string): IWaveModelAuthorizations | undefined {
-    return cache[name]?.authorizations ?? undefined
+  static getAuthorizations (
+    project: string,
+    name: string
+  ): IWaveModelAuthorizations | undefined {
+    return cache[`${project}_${name}`]?.authorizations ?? undefined
   }
 
-  static getSearch (name: string): IWaveModelSearch | undefined {
-    return cache[name]?.search ?? undefined
+  static getSearch (
+    project: string,
+    name: string
+  ): IWaveModelSearch | undefined {
+    return cache[`${project}_${name}`]?.search ?? undefined
   }
 
-  static getCached (name: string): boolean {
-    return cache[name]?.cached ?? false
+  static getCached (project: string, name: string): boolean {
+    return cache[`${project}_${name}`]?.cached ?? false
   }
 
-  static getNameField (name: string): string | undefined {
-    return cache[name]?.nameField ?? undefined
+  static getNameField (project: string, name: string): string | undefined {
+    return cache[`${project}_${name}`]?.nameField ?? undefined
   }
 
-  static getList (): { [key: string]: IModelConf } {
-    return cache
+  static getList (project?: string): { [key: string]: IModelConf } {
+    return Object.fromEntries(
+      Object.entries(cache).filter(
+        ([_, model]) => project === undefined || model.project === project
+      )
+    )
   }
 
   static async update (
+    project: string,
     name: string,
     conf: IOrmConf,
     relations: IWaveModelRelation[],
@@ -94,24 +121,12 @@ export class Model {
     cached: boolean,
     nameField: string
   ) {
-    cache[name] = {
-      conf,
-      relations,
-      authorizations,
-      search,
-      cached,
-      nameField
-    }
-
-    if (search?.enabled && search?.method === 'js') {
-      Model.saveSearchFunction(name, search.js ?? '')
-    }
-
     await getWaveModelModel().updateOne(
-      { name },
+      { project, name },
       {
         $set: {
           name,
+          project,
           conf,
           relations,
           authorizations,
@@ -122,12 +137,9 @@ export class Model {
       },
       { upsert: true }
     )
-    await Db.init()
   }
 
-  static async delete (name: string) {
-    if (cache[name] !== undefined) delete cache[name]
-    await getWaveModelModel().deleteOne({ name })
-    await Db.init()
+  static async delete (project: string, name: string) {
+    await getWaveModelModel().deleteOne({ project, name })
   }
 }

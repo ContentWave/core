@@ -34,6 +34,7 @@ export interface IWaveModelSearch {
 
 export interface IWaveModel extends Document {
   name: string
+  project: string
   conf: IOrmConf
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
@@ -49,6 +50,7 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     type: String,
     unique: true
   },
+  project: String,
   conf: {},
   relations: [
     {

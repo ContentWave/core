@@ -35,8 +35,8 @@ interface IOrmFieldWithAuthorizations {
 }
 
 interface IOrmFieldWithDescriptors {
-  title?: string
-  description?: string
+  title?: I18nString
+  description?: I18nString
 }
 
 export interface ITextOrmField
@@ -199,6 +199,7 @@ export interface IRefOrmField
     IOrmFieldWithAuthorizations,
     IOrmFieldWithDescriptors {
   type: 'ref'
+  project: string
   model: string
 }
 
@@ -244,6 +245,7 @@ export interface IEnumOrmField
   extends IOrmFieldWithMultiple,
     IOrmFieldWithNullable,
     IOrmFieldWithRequired,
+    IOrmFieldWithDefault,
     IOrmFieldWithUnique,
     IOrmFieldWithIndex,
     IOrmFieldWithAuthorizations,

@@ -12,9 +12,12 @@ const options = ref([])
 async function search (q) {
   if (q.length === 0) return []
   loading.value = true
-  const items = await api.get(`/dashboard/models/${props.conf.model}/search`, {
-    q
-  })
+  const items = await api.get(
+    `/dashboard/projects/${props.conf.project}/models/${props.conf.model}/search`,
+    {
+      q
+    }
+  )
   options.value = items
   loading.value = false
   return items
@@ -24,7 +27,7 @@ onMounted(async () => {
   if (!model.value) model.value = null
   if (model.value) {
     options.value = await api.get(
-      `/dashboard/models/${props.conf.model}/${model.value}/name`
+      `/dashboard/projects/${props.conf.project}/models/${props.conf.model}/${model.value}/name`
     )
   }
   inSetup.value = false
