@@ -52,7 +52,7 @@ export class TypeEnum {
       data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
-    if (!data) return null
+    if (!data) return conf.default ?? (conf.nullable ? null : '')
     return `${data}`
   }
 
@@ -62,7 +62,7 @@ export class TypeEnum {
       data = data.filter((d: any) => conf.nullable || d !== null)
       return data.map((d: any) => `${d}`)
     }
-    if (!data) return null
+    if (!data) return conf.default ?? (conf.nullable ? null : '')
     return `${data}`
   }
 }
