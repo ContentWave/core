@@ -5,7 +5,8 @@ const api = useApi()
 const props = defineProps({
   fields: {},
   submitButtonLabel: { type: String },
-  uploadFiles: { type: Boolean, default: false }
+  uploadFiles: { type: Boolean, default: false },
+  allowSubmit: { type: Boolean, default: true }
 })
 const model = defineModel()
 const emit = defineEmits(['submit'])
@@ -17,7 +18,7 @@ watch(
   [() => props.schema, () => props.fields],
   async () => {
     loading.value = true
-    if (!model) model.value = {}
+    if (!model.value) model.value = {}
     Object.assign(lastFields, props.fields)
     const schema = await api.post('/schemas/to-json-schema', lastFields)
     validator = useAjv(schema, locale.value)
@@ -47,13 +48,13 @@ async function validate (state) {
     <FormField
       v-for="(conf, key) in lastFields"
       :key="key"
+      v-model="model[key]"
       :conf="conf"
       :name="key"
-      :uploadFiles="uploadFiles"
-      v-model="model[key]"
+      :upload-files="uploadFiles"
     />
 
-    <div>
+    <div v-if="allowSubmit">
       <UButton type="submit">
         {{ submitButtonLabel ?? $t('Submit') }}
       </UButton>

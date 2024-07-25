@@ -2,7 +2,7 @@
 const { t, locale } = useI18n({ useScope: 'global' })
 
 const model = defineModel()
-const props = defineProps({ project: String })
+const props = defineProps({})
 const fields = ref([])
 
 const types = {
@@ -329,7 +329,7 @@ async function validate (state) {
 watch(
   fields,
   () => {
-    console.log(JSON.stringify(model.value))
+    if (!model.value) return
     Object.assign(
       model.value,
       JSON.parse(
@@ -338,7 +338,6 @@ watch(
         )
       )
     )
-    console.log(JSON.stringify(model.value))
   },
   { deep: true }
 )
@@ -359,7 +358,6 @@ onMounted(() => {
       :name="fields[idx].key"
       v-model="fields[idx].conf"
       :conf="types[conf.conf.type]"
-      :project="project"
       @delete="fields.splice(idx)"
     />
 

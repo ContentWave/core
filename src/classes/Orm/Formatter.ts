@@ -135,7 +135,7 @@ export class Formatter {
 
     const schema = new mongoose.Schema(
       {
-        _owner: { type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' }
+        _owner: { $type: mongoose.Schema.Types.ObjectId, ref: 'WaveUser' }
       },
       { typeKey: '$type', timestamps: true }
     )

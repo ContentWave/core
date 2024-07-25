@@ -1,6 +1,7 @@
 <script setup lang="ts">
+const { t } = useI18n({ useScope: 'global' })
 useHead({
-  title: 'Functions | Developer'
+  title: t('Functions | Developer')
 })
 </script>
 

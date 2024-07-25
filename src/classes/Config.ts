@@ -52,7 +52,8 @@ export class Config {
         register: true,
         defaultRedirectUrl: '',
         passkey: true
-      }
+      },
+      serverNeedsRestart: false
     }
   }
 

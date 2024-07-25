@@ -22,7 +22,7 @@ const links = [
   ]
 ]
 useHead({
-  title: t('Settings')
+  title: t('Settings | Developer')
 })
 </script>
 

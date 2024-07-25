@@ -13,8 +13,6 @@ import { Key } from './Key'
 import createWaveAuthorizationChallenge from '../models/WaveAuthorizationChallenge'
 import createWaveAuthorizationCode from '../models/WaveAuthorizationCode'
 import createWaveSession from '../models/WaveSession'
-import createWaveProject from '../models/WaveProject'
-import { Projects } from './Projects'
 
 /**
  * Handles Database connection
@@ -42,14 +40,13 @@ export class Db {
     createWaveAuthorizationChallenge(newInstance)
     createWaveAuthorizationCode(newInstance)
     createWaveSession(newInstance)
-    createWaveProject(newInstance)
 
     const oldInstance = Db.instance
     Db.instance = newInstance
     if (oldInstance) await oldInstance.close()
 
-    await Projects.retrieveProjectsFromDb()
     await Config.retrieveConfigFromDb()
+    await Config.set('serverNeedsRestart', false)
     await Model.retrieveModelsFromDb()
     await Key.retrieveKeysFromDb()
 
@@ -65,9 +62,9 @@ export class Db {
     if (Db.instance) await Db.instance.close()
   }
 
-  static model<T, U> (project: string, name: string): mongoose.Model<T, U> {
+  static model<T, U> (name: string): mongoose.Model<T, U> {
     const models = Db.instance.modelNames()
-    if (models.includes(`${project}_${name}`) === false)
+    if (models.includes(name) === false)
       return Db.instance.model<T, U>(
         name,
         new mongoose.Schema()

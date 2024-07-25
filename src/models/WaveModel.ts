@@ -34,13 +34,13 @@ export interface IWaveModelSearch {
 
 export interface IWaveModel extends Document {
   name: string
-  project: string
   conf: IOrmConf
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
   search: IWaveModelSearch
   cached: boolean
   nameField: string
+  listFields: string[]
 }
 
 interface WaveModelModel extends mongoose.Model<IWaveModel, {}, {}> {}
@@ -50,7 +50,6 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     type: String,
     unique: true
   },
-  project: String,
   conf: {},
   relations: [
     {
@@ -88,7 +87,8 @@ const schema = new mongoose.Schema<IWaveModel, WaveModelModel, {}>({
     js: String
   },
   cached: { type: Boolean, default: false },
-  nameField: String
+  nameField: String,
+  listFields: [String]
 })
 
 export default function createWaveModel (conn: Connection) {

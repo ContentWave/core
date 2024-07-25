@@ -18,12 +18,14 @@ useHead({
   }
 })
 const ui = useUiStore()
+const config = useConfigStore()
 const auth = useAuthStore()
 const loaded = ref(false)
 onMounted(async () => {
   const route = useRoute()
   await ui.init()
   await auth.init()
+  await config.refresh()
   if (!auth.loggedIn) {
     if (route.path === auth.callbackUrl) {
       auth.resolveCode()

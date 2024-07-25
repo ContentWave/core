@@ -43,8 +43,7 @@ const types = {
 
 const props = defineProps({
   conf: {},
-  name: { type: String },
-  project: { type: String }
+  name: { type: String }
 })
 const model = defineModel()
 const emit = defineEmits(['delete'])
@@ -63,8 +62,7 @@ const countries = computed(() => {
 const models = ref([])
 
 onMounted(async () => {
-  if (props.conf.withModel)
-    models.value = await api.get(`/dashboard/projects/${props.project}/models`)
+  if (props.conf.withModel) models.value = await api.get(`/dashboard/models`)
 })
 
 function edit () {

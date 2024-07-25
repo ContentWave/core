@@ -18,6 +18,8 @@ import { Dashboard } from '../controllers/Dashboard'
 import jwt from 'jsonwebtoken'
 import { getWaveUserModel } from '../models/WaveUser'
 import { Key } from './Key'
+import { Models } from '../controllers/Models'
+import { Model } from './Model'
 
 let instance: Swarm
 
@@ -135,10 +137,7 @@ export class Server {
      * Handle security with Helmet
      */
     app.fastify.register(require('@fastify/helmet'), {
-      root: path.join(__dirname, '../frontend/dashboard/.output/public/'),
-      prefix: '/dashboard',
-      decorateReply: false,
-      prefixAvoidTrailingSlash: true
+      contentSecurityPolicy: false
     })
   }
 
@@ -187,7 +186,9 @@ export class Server {
       switch (mode) {
         case 'Bearer':
           try {
-            const decoded: any = jwt.verify(token, Config.get('jwtKey'))
+            const decoded: any = jwt.verify(token, Config.get('jwtKey'), {
+              algorithms: ['HS256']
+            })
             if (decoded.type === 'browser') {
               const session = await getWaveSessionModel().findByAccessToken(
                 token
@@ -278,5 +279,11 @@ export class Server {
     app.controllers.add(Ui)
     app.controllers.add(Schemas)
     app.controllers.add(Dashboard)
+    app.controllers.add(Models)
+
+    // Register dynamic routes for models
+    for (let model in Model.getList()) {
+      await Model.registerControllers(model, app)
+    }
   }
 }

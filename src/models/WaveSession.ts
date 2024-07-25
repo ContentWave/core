@@ -53,7 +53,9 @@ schema.static(
     WaveSessionModel
   > | null> {
     try {
-      const decoded: any = jwt.verify(accessToken, Config.get('jwtKey'))
+      const decoded: any = jwt.verify(accessToken, Config.get('jwtKey'), {
+        algorithms: ['HS256']
+      })
       if (decoded.type !== 'browser') return null
       const session: HydratedDocument<
         IWaveSession,
@@ -77,7 +79,7 @@ schema.method('getAccessToken', function getAccessToken () {
       type: 'browser'
     },
     Config.get('jwtKey'),
-    { expiresIn: 1800 }
+    { expiresIn: 1800, algorithm: 'HS256' }
   )
 })
 

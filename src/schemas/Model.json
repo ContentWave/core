@@ -1,0 +1,2112 @@
+{
+  "type": "object",
+  "properties": {
+    "conf": {
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "maxLength": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "minLength": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "regex": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "text",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "html",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "url",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "boolean",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "max": {
+                "type": "number"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "integer",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "max": {
+                "type": "number"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "min": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "number",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "defaultToCurrentTime": {
+                "type": "boolean"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "date",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "defaultToCurrentTime": {
+                "type": "boolean"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "datetime",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "defaultToCurrentTime": {
+                "type": "boolean"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "duration",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "email",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "uuid",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "file",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "model": {
+                "type": "string"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "populate": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "ref",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "model",
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "defaultCountry": {
+                "type": "string"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "phone",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "crop": {
+                "type": "boolean"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxHeight": {
+                "type": "number"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "maxWidth": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "resize": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "image",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "default": {},
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "maxItems": {
+                "type": "number"
+              },
+              "minItems": {
+                "type": "number"
+              },
+              "multiple": {
+                "type": "boolean"
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "enum",
+                "type": "string"
+              },
+              "unique": {
+                "type": "boolean"
+              },
+              "values": {
+                "items": {
+                  "properties": {
+                    "label": {
+                      "anyOf": [
+                        {
+                          "additionalProperties": {
+                            "type": "string"
+                          },
+                          "type": "object"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "value"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "type",
+              "values"
+            ],
+            "type": "object"
+          },
+          {
+            "properties": {
+              "authorizations": {
+                "properties": {
+                  "enabled": {
+                    "type": "boolean"
+                  },
+                  "read": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  },
+                  "write": {
+                    "properties": {
+                      "allow": {
+                        "type": "boolean"
+                      },
+                      "roles": {
+                        "items": {
+                          "type": "string"
+                        },
+                        "type": "array"
+                      }
+                    },
+                    "required": [
+                      "allow",
+                      "roles"
+                    ],
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "enabled",
+                  "read",
+                  "write"
+                ],
+                "type": "object"
+              },
+              "description": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "geocode": {
+                "type": "boolean"
+              },
+              "index": {
+                "type": "boolean"
+              },
+              "required": {
+                "type": "boolean"
+              },
+              "title": {
+                "anyOf": [
+                  {
+                    "additionalProperties": {
+                      "type": "string"
+                    },
+                    "type": "object"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": {
+                "const": "postaladdress",
+                "type": "string"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "type": "object"
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "field": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "model",
+          "field"
+        ]
+      }
+    },
+    "authorizations": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "read": {
+          "type": "object",
+          "properties": {
+            "allow": {
+              "type": "boolean"
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "allow",
+            "roles"
+          ]
+        },
+        "write": {
+          "type": "object",
+          "properties": {
+            "allow": {
+              "type": "boolean"
+            },
+            "roles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "allow",
+            "roles"
+          ]
+        }
+      },
+      "required": [
+        "enabled",
+        "read",
+        "write"
+      ]
+    },
+    "search": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "regex",
+            "atlassearch",
+            "memory",
+            "atlasvectorsearch",
+            "rag",
+            "js"
+          ]
+        },
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "js": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "enabled",
+        "method",
+        "fields"
+      ]
+    },
+    "cached": {
+      "type": "boolean"
+    },
+    "nameField": {
+      "type": "string"
+    },
+    "listFields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "conf",
+    "relations",
+    "authorizations",
+    "search",
+    "cached",
+    "nameField",
+    "listFields"
+  ]
+}

@@ -57,6 +57,12 @@ function tryToDelete (idx) {
   model.value.splice(idx, 1)
 }
 
+function moveItem (idx, direction) {
+  const temp = model.value[idx]
+  model.value[idx] = model.value[idx + direction]
+  model.value[idx + direction] = temp
+}
+
 onMounted(() => {
   if (props.conf.multiple && !model.value) model.value = []
   else if (props.conf.default !== undefined) model.value = props.conf.default
@@ -89,12 +95,34 @@ onMounted(() => {
   </UFormGroup>
   <UFormGroup
     :label="i18nText(conf.title)"
-    :hint="i18nText(conf.description)"
+    :hint="i18nText(conf.description ?? '')"
     v-else-if="isReady"
   >
     <div v-for="(item, idx) in model" :key="idx">
       <div v-if="idx > 0" class="my-4 bg-gray-300 dark:bg-gray-800 h-px"></div>
       <div class="flex items-start justify-start">
+        <div class="shrink-0 mr-2 w-8" v-if="model.length > 1">
+          <UButton
+            icon="i-heroicons-arrow-up"
+            size="sm"
+            color="gray"
+            square
+            variant="ghost"
+            @click="moveItem(idx, -1)"
+            v-if="idx !== 0"
+          />
+        </div>
+        <div class="shrink-0 mr-2 w-8" v-if="model.length > 1">
+          <UButton
+            icon="i-heroicons-arrow-down"
+            size="sm"
+            color="gray"
+            square
+            variant="ghost"
+            @click="moveItem(idx, 1)"
+            v-if="idx !== model.length - 1"
+          />
+        </div>
         <div class="grow">
           <UFormGroup :name="`${name}.${idx}`">
             <component

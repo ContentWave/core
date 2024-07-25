@@ -140,7 +140,8 @@ export class Auth {
           uri: challenge.redirectUri,
           id: challenge.clientId
         },
-        Config.get('jwtKey')
+        Config.get('jwtKey'),
+        { algorithm: 'HS256' }
       ),
       expiresAt: dayjs().add(1, 'minute').toDate(),
       codeChallenge: challenge.codeChallenge,
@@ -219,14 +220,16 @@ export class Auth {
               type: 'application'
             },
             Config.get('jwtKey'),
-            { expiresIn: 1800 }
+            { expiresIn: 1800, algorithm: 'HS256' }
           )
         }
       }
       if (grantType === 'authorization_code') {
         const parser = new UAParser(userAgent)
         const parserResult = parser.getResult()
-        const decoded: any = jwt.verify(code, Config.get('jwtKey'))
+        const decoded: any = jwt.verify(code, Config.get('jwtKey'), {
+          algorithms: ['HS256']
+        })
         const challenge = await getWaveAuthorizationCodeModel().findOne({
           code,
           expiresAt: {
@@ -251,7 +254,8 @@ export class Auth {
           {
             id: randomUUID()
           },
-          Config.get('jwtKey')
+          Config.get('jwtKey'),
+          { algorithm: 'HS256' }
         )
 
         session = await getWaveSessionModel().create({

@@ -4,17 +4,21 @@ import {
   IWaveModelSearch,
   getWaveModelModel
 } from '../models/WaveModel'
-import { Db } from './Db'
 import { IOrmConf } from '../interfaces/IOrmConf'
+import { Config } from './Config'
+import { FastifyReply, Swarm } from '@swarmjs/core'
+import { Db } from './Db'
+import { Formatter } from './Orm/Formatter'
+import { Crud } from './Crud'
 
 export interface IModelConf {
   conf: IOrmConf
-  project: string
   relations: IWaveModelRelation[]
   authorizations: IWaveModelAuthorizations
   search: IWaveModelSearch
   cached: boolean
   nameField: string
+  listFields: string[]
 }
 
 interface IModelSearchResult {
@@ -32,114 +36,149 @@ export class Model {
 
     const models = getWaveModelModel().find({}) ?? []
     for await (const model of models) {
-      newCache[`${model.project}:${model.name}`] = {
+      newCache[model.name] = {
         conf: model.conf,
-        project: model.project,
         relations: model.relations,
         authorizations: model.authorizations,
         search: model.search,
         cached: model.cached,
-        nameField: model.nameField
+        nameField: model.nameField,
+        listFields: model.listFields
       }
       if (model.search?.enabled && model.search?.method === 'js') {
-        newSearchFunctions[`${model.project}_${model.name}`] =
-          model.search.js ?? ''
+        newSearchFunctions[model.name] = model.search.js ?? ''
       }
     }
 
     cache = newCache
     searchFunctions = newSearchFunctions
-
-    getWaveModelModel()
-      .watch()
-      .on('change', () => {
-        Db.init()
-      })
   }
 
-  static saveSearchFunction (project: string, name: string, code: string) {
-    searchFunctions[`${project}_${name}`] = code
+  static saveSearchFunction (name: string, code: string) {
+    searchFunctions[name] = code
   }
 
   static async runSearchFunction (
-    project: string,
     name: string,
     $data: any
   ): Promise<IModelSearchResult> {
     let $score = 0
     let $keep = true
     $data['_original'] = JSON.parse(JSON.stringify($data))
-    eval(searchFunctions[`${project}_${name}`])
+    eval(searchFunctions[name])
     return { keep: $keep, score: $score }
   }
 
-  static getConf (project: string, name: string): IOrmConf | null {
-    return cache[`${project}_${name}`]?.conf ?? null
+  static getConf (name: string): IOrmConf | null {
+    return cache[name]?.conf ?? null
   }
 
-  static getRelations (project: string, name: string): IWaveModelRelation[] {
-    return cache[`${project}_${name}`]?.relations ?? []
+  static getRelations (name: string): IWaveModelRelation[] {
+    return cache[name]?.relations ?? []
   }
 
-  static getAuthorizations (
-    project: string,
-    name: string
-  ): IWaveModelAuthorizations | undefined {
-    return cache[`${project}_${name}`]?.authorizations ?? undefined
+  static getAuthorizations (name: string): IWaveModelAuthorizations | undefined {
+    return cache[name]?.authorizations ?? undefined
   }
 
-  static getSearch (
-    project: string,
-    name: string
-  ): IWaveModelSearch | undefined {
-    return cache[`${project}_${name}`]?.search ?? undefined
+  static getSearch (name: string): IWaveModelSearch | undefined {
+    return cache[name]?.search ?? undefined
   }
 
-  static getCached (project: string, name: string): boolean {
-    return cache[`${project}_${name}`]?.cached ?? false
+  static getCached (name: string): boolean {
+    return cache[name]?.cached ?? false
   }
 
-  static getNameField (project: string, name: string): string | undefined {
-    return cache[`${project}_${name}`]?.nameField ?? undefined
+  static getNameField (name: string): string | undefined {
+    return cache[name]?.nameField ?? undefined
   }
 
-  static getList (project?: string): { [key: string]: IModelConf } {
-    return Object.fromEntries(
-      Object.entries(cache).filter(
-        ([_, model]) => project === undefined || model.project === project
-      )
-    )
+  static getListFields (name: string): string[] {
+    return cache[name]?.listFields ?? []
+  }
+
+  static getList (): { [key: string]: IModelConf } {
+    return cache
   }
 
   static async update (
-    project: string,
     name: string,
     conf: IOrmConf,
     relations: IWaveModelRelation[],
     authorizations: IWaveModelAuthorizations,
     search: IWaveModelSearch,
     cached: boolean,
-    nameField: string
+    nameField: string,
+    listFields: string[]
   ) {
     await getWaveModelModel().updateOne(
-      { project, name },
+      { name },
       {
         $set: {
           name,
-          project,
           conf,
           relations,
           authorizations,
           search,
           cached,
-          nameField
+          nameField,
+          listFields
         }
       },
       { upsert: true }
     )
+    await Config.set('serverNeedsRestart', true)
+    await Model.retrieveModelsFromDb()
   }
 
-  static async delete (project: string, name: string) {
-    await getWaveModelModel().deleteOne({ project, name })
+  static async delete (name: string) {
+    await getWaveModelModel().deleteOne({ name })
+    await Config.set('serverNeedsRestart', true)
+    await Model.retrieveModelsFromDb()
+  }
+
+  static async registerControllers (name: string, app: Swarm) {
+    const conf = Model.getConf(name)
+    if (!conf) return
+    const model = Db.model(name)
+    if (!model) return
+    const crud = new Crud(model)
+
+    app.controllers.addController(name, {
+      title: name,
+      description: `${name} related endpoints`,
+      root: true,
+      prefix: `/api/${name}`
+    })
+
+    // List
+    app.controllers.addMethod(
+      name,
+      async function list (req: any, res: FastifyReply) {
+        const ret = await crud.list(req, res)
+        if (!ret) return ret
+
+        const docs = []
+        for (let doc of ret.docs) {
+          docs.push(
+            await Formatter.fromDb(
+              doc,
+              conf,
+              Model.getAuthorizations(name),
+              req.user
+            )
+          )
+        }
+        ret.docs = docs
+
+        return ret
+      },
+      {
+        title: 'List documents',
+        description: `List ${name} documents`,
+        method: 'GET',
+        route: '/'
+      }
+    )
   }
 }

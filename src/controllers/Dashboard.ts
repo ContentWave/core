@@ -22,26 +22,24 @@ import { AuthFido } from './AuthFido'
 @Description('Dashboard related methods')
 @Prefix('/dashboard', true)
 export class Dashboard {
-  @Get('/projects/:project/models/:model/search')
+  @Get('/models/:model/search')
   @Title('Search for references in a model collection')
   @Description('Returns a list of documents with label and value')
   @Access('$admin')
-  @Parameter('project', 'String', 'Project name')
   @Parameter('model', 'String', 'Model name')
   @Query('q', 'String', 'Query')
   @Query('limit', 'String', 'Limit of results, defaults to 50')
   @Returns(200, 'RefSearchResults', 'Results')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async searchForReferences (
-    @Parameter('project') project: string,
     @Parameter('model') model: string,
     @Query('q') query: string,
     @Query('limit') limit: string = '50'
   ) {
-    const field = Model.getNameField(project, model)
+    const field = Model.getNameField(model)
     if (field === undefined) return []
 
-    const items: any[] = await Db.model(project, model).find(
+    const items: any[] = await Db.model(model).find(
       {
         [field]: {
           $regex: query,
@@ -63,24 +61,22 @@ export class Dashboard {
     }))
   }
 
-  @Get('/projects/:project/models/:model/:docId/name')
+  @Get('/models/:model/:docId/name')
   @Title('Get reference name')
   @Description('Returns the name of a reference')
   @Access('$admin')
-  @Parameter('project', 'String', 'Project name')
   @Parameter('model', 'String', 'Model name')
   @Parameter('docId', 'ObjectID', 'Document ID')
   @Returns(200, 'RefSearchResults', 'Results with one item')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async getReferenceName (
-    @Parameter('project') project: string,
     @Parameter('model') model: string,
     @Parameter('docId') docId: string
   ) {
-    const field = Model.getNameField(project, model)
+    const field = Model.getNameField(model)
     if (field === undefined) return [{ label: '-', value: docId }]
 
-    const item: any = await Db.model(project, model).findById(docId)
+    const item: any = await Db.model(model).findById(docId)
 
     return [{ label: item?.[field] ?? '-', value: docId }]
   }
@@ -90,7 +86,7 @@ export class Dashboard {
   @Access('$admin')
   @Accepts('Base64File')
   @Returns(200, 'UploadedFile', 'Results with one item')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async uploadFile (
     @Body('filename') filename: string,
     @Body('content') content: string
@@ -108,7 +104,7 @@ export class Dashboard {
   @Query('maxHeight', 'String', 'Max height in px')
   @Query('maxWidth', 'String', 'Max width in px')
   @Returns(200, 'UploadedFile', 'Results with one item')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async uploadImage (
     @Body('filename') filename: string,
     @Body('content') content: string,
@@ -135,7 +131,7 @@ export class Dashboard {
   @Access('$developer')
   @Parameter('key', 'String', 'Config key')
   @Returns(200, 'AnyValue', 'Value')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async getConfigValue (@Parameter('key') key: string) {
     return {
       value: Config.get(key)
@@ -148,7 +144,7 @@ export class Dashboard {
   @Accepts('AnyValue')
   @Parameter('key', 'String', 'Config key')
   @Returns(200, 'Empty', 'Value saved')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
+  @Returns(403, 'Error', 'Cannot access to this resource')
   static async setConfigValue (
     @Parameter('key') key: string,
     @Body('value') value: any
@@ -158,14 +154,13 @@ export class Dashboard {
     return {}
   }
 
-  @Get('/projects/:project/models')
-  @Title('List models for a specified project')
+  @Get('/models')
+  @Title('List models')
   @Access('$developer')
-  @Parameter('project', 'String', 'Project key')
   @Returns(200, 'LabelValueList', 'Models')
-  @Returns(403, 'Error', 'Cannot access to this ressource')
-  static async listModels (@Parameter('project') key: string) {
-    const list = Model.getList(key)
+  @Returns(403, 'Error', 'Cannot access to this resource')
+  static async listModels () {
+    const list = Model.getList()
 
     return Object.entries(list).map(([name, _]) => ({
       label: name,

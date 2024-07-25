@@ -1481,9 +1481,6 @@
           "populate": {
             "type": "boolean"
           },
-          "project": {
-            "type": "string"
-          },
           "required": {
             "type": "boolean"
           },
@@ -1510,7 +1507,6 @@
         },
         "required": [
           "model",
-          "project",
           "type"
         ],
         "type": "object"

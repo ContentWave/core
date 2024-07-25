@@ -199,7 +199,6 @@ export interface IRefOrmField
     IOrmFieldWithAuthorizations,
     IOrmFieldWithDescriptors {
   type: 'ref'
-  project: string
   model: string
 }
 
