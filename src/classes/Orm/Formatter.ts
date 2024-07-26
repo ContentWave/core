@@ -16,7 +16,11 @@ import { TypeRef } from './Types/Ref'
 import { TypeText } from './Types/Text'
 import { TypeTime } from './Types/Time'
 import { TypeUuid } from './Types/Uuid'
-import { IWaveUser, WaveUserModel } from '../../models/WaveUser'
+import {
+  IWaveUser,
+  WaveUserModel,
+  getWaveUserModel
+} from '../../models/WaveUser'
 import { Unauthorized } from 'http-errors'
 import { IWaveModelAuthorizations } from '../../models/WaveModel'
 import dayjs from 'dayjs'
@@ -24,6 +28,7 @@ import { IModelConf } from '../Model'
 import { TypeBoolean } from './Types/Boolean'
 import { TypeUrl } from './Types/Url'
 import { TypeHtml } from './Types/Html'
+import { DbDocument } from '../../interfaces/DbDocument'
 
 const formatters: any = {
   boolean: TypeBoolean,
@@ -53,8 +58,8 @@ export class Formatter {
     authorizations: IWaveModelAuthorizations | undefined = undefined,
     user: HydratedDocument<IWaveUser, WaveUserModel> | null = null,
     existingDocument: HydratedDocument<any, any> | null = null
-  ): Promise<{ [key: string]: any }> {
-    const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
+  ): Promise<DbDocument> {
+    const userModel = getWaveUserModel()
     const globalAccess = userModel.resolveAuthorizations(
       authorizations,
       'read',
@@ -63,7 +68,7 @@ export class Formatter {
     )
     if (!globalAccess) throw new Unauthorized()
 
-    let ret: { [key: string]: any } = {
+    let ret: DbDocument = {
       id: data._id.toHexString(),
       createdAt: dayjs(data.createdAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
       updatedAt: dayjs(data.updatedAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
@@ -89,7 +94,7 @@ export class Formatter {
     user: HydratedDocument<IWaveUser, WaveUserModel> | null = null,
     existingDocument: HydratedDocument<any, any> | null = null
   ): Promise<{ [key: string]: any }> {
-    const userModel = mongoose.model<IWaveUser, WaveUserModel>('WaveUser')
+    const userModel = getWaveUserModel()
     const globalAccess = userModel.resolveAuthorizations(
       authorizations,
       'write',

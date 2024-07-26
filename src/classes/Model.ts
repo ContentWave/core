@@ -10,6 +10,8 @@ import { FastifyReply, Swarm } from '@swarmjs/core'
 import { Db } from './Db'
 import { Formatter } from './Orm/Formatter'
 import { Crud } from './Crud'
+import { getWaveUserModel } from '../models/WaveUser'
+import { Unauthorized } from 'http-errors'
 
 export interface IModelConf {
   conf: IOrmConf
@@ -143,6 +145,7 @@ export class Model {
     const model = Db.model(name)
     if (!model) return
     const crud = new Crud(model)
+    const authorizations = Model.getAuthorizations(name)
 
     app.controllers.addController(name, {
       title: name,
@@ -155,19 +158,20 @@ export class Model {
     app.controllers.addMethod(
       name,
       async function list (req: any, res: FastifyReply) {
+        const userModel = getWaveUserModel()
+        const globalAccess = userModel.resolveAuthorizations(
+          authorizations,
+          'read',
+          req.user
+        )
+        if (!globalAccess) throw new Unauthorized()
+
         const ret = await crud.list(req, res)
         if (!ret) return ret
 
         const docs = []
         for (let doc of ret.docs) {
-          docs.push(
-            await Formatter.fromDb(
-              doc,
-              conf,
-              Model.getAuthorizations(name),
-              req.user
-            )
-          )
+          docs.push(await Formatter.fromDb(doc, conf, authorizations, req.user))
         }
         ret.docs = docs
 
@@ -177,7 +181,77 @@ export class Model {
         title: 'List documents',
         description: `List ${name} documents`,
         method: 'GET',
-        route: '/'
+        route: '/',
+        returns: [
+          {
+            code: 200,
+            description: 'Found documents',
+            mimeType: 'application/json',
+            schema: {
+              type: 'object',
+              properties: {
+                docs: {
+                  type: 'array',
+                  items: {
+                    allOf: [
+                      Formatter.getValidationSchema(conf),
+                      {
+                        type: 'object',
+                        properties: {
+                          createdAt: {
+                            type: 'string',
+                            format: 'datetime'
+                          },
+                          updatedAt: {
+                            type: 'string',
+                            format: 'datetime'
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                page: {
+                  type: 'number'
+                },
+                limit: {
+                  type: 'number'
+                },
+                maxPage: {
+                  type: 'number'
+                },
+                total: {
+                  type: 'number'
+                }
+              }
+            }
+          },
+          {
+            code: 401,
+            description: 'Unauthorized',
+            mimeType: 'application/json',
+            schema: {
+              type: 'object',
+              properties: {
+                statusCode: {
+                  type: 'number'
+                },
+                code: {
+                  type: 'string'
+                },
+                error: {
+                  type: 'string'
+                },
+                message: {
+                  type: 'string'
+                },
+                time: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ]
       }
     )
   }
