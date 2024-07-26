@@ -59,6 +59,9 @@ export interface WaveUserModel
     user?: HydratedDocument<IWaveUser, WaveUserModel> | null,
     existingDocument?: HydratedDocument<any, any> | null
   ): boolean
+  requireToBeOwner(
+    authorizations: IWaveModelAuthorizations | undefined
+  ): boolean
 }
 
 const schema = new mongoose.Schema<IWaveUser, WaveUserModel, IWaveUserMethods>(
@@ -488,6 +491,39 @@ schema.static(
 
     if (invert) return !authorizations[mode].allow
     return authorizations[mode].allow
+  }
+)
+
+schema.static(
+  'requireToBeOwner',
+  function requireToBeOwner (
+    authorizations: IWaveModelAuthorizations | undefined
+  ): boolean {
+    if (authorizations === undefined) return false
+    if (!authorizations.enabled) return false
+
+    const userId = new mongoose.Types.ObjectId()
+    const otherUserId = new mongoose.Types.ObjectId()
+    const ownerCanAccess = this.resolveAuthorizations(
+      authorizations,
+      'read',
+      { id: userId.toHexString() } as HydratedDocument<
+        IWaveUser,
+        WaveUserModel
+      >,
+      { _owner: userId }
+    )
+    const notOwnerCanAccess = this.resolveAuthorizations(
+      authorizations,
+      'read',
+      { id: otherUserId.toHexString() } as HydratedDocument<
+        IWaveUser,
+        WaveUserModel
+      >,
+      { _owner: userId }
+    )
+
+    return ownerCanAccess && !notOwnerCanAccess
   }
 )
 

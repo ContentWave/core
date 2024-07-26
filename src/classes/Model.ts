@@ -9,7 +9,7 @@ import { Config } from './Config'
 import { FastifyReply, Swarm } from '@swarmjs/core'
 import { Db } from './Db'
 import { Formatter } from './Orm/Formatter'
-import { Crud } from './Crud'
+import { Crud } from '@swarmjs/crud'
 import { getWaveUserModel } from '../models/WaveUser'
 import { Unauthorized } from 'http-errors'
 
@@ -158,24 +158,20 @@ export class Model {
     app.controllers.addMethod(
       name,
       async function list (req: any, res: FastifyReply) {
-        const userModel = getWaveUserModel()
-        const globalAccess = userModel.resolveAuthorizations(
-          authorizations,
-          'read',
-          req.user
-        )
-        if (!globalAccess) throw new Unauthorized()
+        const filter: { [key: string]: any } = {}
 
-        const ret = await crud.list(req, res)
-        if (!ret) return ret
-
-        const docs = []
-        for (let doc of ret.docs) {
-          docs.push(await Formatter.fromDb(doc, conf, authorizations, req.user))
+        // Handle owner filter
+        if (getWaveUserModel().requireToBeOwner(authorizations)) {
+          if (!req.user) throw new Unauthorized()
+          filter['_owner'] = req.user._id
         }
-        ret.docs = docs
 
-        return ret
+        return await crud.list(req, res, {
+          filter,
+          transform: async (doc: any) => {
+            return await Formatter.fromDb(doc, conf, authorizations, req.user)
+          }
+        })
       },
       {
         title: 'List documents',
@@ -224,6 +220,81 @@ export class Model {
                   type: 'number'
                 }
               }
+            }
+          },
+          {
+            code: 401,
+            description: 'Unauthorized',
+            mimeType: 'application/json',
+            schema: {
+              type: 'object',
+              properties: {
+                statusCode: {
+                  type: 'number'
+                },
+                code: {
+                  type: 'string'
+                },
+                error: {
+                  type: 'string'
+                },
+                message: {
+                  type: 'string'
+                },
+                time: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        ]
+      }
+    )
+
+    // get
+    app.controllers.addMethod(
+      name,
+      async function get (req: any, res: FastifyReply) {
+        return await crud.get(req, res, {
+          transform: async (doc: any) => {
+            return await Formatter.fromDb(doc, conf, authorizations, req.user)
+          }
+        })
+      },
+      {
+        title: 'Get a document',
+        description: `Get a ${name} document`,
+        method: 'GET',
+        route: '/:id',
+        parameters: [
+          {
+            name: 'id',
+            description: 'Document ID',
+            schema: { type: 'string', pattern: '^[0-9a-f]{24}$' }
+          }
+        ],
+        returns: [
+          {
+            code: 200,
+            description: 'Found document',
+            mimeType: 'application/json',
+            schema: {
+              allOf: [
+                Formatter.getValidationSchema(conf),
+                {
+                  type: 'object',
+                  properties: {
+                    createdAt: {
+                      type: 'string',
+                      format: 'datetime'
+                    },
+                    updatedAt: {
+                      type: 'string',
+                      format: 'datetime'
+                    }
+                  }
+                }
+              ]
             }
           },
           {

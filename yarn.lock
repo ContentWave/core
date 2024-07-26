@@ -1652,10 +1652,10 @@
     require-main-filename "^2.0.0"
     socket.io "^4.7.4"
 
-"@swarmjs/crud@^1.3.2":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@swarmjs/crud/-/crud-1.3.2.tgz#c0069019ebe90a4ba033bff825a458314ff15e09"
-  integrity sha512-+/GIgko1OrMoW60AZ7OfeAmIjm75XVjEeQZbeKDQs9nQBx1qLAa+JHWHMTb/BTyGSgKZNHcnV/a6IJrY++pA/w==
+"@swarmjs/crud@^1.3.3":
+  version "1.3.3"
+  resolved "https://registry.yarnpkg.com/@swarmjs/crud/-/crud-1.3.3.tgz#0797c1ffb96c6c4f4583a858f3041422d0fc593d"
+  integrity sha512-Sxi4ocjxErJl2MDCSlYAvkHS+7tc+44YgrtRD1opLdwYUq0pjYqNHA87JpP+MjoHwciTfnpNIdWi9hUdaYFNkQ==
   dependencies:
     dot-prop "8.0.2"
     http-errors "^2.0.0"
