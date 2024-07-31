@@ -1652,15 +1652,6 @@
     require-main-filename "^2.0.0"
     socket.io "^4.7.4"
 
-"@swarmjs/crud@^1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@swarmjs/crud/-/crud-1.3.3.tgz#0797c1ffb96c6c4f4583a858f3041422d0fc593d"
-  integrity sha512-Sxi4ocjxErJl2MDCSlYAvkHS+7tc+44YgrtRD1opLdwYUq0pjYqNHA87JpP+MjoHwciTfnpNIdWi9hUdaYFNkQ==
-  dependencies:
-    dot-prop "8.0.2"
-    http-errors "^2.0.0"
-    qs "^6.11.2"
-
 "@swarmjs/swagger@^1.2.5":
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/@swarmjs/swagger/-/swagger-1.2.5.tgz#ff75036e4f67232507938fb4db6a626f9b0f3927"
@@ -2618,13 +2609,6 @@ dijkstrajs@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/dijkstrajs/-/dijkstrajs-1.0.3.tgz#4c8dbdea1f0f6478bff94d9c49c784d623e4fc23"
   integrity sha512-qiSlmBq9+BCdCA/L46dw8Uy93mloxsPSbwnm5yrKn2vMPiy8KyAskTF6zuV/j5BMsmOGZDPs7KjU+mjb670kfA==
-
-dot-prop@8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/dot-prop/-/dot-prop-8.0.2.tgz#afda6866610684dd155a96538f8efcdf78a27f18"
-  integrity sha512-xaBe6ZT4DHPkg0k4Ytbvn5xoxgpG0jOS1dYxSOwAHPuNLjP3/OzN0gH55SrLqpx8cBfSaVt91lXYkApjb+nYdQ==
-  dependencies:
-    type-fest "^3.8.0"
 
 dot-prop@^9.0.0:
   version "9.0.0"
@@ -4821,7 +4805,7 @@ qrcode@^1.5.3:
     pngjs "^5.0.0"
     yargs "^15.3.1"
 
-qs@^6.11.2, qs@^6.12.3:
+qs@^6.12.3:
   version "6.12.3"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.12.3.tgz#e43ce03c8521b9c7fd7f1f13e514e5ca37727754"
   integrity sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==
@@ -5582,11 +5566,6 @@ type-fest@^0.21.3:
   version "0.21.3"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.21.3.tgz#d260a24b0198436e133fa26a524a6d65fa3b2e37"
   integrity sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==
-
-type-fest@^3.8.0:
-  version "3.13.1"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.13.1.tgz#bb744c1f0678bea7543a2d1ec24e83e68e8c8706"
-  integrity sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==
 
 type-fest@^4.18.2:
   version "4.23.0"

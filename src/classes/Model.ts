@@ -9,7 +9,6 @@ import { Config } from './Config'
 import { FastifyReply, Swarm } from '@swarmjs/core'
 import { Db } from './Db'
 import { Formatter } from './Orm/Formatter'
-import { Crud } from '@swarmjs/crud'
 import { getWaveUserModel } from '../models/WaveUser'
 import { Unauthorized, NotFound } from 'http-errors'
 import QueryString from 'qs'
@@ -146,7 +145,6 @@ export class Model {
     if (!conf) return
     const model = Db.model(name)
     if (!model) return
-    const crud = new Crud(model)
     const authorizations = Model.getAuthorizations(name)
 
     app.controllers.addController(name, {
@@ -345,7 +343,7 @@ export class Model {
         if (page < 1) page = 1
         if (page > maxPage) page = maxPage
 
-        const req = this.model
+        const req = model
           .find(mongoQuery)
           .sort(sort)
           .skip((page - 1) * limit)
@@ -371,16 +369,14 @@ export class Model {
           doc = doc.toObject({
             flattenMaps: true,
             flattenObjectIds: true
-          })
-          doc.id = doc._id
-          delete doc._id
-          if (transform !== null) doc = await transform(doc)
+          }) as any
+          if (transform !== null) doc = (await transform(doc)) as any
           if (fields !== null) {
-            const newDoc = {}
+            const newDoc: { [key: string]: any } = {}
             for (const field of fields) {
               setProperty(newDoc, field, getProperty(doc, field))
             }
-            doc = newDoc
+            doc = newDoc as any
           }
           returned.docs.push(doc)
         }
@@ -587,8 +583,6 @@ export class Model {
           flattenMaps: true,
           flattenObjectIds: true
         })
-        doc.id = doc._id
-        delete (doc as any)._id
 
         if (transform !== null) doc = await transform(doc)
 

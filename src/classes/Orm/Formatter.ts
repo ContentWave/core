@@ -69,7 +69,7 @@ export class Formatter {
     if (!globalAccess) throw new Unauthorized()
 
     let ret: DbDocument = {
-      id: data._id.toHexString(),
+      id: typeof data._id === 'string' ? data._id : data._id.toHexString(),
       createdAt: dayjs(data.createdAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]'),
       updatedAt: dayjs(data.updatedAt).format('YYYY-MM-DDTHH:mm:ssZ[Z]')
     }
