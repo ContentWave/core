@@ -118,13 +118,17 @@ export class Formatter {
     return ret
   }
 
-  static getValidationSchema (conf: IOrmConf): JSONSchema7 {
+  static getValidationSchema (
+    conf: IOrmConf,
+    withId: boolean = true
+  ): JSONSchema7 {
     const ret: any = {
       type: 'object',
-      properties: {
-        id: { type: 'string', pattern: '^[0-9a-f]{24}$' }
-      },
+      properties: {},
       required: []
+    }
+    if (withId) {
+      ret.properties.id = { type: 'string', pattern: '^[0-9a-f]{24}$' }
     }
     for (let key in conf) {
       ret.properties[key] = formatters[conf[key].type].getValidationSchema(
