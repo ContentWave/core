@@ -30,7 +30,14 @@ export class Config {
         'image/heic',
         'application/pdf'
       ],
-      roles: ['$admin', '$developer', '$anonymous', '$owner', '$loggedIn'],
+      roles: [],
+      defaultRoles: [
+        '$admin',
+        '$developer',
+        '$anonymous',
+        '$owner',
+        '$loggedIn'
+      ],
       everyoneCanCreateKeys: false,
       title: 'ContentWave',
       description: 'The best start for your headless projects',

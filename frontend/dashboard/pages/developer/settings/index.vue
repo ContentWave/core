@@ -8,7 +8,8 @@ const fields = [
   'logoBackground',
   'logoSize',
   'color',
-  'languages'
+  'languages',
+  'roles'
 ]
 const form = reactive({})
 const ready = ref(false)
@@ -62,6 +63,11 @@ const conf = {
       label,
       value: code
     }))
+  },
+  roles: {
+    type: 'text',
+    title: t('Roles'),
+    multiple: true
   }
 }
 

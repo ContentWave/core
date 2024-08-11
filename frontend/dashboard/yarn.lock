@@ -912,10 +912,17 @@
   dependencies:
     "@iconify/types" "*"
 
-"@iconify/collections@^1.0.406", "@iconify/collections@^1.0.425":
+"@iconify/collections@^1.0.406":
   version "1.0.441"
   resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.441.tgz#abd29316a68183b6efd5944faf42f163de4af2f3"
   integrity sha512-8iYZgo7iV65lMD7+Dsg4boOF+/75ozIAQQPspznNlNmQIyniho7Vi5yBEL5ZFykLHX126gl+IN9vc6PWVtuUfA==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/collections@^1.0.443":
+  version "1.0.447"
+  resolved "https://registry.yarnpkg.com/@iconify/collections/-/collections-1.0.447.tgz#bcebd6e780dcf5feb5518f266b7fd8dfeab8ea4c"
+  integrity sha512-E8eG9ktJo3u4d7o2KMxYndhrOm6Dua4PGoEkRZsIwitlgCOF4wWgsOuLR/drAbgZFxxvYwVdb0Vnzr3pX5F0lw==
   dependencies:
     "@iconify/types" "*"
 
@@ -924,7 +931,7 @@
   resolved "https://registry.yarnpkg.com/@iconify/types/-/types-2.0.0.tgz#ab0e9ea681d6c8a1214f30cd741fe3a20cc57f57"
   integrity sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==
 
-"@iconify/utils@^2.1.23", "@iconify/utils@^2.1.24":
+"@iconify/utils@^2.1.24":
   version "2.1.25"
   resolved "https://registry.yarnpkg.com/@iconify/utils/-/utils-2.1.25.tgz#ed4ec0c0562449c0d2fd4ee476b5eb172a9154bf"
   integrity sha512-Y+iGko8uv/Fz5bQLLJyNSZGOdMW0G7cnlEX1CiNcKsRXX9cq/y/vwxrIAtLCZhKHr3m0VJmsjVPsvnM4uX8YLg==
@@ -937,7 +944,27 @@
     local-pkg "^0.5.0"
     mlly "^1.6.1"
 
-"@iconify/vue@^4.1.1", "@iconify/vue@^4.1.2":
+"@iconify/utils@^2.1.25":
+  version "2.1.30"
+  resolved "https://registry.yarnpkg.com/@iconify/utils/-/utils-2.1.30.tgz#ea3df5e8c322703082a6d867226e29939f1aae03"
+  integrity sha512-bY0IO5xLOlbzJBnjWLxknp6Sss3yla03sVY9VeUz9nT6dbc+EGKlLfCt+6uytJnWm5CUvTF/BNotsLWF7kI61A==
+  dependencies:
+    "@antfu/install-pkg" "^0.1.1"
+    "@antfu/utils" "^0.7.10"
+    "@iconify/types" "^2.0.0"
+    debug "^4.3.5"
+    kolorist "^1.8.0"
+    local-pkg "^0.5.0"
+    mlly "^1.7.1"
+
+"@iconify/vue@4.1.3-beta.1":
+  version "4.1.3-beta.1"
+  resolved "https://registry.yarnpkg.com/@iconify/vue/-/vue-4.1.3-beta.1.tgz#5c6b113b132e900ef0f04406297c8a773f185d40"
+  integrity sha512-N7iEOnWfhjbMqiyGMhotJKip23nrK5l3+T1hQwpEjKeMD2o4zOjm8zmeEfOOH81EXllhhOm7upR8jcH499YRWA==
+  dependencies:
+    "@iconify/types" "^2.0.0"
+
+"@iconify/vue@^4.1.1":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@iconify/vue/-/vue-4.1.2.tgz#b76135785ca366b29bf0736eee9cfefc1c2ef79e"
   integrity sha512-CQnYqLiQD5LOAaXhBrmj1mdL2/NCJvwcC4jtW2Z8ukhThiFkLDkutarTOV2trfc9EXqUqRs0KqXOL9pZ/IyysA==
@@ -1219,7 +1246,7 @@
   resolved "https://registry.yarnpkg.com/@nuxt/devalue/-/devalue-2.0.2.tgz#5749f04df13bda4c863338d8dabaf370f45ef7c7"
   integrity sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==
 
-"@nuxt/devtools-kit@1.3.9", "@nuxt/devtools-kit@^1.1.1", "@nuxt/devtools-kit@^1.3.1", "@nuxt/devtools-kit@^1.3.2":
+"@nuxt/devtools-kit@1.3.9", "@nuxt/devtools-kit@^1.1.1", "@nuxt/devtools-kit@^1.3.2", "@nuxt/devtools-kit@^1.3.9":
   version "1.3.9"
   resolved "https://registry.yarnpkg.com/@nuxt/devtools-kit/-/devtools-kit-1.3.9.tgz#ad2dc18a76e2508913f1693105185051b45a1bd3"
   integrity sha512-tgr/F+4BbI53/JxgaXl3cuV9dMuCXMsd4GEXN+JqtCdAkDbH3wL79GGWx0/6I9acGzRsB6UZ1H6U96nfgcIrAw==
@@ -1343,7 +1370,24 @@
     unplugin "^1.10.1"
     unstorage "^1.10.2"
 
-"@nuxt/kit@3.12.4", "@nuxt/kit@^3.10.3", "@nuxt/kit@^3.11.1", "@nuxt/kit@^3.11.2", "@nuxt/kit@^3.12.1", "@nuxt/kit@^3.12.2", "@nuxt/kit@^3.12.3", "@nuxt/kit@^3.5.0":
+"@nuxt/icon@^1.4.5":
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/@nuxt/icon/-/icon-1.4.5.tgz#a5427e82c2fcf85df5104d0206ee3e0b15fc5046"
+  integrity sha512-h0Fe1VhpVB5bcQutsH37G46DyE2u+j5j7+0sFbxT2ovRm+uILqo5ONXWe4WuJ20AtngvdpqvnqT25ZQtzx4K9A==
+  dependencies:
+    "@iconify/collections" "^1.0.443"
+    "@iconify/types" "^2.0.0"
+    "@iconify/utils" "^2.1.25"
+    "@iconify/vue" "4.1.3-beta.1"
+    "@nuxt/devtools-kit" "^1.3.9"
+    "@nuxt/kit" "^3.12.4"
+    consola "^3.2.3"
+    fast-glob "^3.3.2"
+    local-pkg "^0.5.0"
+    mlly "^1.7.1"
+    pathe "^1.1.2"
+
+"@nuxt/kit@3.12.4", "@nuxt/kit@^3.10.3", "@nuxt/kit@^3.11.1", "@nuxt/kit@^3.11.2", "@nuxt/kit@^3.12.1", "@nuxt/kit@^3.12.2", "@nuxt/kit@^3.12.3", "@nuxt/kit@^3.12.4", "@nuxt/kit@^3.5.0":
   version "3.12.4"
   resolved "https://registry.yarnpkg.com/@nuxt/kit/-/kit-3.12.4.tgz#b7073611d533ac32b504d95664074be3587046b3"
   integrity sha512-aNRD1ylzijY0oYolldNcZJXVyxdGzNTl+Xd0UYyFQCu9f4wqUZqQ9l+b7arCEzchr96pMK0xdpvLcS3xo1wDcw==
@@ -6647,22 +6691,6 @@ nuxt-icon@^0.6.10:
     "@iconify/vue" "^4.1.1"
     "@nuxt/devtools-kit" "^1.1.1"
     "@nuxt/kit" "^3.11.1"
-
-nuxt-icon@^1.0.0-beta.7:
-  version "1.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/nuxt-icon/-/nuxt-icon-1.0.0-beta.7.tgz#314c6d7fded7b55bb7ed0ce17eaa6d1b5f8464a3"
-  integrity sha512-HdEn1sZGmkIX44L5rZ8YUMdIdVCpeBXycO2DdrqZmFilixcHax0XYdehc1VD6Kl9Sxg8B7sKPMelmDXVTbDwIw==
-  dependencies:
-    "@iconify/collections" "^1.0.425"
-    "@iconify/types" "^2.0.0"
-    "@iconify/utils" "^2.1.23"
-    "@iconify/vue" "^4.1.2"
-    "@nuxt/devtools-kit" "^1.3.1"
-    "@nuxt/kit" "^3.11.2"
-    consola "^3.2.3"
-    fast-glob "^3.3.2"
-    local-pkg "^0.5.0"
-    pathe "^1.1.2"
 
 nuxt@^3.12.4:
   version "3.12.4"
