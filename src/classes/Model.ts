@@ -12,7 +12,7 @@ import { Formatter } from './Orm/Formatter'
 import { getWaveUserModel } from '../models/WaveUser'
 import { Unauthorized, NotFound } from 'http-errors'
 import QueryString from 'qs'
-import { getProperty, setProperty } from 'dot-prop'
+import { get as getProperty, set as setProperty } from 'object-path'
 
 export interface IModelConf {
   conf: IOrmConf
